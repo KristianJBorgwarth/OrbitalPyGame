@@ -1,7 +1,14 @@
 ﻿import pygame.math
+from abc import ABC
+from overrides import override
 
 
-class Rigidbody:
+class Component(ABC):
+    def update(self):
+        pass
+
+
+class Rigidbody(Component):
     def __init__(self, acceleration, friction, max_speed):
         self.acceleration = pygame.math.Vector2(acceleration)  # set the acceleration to a certain value
         self.friction = pygame.math.Vector2(friction)  # set the friction to a certain value
@@ -11,6 +18,10 @@ class Rigidbody:
     @property
     def velocity(self):
         return self._velocity
+
+    @override
+    def update(self):
+        super().update()
 
     def update_velocity(self, axis, delta_time, keys, directions):
         # Get the current velocity, acceleration, max speed, and friction for the given axis
@@ -32,3 +43,30 @@ class Rigidbody:
         # Set the updated velocity for the given axis
         setattr(self._velocity, axis, velocity)
 
+
+class Transform(Component):
+    def __init__(self, position=(0, 0), rotation=0, scale=(1, 1)):
+        self._position = pygame.math.Vector2(position)
+        self._rotation = rotation
+        self._scale = pygame.math.Vector2(scale)
+
+    @property
+    def position(self):
+        return self._position
+
+    @property
+    def rotation(self):
+        return self._rotation
+
+    @property
+    def scale(self):
+        return self._scale
+
+    def translate(self, x, y):
+        self._position += pygame.math.Vector2(x, y)
+
+    def rotate(self, angleAmount):
+        self._rotation = (self._rotation + angleAmount) % 360
+
+    def scale_by(self, vectorAmount):
+        self._scale *= pygame.math.Vector2(vectorAmount)
