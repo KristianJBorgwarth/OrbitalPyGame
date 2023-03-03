@@ -1,7 +1,5 @@
-﻿import json
-from Components import Component, Transform
+﻿from Components import Component, Transform
 import pygame
-
 
 class GameObject:
     def __init__(self, x, y, image_path, world):

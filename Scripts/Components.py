@@ -160,6 +160,10 @@ class Player(Component):
     def update(self):
         super().update()
         keys = pygame.key.get_pressed()
+        
+        # Quit on escape
+        if keys[pygame.K_ESCAPE]:
+            pygame.event.post(pygame.event.Event(pygame.QUIT))
 
         if self.rigidbody is None:
             return
