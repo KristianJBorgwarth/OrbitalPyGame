@@ -1,7 +1,7 @@
 {
     "gameobject_name": "player",
     "initial_position": {
-        "x": 0.0,
+        "x": 300.0,
         "y": 400.0
     },
     "image_path": "C:\\WorkBase\\Education\\Datamatik\\Projects\\Python-Projects\\OrbitalPyGame\\Content\\Player\\player.png",
@@ -9,7 +9,7 @@
         {
             "type": "Transform",
             "position": [
-                0.0,
+                300.0,
                 400.0
             ],
             "rotation": 0,

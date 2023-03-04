@@ -6,6 +6,7 @@ from Components import Rigidbody, Player  # TODO Remove this after refactoring t
 
 class GameWorld:
     def __init__(self, width, height, caption):
+        
         self.width = width
         self.height = height
         self.caption = caption
@@ -14,6 +15,10 @@ class GameWorld:
         self.delta_time = None
         self.project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
         self.prefab_base_dir = os.path.join(self.project_dir, "Content", "Prefabs", "Base")
+
+        pygame.init()
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        pygame.display.set_caption(self.caption)
 
         # Checks if there is a save file on player. If there is use that instead!
         # TODO: Comment later and create a builder probably for this
@@ -38,9 +43,7 @@ class GameWorld:
             player = PrefabCreator.load_prefab_instance(self, player_prefab_dir)
 
         self.instantiate_go(player)
-        pygame.init()
-        self.screen = pygame.display.set_mode((self.width, self.height))
-        pygame.display.set_caption(self.caption)
+
 
     def instantiate_go(self, go):
         self.gameobjects.append(go)
