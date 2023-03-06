@@ -1,8 +1,9 @@
-﻿import pygame
+import pygame
 import os
 import PrefabCreator
 from GameObject import GameObject
-from Components import Rigidbody, Player, Astroid  # TODO Remove this after refactoring to factory & builder
+from Components import Rigidbody, Player  # TODO Remove this after refactoring to factory & builder
+from  GameObjectCreator import GameObjectFactory, GameObjectBuilder
 
 
 class GameWorld:
@@ -21,34 +22,34 @@ class GameWorld:
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption(self.caption)
 
-        # Checks if there is a save file on player. If there is use that instead!
-        # TODO: Comment later and create a builder probably for this
+        self._initialize_player()
 
+    
+    def _initialize_player(self):
+        
+        # Get where the player prefab should be located
         player_prefab_dir = os.path.join(self.prefab_base_dir, "prefab_base_player.pya")
 
+        # Checks if there is a save file on player. If there is use that instead!
         if not os.path.exists(player_prefab_dir):
             print("No file found: Creating new player!")
             player_image_path = os.path.join(self.project_dir, "Content", "Player", "player.png")
+            go_player = GameObjectFactory.build_base(x=300, y=400, image_path=player_image_path, world=self)
+            
+            GameObjectBuilder.add_rigidbody(go=go_player,
+                                            acceleration=(350, 150),
+                                            friction=(200, 200),
+                                            max_speed=(350, 250)
+                                            )
 
-            player = GameObject(300, 400, player_image_path, self)
-            player.add_component(
-                Rigidbody(acceleration=(350, 150), friction=(200, 200), max_speed=(350, 250), owner_go=player))
-            player.add_component(Player(player))
+            GameObjectBuilder.add_player(go=go_player)
 
-            print(self.prefab_base_dir)
-            PrefabCreator.create_prefab_instance(go=player, go_name="player", prefab_file_path=player_prefab_dir)
+            PrefabCreator.create_prefab_instance(go=go_player, go_name="player", prefab_file_path=player_prefab_dir)
         else:
             print("File found: Creating player from file!")
-            # player = self.create_game_object_from_json("prefab_base_player.pya")
-            player = PrefabCreator.load_prefab_instance(self, player_prefab_dir)
+            go_player = PrefabCreator.load_prefab_instance(file_path=player_prefab_dir, world=self)
 
-        self.instantiate_go(player)
-
-
-        astroid = GameObject(400, 400, "../content/Astroids/astroid_large.png", self)
-        astroid.add_component(Astroid(astroid))
-
-        self.instantiate_go(astroid)
+        self.instantiate_go(go=go_player)
 
     def instantiate_go(self, go):
         self.gameobjects.append(go)
