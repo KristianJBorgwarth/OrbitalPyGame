@@ -1,5 +1,7 @@
-from Components import Component, Transform
 import pygame
+
+from DesignPatterns.ComponentPattern import Component
+from Scripts.CoreComponents import Transform
 
 
 class GameObject:

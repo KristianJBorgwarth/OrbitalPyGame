@@ -6,8 +6,8 @@ from DesignPatterns.StatePattern import IState
 class GameState(IState, ABC):
 
     @abstractmethod
-    def __init__(self, GameWorld, StateMachine):
-        self.game_world = GameWorld
+    def __init__(self, world, StateMachine):
+        self.game_world = world
         self.stateMachine = StateMachine
         self.clock = pygame.time.Clock()
         self.delta_time = None

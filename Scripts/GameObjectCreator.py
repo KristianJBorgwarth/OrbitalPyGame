@@ -1,5 +1,6 @@
-﻿from Scripts.Components import Rigidbody, Transform, Player
-from Scripts.GameObject import GameObject
+﻿from Scripts.GameObject import GameObject
+from Scripts.PhysicsComponents import Rigidbody
+from Scripts.PlayerComponents import Player
 
 
 class GameObjectFactory:
@@ -7,6 +8,7 @@ class GameObjectFactory:
     def build_base(x, y, image_path, world) -> GameObject:
         go = GameObject(x, y, image_path, world)
         return go
+
 
 class GameObjectBuilder:
     @staticmethod
@@ -20,5 +22,5 @@ class GameObjectBuilder:
         player = Player(go)
         go.add_component(player)
         return player
-    
+
     # TODO: Add more here

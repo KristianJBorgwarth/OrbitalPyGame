@@ -5,8 +5,8 @@ from MenuLogic.ButtonCommands import StartGameCommand, ExitGameCommand
 
 
 class MenuGameState(GameStates.SuperGameStates.GameState):
-    def __init__(self, GameWorld, StateMachine):
-        super().__init__(GameWorld, StateMachine)
+    def __init__(self, world, StateMachine):
+        super().__init__(world, StateMachine)
 
     def enter(self):
         super().enter()
@@ -35,11 +35,12 @@ class MenuGameState(GameStates.SuperGameStates.GameState):
 
 
 class PlayGameState(GameStates.SuperGameStates.GameState):
-    def __init__(self, GameWorld, StateMachine):
-        super().__init__(GameWorld, StateMachine)
+    def __init__(self, world, StateMachine):
+        super().__init__(world, StateMachine)
 
     def enter(self):
         super().enter()
+        self.game_world.initialize_player()
 
     def execute(self):
         super().execute()
