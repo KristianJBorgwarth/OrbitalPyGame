@@ -1,15 +1,19 @@
 ﻿from Components import Component, Transform
 import pygame
 
+from components.animator import Animator
+
+
 class GameObject:
     def __init__(self, x, y, image_path, world):
         self.initial_position = pygame.math.Vector2(x, y)
         self.image_path = image_path
-        self.image = pygame.image.load(image_path)
+        #self.image = pygame.image.load(image_path)
         self.world = world
         self.components = []
         self.transform = Transform(position=(x, y), owner_go=self)
         self.add_component(self.transform)
+        self.add_component(Animator(image_path, 1, world))
 
 
     def update(self):
@@ -17,7 +21,7 @@ class GameObject:
             comp.update()
 
     def draw(self, screen):
-        screen.blit(self.image, self.transform.position)
+        screen.blit(self.get_component(Animator).get_current_frame(), self.transform.position)
         pass
 
     def add_component(self, component: Component):

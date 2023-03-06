@@ -4,7 +4,7 @@
         "x": 300.0,
         "y": 400.0
     },
-    "image_path": "C:\\WorkBase\\Education\\Datamatik\\Projects\\Python-Projects\\OrbitalPyGame\\Content\\Player\\player.png",
+    "image_path": "../Content/Player",
     "components": [
         {
             "type": "Transform",

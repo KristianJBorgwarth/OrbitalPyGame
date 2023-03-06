@@ -1,7 +1,10 @@
-﻿import pygame.math
+﻿import os
+
+import pygame.math
 from abc import ABC, abstractmethod
 from overrides import override
 import GameObject
+
 
 class Component(ABC):
     def __init__(self, owner_go: GameObject):
@@ -137,7 +140,6 @@ class Player(Component):
 
         self.owner = owner_go
         self.rigidbody = self.owner.get_component(Rigidbody)
-
         self.directions = \
             {
                 'x': {'positive': pygame.K_RIGHT, 'negative': pygame.K_LEFT},
@@ -160,7 +162,6 @@ class Player(Component):
     def update(self):
         super().update()
         keys = pygame.key.get_pressed()
-        
         # Quit on escape
         if keys[pygame.K_ESCAPE]:
             pygame.event.post(pygame.event.Event(pygame.QUIT))

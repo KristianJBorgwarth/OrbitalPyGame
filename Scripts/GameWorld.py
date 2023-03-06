@@ -4,6 +4,7 @@ import PrefabCreator
 from GameObject import GameObject
 from Components import Rigidbody, Player  # TODO Remove this after refactoring to factory & builder
 
+
 class GameWorld:
     def __init__(self, width, height, caption):
         
