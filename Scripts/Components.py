@@ -1,4 +1,4 @@
-﻿import os
+import os
 
 import pygame.math
 from abc import ABC, abstractmethod
@@ -16,7 +16,7 @@ class Component(ABC):
     @abstractmethod
     def serialize(self):
         return {'type': self.__class__.__name__}
-    
+
     @classmethod
     @abstractmethod
     def deserialize(cls, d: dict) -> 'Component':
@@ -118,8 +118,6 @@ class Transform(Component):
     def rotation(self):
         return self._rotation
 
-    
-
     @property
     def scale(self):
         return self._scale
@@ -162,6 +160,7 @@ class Player(Component):
     def update(self):
         super().update()
         keys = pygame.key.get_pressed()
+
         # Quit on escape
         if keys[pygame.K_ESCAPE]:
             pygame.event.post(pygame.event.Event(pygame.QUIT))
