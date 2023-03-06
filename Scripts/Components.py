@@ -1,4 +1,6 @@
-﻿import pygame.math
+﻿import os.path
+
+import pygame.math
 from abc import ABC, abstractmethod
 from overrides import override
 import GameObject
@@ -137,6 +139,8 @@ class Player(Component):
 
         self.owner = owner_go
         self.rigidbody = self.owner.get_component(Rigidbody)
+        self.projectile_dir = os.path.join(            self.owner.world.project_dir
+                                                       )
 
         self.directions = \
             {
@@ -153,7 +157,7 @@ class Player(Component):
 
     @classmethod
     @override
-    def deserialize(cls, d: dict) -> 'Component':
+    def deserialize(cls, d: dict) -> 'Player':
         pass
 
     @override
@@ -164,6 +168,9 @@ class Player(Component):
         # Quit on escape
         if keys[pygame.K_ESCAPE]:
             pygame.event.post(pygame.event.Event(pygame.QUIT))
+            return
+            
+        if keys[pygame.K_SPACE]:
 
         if self.rigidbody is None:
             return
