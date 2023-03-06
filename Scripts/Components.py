@@ -1,11 +1,9 @@
-import os.path
+﻿import os.path
 
 import pygame.math
 from abc import ABC, abstractmethod
 from overrides import override
 import GameObject
-from Enums import AstroidType
-
 
 class Component(ABC):
     def __init__(self, owner_go: GameObject):
@@ -17,7 +15,7 @@ class Component(ABC):
     @abstractmethod
     def serialize(self):
         return {'type': self.__class__.__name__}
-
+    
     @classmethod
     @abstractmethod
     def deserialize(cls, d: dict) -> 'Component':
@@ -119,6 +117,8 @@ class Transform(Component):
     def rotation(self):
         return self._rotation
 
+    
+
     @property
     def scale(self):
         return self._scale
@@ -131,36 +131,6 @@ class Transform(Component):
 
     def scale_by(self, vectorAmount):
         self._scale *= pygame.math.Vector2(vectorAmount)
-
-class Astroid(Component):
-    def __init__(self, owner_go: GameObject, aType: AstroidType):
-        super().__init__(owner_go)
-
-        self.owner = owner_go
-        self.type = aType
-
-        if self.type == "small":
-            print("smoll")
-        else:
-            print("big")
-
-
-    def serialize(self):
-        d = super().serialize()
-        d.update({
-            'type': self.__class__.__name__,
-        })
-        return d
-
-    @classmethod
-    @override
-    def deserialize(cls, d: dict) -> 'Component':
-        pass
-
-    @override
-    def update(self):
-        super().update()
-
 
 
 class Player(Component):
@@ -194,14 +164,14 @@ class Player(Component):
     def update(self):
         super().update()
         keys = pygame.key.get_pressed()
-
+        
         # Quit on escape
         if keys[pygame.K_ESCAPE]:
             pygame.event.post(pygame.event.Event(pygame.QUIT))
             return
             
         if keys[pygame.K_SPACE]:
-            pass
+
         if self.rigidbody is None:
             return
 
@@ -213,4 +183,3 @@ class Player(Component):
 
         if self.rigidbody.velocity.magnitude() > 0.0:
             print(f"Velocity > x: {self.rigidbody.velocity.x.__round__()}, y: {self.rigidbody.velocity.y.__round__()}")
-
