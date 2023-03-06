@@ -1,7 +1,9 @@
 ﻿import json
 import pygame
 from GameObject import GameObject
-from Components import Transform, Player, Rigidbody
+from Scripts.CoreComponents import Transform
+from Scripts.PhysicsComponents import Rigidbody
+from Scripts.PlayerComponents import Player
 
 
 def create_prefab_instance(go: GameObject, go_name, prefab_file_path):

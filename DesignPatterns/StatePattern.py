@@ -16,9 +16,11 @@ class IState(ABC):
 
 
 class StateMachine:
-    def __init__(self, initialState: IState):
-        self.currentState = initialState
-        self.currentState.enter()
+    def __init__(self):
+        self.currentState = None
+
+    def start_statemachine(self, startingState: IState):
+        startingState.enter()
 
     def change_state(self, newState: IState):
         if newState is self.currentState: return
