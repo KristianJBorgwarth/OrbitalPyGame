@@ -1,9 +1,15 @@
 ﻿import pygame
-from GO_Player import Player
+from GameStates.SubGameStates import PlayGameState, MenuGameState
+from DesignPatterns.StatePattern import StateMachine
 
 
 class GameWorld:
     def __init__(self, width, height, caption):
+        pygame.font.init()
+        self.StateMachine = None
+        self.playGameState = PlayGameState(self, self.StateMachine)
+        self.menuGameState = MenuGameState(self, self.StateMachine)
+        self.gameobjects = []
         self.width = width
         self.height = height
         self.caption = caption
@@ -11,26 +17,20 @@ class GameWorld:
         self.clock = pygame.time.Clock()
         self.delta_time = None
 
-        player = Player(300, 400, "Content\Player\player.png", self)
-
-        self.instantiate_go(player)
-
         pygame.init()
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption(self.caption)
+        self.setup_state_logic()
 
     def instantiate_go(self, go):
         self.gameobjects.append(go)
 
     def update(self):
-        self.delta_time = self.clock.tick(60) / 1000.0
-        for go in self.gameobjects:
-            go.update()
+        self.StateMachine.currentState.execute()
 
     def draw(self):
         self.screen.fill((255, 255, 255))
-        for obj in self.gameobjects:
-            obj.draw(self.screen)
+        self.StateMachine.currentState.draw(self.screen)
         pygame.display.flip()
 
     def start(self):
@@ -44,3 +44,6 @@ class GameWorld:
             self.draw()
 
         pygame.quit()
+
+    def setup_state_logic(self):
+        self.StateMachine = StateMachine(self.menuGameState)
