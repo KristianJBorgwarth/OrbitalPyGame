@@ -1,4 +1,4 @@
-﻿import os.path
+import os.path
 
 import pygame.math
 from abc import ABC, abstractmethod

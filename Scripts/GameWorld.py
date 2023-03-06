@@ -4,6 +4,7 @@ import PrefabCreator
 from GameObject import GameObject
 from Components import Rigidbody, Player  # TODO Remove this after refactoring to factory & builder
 from  GameObjectCreator import GameObjectFactory, GameObjectBuilder
+from Components import Rigidbody, Player, Astroid  # TODO Remove this after refactoring to factory & builder
 
 
 class GameWorld:
