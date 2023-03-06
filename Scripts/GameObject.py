@@ -1,7 +1,7 @@
 import pygame
 
 from DesignPatterns.ComponentPattern import Component
-from Scripts.CoreComponents import Transform
+from Scripts.CoreComponents import Transform, Animator
 
 
 class GameObject:
@@ -13,7 +13,6 @@ class GameObject:
         self.components = []
         self.transform = Transform(position=(x, y), owner_go=self)
         self.add_component(self.transform)
-        self.add_component(Animator(image_path, 1, world))
 
     def update(self):
         for comp in self.components:

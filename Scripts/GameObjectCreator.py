@@ -1,4 +1,5 @@
-﻿from Scripts.GameObject import GameObject
+﻿from Scripts.CoreComponents import Animator
+from Scripts.GameObject import GameObject
 from Scripts.PhysicsComponents import Rigidbody
 from Scripts.PlayerComponents import Player
 
@@ -22,5 +23,11 @@ class GameObjectBuilder:
         player = Player(go)
         go.add_component(player)
         return player
+
+    @staticmethod
+    def add_animator(go: GameObject, sprite_sheet, num_frames, frame_duration) -> Animator:
+        animator = Animator(sprite_sheet, num_frames, frame_duration, go)
+        go.add_component(animator)
+        return animator
 
     # TODO: Add more here
