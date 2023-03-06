@@ -4,7 +4,7 @@
         "x": 300.0,
         "y": 400.0
     },
-    "image_path": "../Content/Player",
+    "image_path": "C:\\Users\\Emil7\\GitKraken-repos\\OrbitalPyGame\\Content\\Player\\player.png",
     "components": [
         {
             "type": "Transform",
@@ -39,6 +39,7 @@
         },
         {
             "type": "Player"
-        }
+        },
+        null
     ]
 }
