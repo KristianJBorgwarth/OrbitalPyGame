@@ -1,6 +1,5 @@
 ﻿import GameStates.SuperGameStates
 from MenuLogic.Button import Button
-from GO_Player import Player
 from Enviroment.Backgrounds import MenuBackground
 from MenuLogic.ButtonCommands import StartGameCommand, ExitGameCommand
 
@@ -41,8 +40,6 @@ class PlayGameState(GameStates.SuperGameStates.GameState):
 
     def enter(self):
         super().enter()
-        player = Player(300, 400, "Content\Player\player.png", self)
-        self.game_world.instantiate_go(player)
 
     def execute(self):
         super().execute()
