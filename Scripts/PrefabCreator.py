@@ -1,13 +1,17 @@
 ﻿import json
 import pygame
 from GameObject import GameObject
-from Components import Transform, Player, Rigidbody
+from Scripts.CoreComponents import Transform
+from Scripts.PhysicsComponents import Rigidbody
+from Scripts.PlayerComponents import Player
+
 
 def create_prefab_instance(go: GameObject, go_name, prefab_file_path):
     data = json.dumps(_serialize_gameobject(go=go, go_name=go_name), indent=4)
 
     with open(prefab_file_path, "w") as f:
         f.write(data)
+
 
 def load_prefab_instance(world, file_path):
     # Open the JSON file specified by file_path

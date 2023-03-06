@@ -1,5 +1,8 @@
-﻿from Components import Component, Transform
-import pygame
+﻿import pygame
+
+from DesignPatterns.ComponentPattern import Component
+from Scripts.CoreComponents import Transform
+
 
 class GameObject:
     def __init__(self, x, y, image_path, world):
@@ -10,7 +13,6 @@ class GameObject:
         self.components = []
         self.transform = Transform(position=(x, y), owner_go=self)
         self.add_component(self.transform)
-
 
     def update(self):
         for comp in self.components:
@@ -39,4 +41,5 @@ class GameObject:
 
     def serialize_gameobject(self, go_name):
         components_dict = [c.serialize() for c in self.components]
-        return {'name': go_name, 'initial_position': {'x': self.initial_position.x, 'y': self.initial_position.y}, 'image_path': self.image_path, 'components': components_dict}
+        return {'name': go_name, 'initial_position': {'x': self.initial_position.x, 'y': self.initial_position.y},
+                'image_path': self.image_path, 'components': components_dict}

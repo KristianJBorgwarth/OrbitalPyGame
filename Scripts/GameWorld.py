@@ -1,14 +1,17 @@
-﻿import pygame
+import pygame
 import os
 import PrefabCreator
-from GameObject import GameObject
-from Components import Rigidbody, Player  # TODO Remove this after refactoring to factory & builder
-from  GameObjectCreator import GameObjectFactory, GameObjectBuilder
+from DesignPatterns.StatePattern import StateMachine
+from GameObjectCreator import GameObjectFactory, GameObjectBuilder
+from GameStates.SubGameStates import PlayGameState, MenuGameState
 
 
 class GameWorld:
     def __init__(self, width, height, caption):
-        
+
+        self.menu_game_state = None
+        self.play_game_state = None
+        self.stateMachine = None
         self.width = width
         self.height = height
         self.caption = caption
@@ -17,16 +20,13 @@ class GameWorld:
         self.delta_time = None
         self.project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
         self.prefab_base_dir = os.path.join(self.project_dir, "Content", "Prefabs", "Base")
-
+        self.InitializeStates()
         pygame.init()
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption(self.caption)
 
-        self._initialize_player()
+    def initialize_player(self):
 
-    
-    def _initialize_player(self):
-        
         # Get where the player prefab should be located
         player_prefab_dir = os.path.join(self.prefab_base_dir, "prefab_base_player.pya")
 
@@ -35,7 +35,7 @@ class GameWorld:
             print("No file found: Creating new player!")
             player_image_path = os.path.join(self.project_dir, "Content", "Player", "player.png")
             go_player = GameObjectFactory.build_base(x=300, y=400, image_path=player_image_path, world=self)
-            
+
             GameObjectBuilder.add_rigidbody(go=go_player,
                                             acceleration=(350, 150),
                                             friction=(200, 200),
@@ -76,4 +76,9 @@ class GameWorld:
             self.draw()
 
         pygame.quit()
-        
+
+    def InitializeStates(self):
+        self.stateMachine = StateMachine()
+        self.play_game_state = PlayGameState(self, self.stateMachine)
+        self.menu_game_state = MenuGameState(self, self.stateMachine)
+        self.stateMachine.start_statemachine(self.play_game_state)
