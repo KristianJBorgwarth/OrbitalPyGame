@@ -52,3 +52,40 @@ class Transform(Component):
 
     def scale_by(self, vectorAmount):
         self._scale *= pygame.math.Vector2(vectorAmount)
+
+
+class Animator(Component):
+    def __init__(self, sprite_sheet, num_frames, frame_duration, owner_go):
+        super().__init__(owner_go)
+        self.sprite_sheet = pygame.image.load(sprite_sheet)
+        self.num_frames = num_frames
+        self.frame_duration = frame_duration
+        self.frames = []
+        self.current_frame = 0
+        self.frame_timer = 0
+        # Split the spritesheet into frames
+        frame_width = self.sprite_sheet.get_width() // self.num_frames
+        for i in range(self.num_frames):
+            frame_rect = pygame.Rect(i * frame_width, 0, frame_width, self.sprite_sheet.get_height())
+            frame_image = self.sprite_sheet.subsurface(frame_rect)
+            self.frames.append(frame_image)
+
+    def update(self):
+        # Update the frame timer
+        self.frame_timer += self.owner.world.delta_time
+
+        # Check if it's time to switch to the next frame
+        if self.frame_timer >= self.frame_duration:
+            self.frame_timer -= self.frame_duration
+            self.current_frame = (self.current_frame + 1) % self.num_frames
+    def get_current_frame(self):
+        return self.frames[self.current_frame]
+
+
+
+    def serialize(self):
+        pass
+
+
+    def deserialize(cls, d: dict) -> 'Animator':
+        pass

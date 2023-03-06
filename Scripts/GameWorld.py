@@ -43,6 +43,8 @@ class GameWorld:
                                             )
 
             GameObjectBuilder.add_player(go=go_player)
+            boost_image_path = os.path.join(self.project_dir, "Content", "Player", "Boost.png")
+            GameObjectBuilder.add_animator(go=go_player, sprite_sheet=boost_image_path, num_frames=5, frame_duration=.1)
 
             PrefabCreator.create_prefab_instance(go=go_player, go_name="player", prefab_file_path=player_prefab_dir)
         else:
