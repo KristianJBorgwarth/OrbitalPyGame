@@ -1,4 +1,7 @@
-from Scripts.Components import Rigidbody, Transform, Player, Astroid, Animator
+from Scripts.CoreComponents import Transform, Animator
+from Scripts.PhysicsComponents import Rigidbody
+from Scripts.PlayerComponents import Player
+from Scripts.AstroidComponent import Astroid
 from Scripts.GameObject import GameObject
 from Enums import AstroidType
 from Scripts.PhysicsComponents import Rigidbody
