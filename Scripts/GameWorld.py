@@ -4,6 +4,7 @@ import PrefabCreator
 from DesignPatterns.StatePattern import StateMachine
 from GameObjectCreator import GameObjectFactory, GameObjectBuilder
 from GameStates.SubGameStates import PlayGameState, MenuGameState
+from Scripts.animation import Animation
 
 
 class GameWorld:
@@ -43,8 +44,10 @@ class GameWorld:
                                             )
 
             GameObjectBuilder.add_player(go=go_player)
+            idle_image_path = os.path.join(self.project_dir, "Content", "Player", "Idle.png")
             boost_image_path = os.path.join(self.project_dir, "Content", "Player", "Boost.png")
-            GameObjectBuilder.add_animator(go=go_player, sprite_sheet=boost_image_path, num_frames=5, frame_duration=.1)
+            animation_list = [Animation("idle", idle_image_path, 1, 1, ), Animation("boost", boost_image_path, 5, .1, )]
+            GameObjectBuilder.add_animator(animation_list, go=go_player)
 
             PrefabCreator.create_prefab_instance(go=go_player, go_name="player", prefab_file_path=player_prefab_dir)
         else:

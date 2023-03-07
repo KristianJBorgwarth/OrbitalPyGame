@@ -2,6 +2,7 @@
 import pygame
 from overrides import override
 from DesignPatterns.ComponentPattern import Component
+from Scripts.CoreComponents import Animator
 from Scripts.GameObject import GameObject
 from Scripts.PhysicsComponents import Rigidbody
 
@@ -53,4 +54,11 @@ class Player(Component):
         self.owner.transform.translate(*self.rigidbody.velocity * self.owner.world.delta_time)
 
         if self.rigidbody.velocity.magnitude() > 0.0:
+            animator = self.owner.get_component(Animator)
+            #if animator.current_anim.state != "boost":
+               # animator.set_animation("boost")
             print(f"Velocity > x: {self.rigidbody.velocity.x.__round__()}, y: {self.rigidbody.velocity.y.__round__()}")
+        else:
+            animator = self.owner.get_component(Animator)
+            #if animator.current_anim.state != "idle":
+                #animator.set_animation("idle")
