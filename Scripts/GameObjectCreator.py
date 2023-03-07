@@ -1,4 +1,5 @@
-from Scripts.Components import Rigidbody, Transform, Player, Astroid
+from Scripts.AstroidComponent import Astroid
+from Scripts.CoreComponents import Transform
 from Scripts.GameObject import GameObject
 from Enums import AstroidType
 from Scripts.PhysicsComponents import Rigidbody
@@ -27,8 +28,14 @@ class GameObjectBuilder:
     # TODO: Add more here
 
     @staticmethod
-    def add_astroid(go: GameObject) -> Astroid:
-        astroid = Astroid(owner_go=go, atype=AstroidType.large)
+    def add_astroid_small(go: GameObject) -> Astroid:
+        astroid = Astroid(owner_go=go)
+        go.add_component(astroid)
+        return astroid
+
+    @staticmethod
+    def add_astroid_large(go: GameObject) -> Astroid:
+        astroid = Astroid(owner_go=go)
         go.add_component(astroid)
         return astroid
 

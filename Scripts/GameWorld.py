@@ -4,6 +4,7 @@ import PrefabCreator
 from DesignPatterns.StatePattern import StateMachine
 from GameObjectCreator import GameObjectFactory, GameObjectBuilder
 from GameStates.SubGameStates import PlayGameState, MenuGameState
+from Scripts.Spawner import Spawner
 
 
 class GameWorld:
@@ -50,6 +51,12 @@ class GameWorld:
             go_player = PrefabCreator.load_prefab_instance(file_path=player_prefab_dir, world=self)
 
         self.instantiate_go(go=go_player)
+
+    def initialize_spawner(self):
+        spawner = Spawner
+        spawner.__init__(self)
+
+
 
     def instantiate_go(self, go):
         self.gameobjects.append(go)

@@ -14,5 +14,5 @@ class Component(ABC):
 
     @classmethod
     @abstractmethod
-    def deserialize(cls, d: dict) -> 'Component':
+    def deserialize(cls, d: dict, owner_go) -> 'Component':
         pass

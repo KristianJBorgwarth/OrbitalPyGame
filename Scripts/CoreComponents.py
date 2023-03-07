@@ -22,11 +22,12 @@ class Transform(Component):
 
     @classmethod
     @override
-    def deserialize(cls, d: dict) -> 'Transform':
+    def deserialize(cls, d: dict, owner_go) -> 'Transform':
         position = pygame.math.Vector2(d["position"][0], d["position"][1])
         rotation = d["rotation"]
         scale = pygame.math.Vector2(d["scale"][0], d["scale"][1])
-        return cls(None, position, rotation, scale)
+        owner = owner_go
+        return cls(owner, position, rotation, scale, )
 
     @property
     def position(self):
