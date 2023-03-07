@@ -33,8 +33,14 @@ class GameObjectBuilder:
     # TODO: Add more here
 
     @staticmethod
-    def add_astroid(go: GameObject) -> Astroid:
-        astroid = Astroid(owner_go=go, atype=AstroidType.large)
+    def add_astroid_small(go: GameObject) -> Astroid:
+        astroid = Astroid(owner_go=go)
+        go.add_component(astroid)
+        return astroid
+
+    @staticmethod
+    def add_astroid_large(go: GameObject) -> Astroid:
+        astroid = Astroid(owner_go=go)
         go.add_component(astroid)
         return astroid
 

@@ -1,6 +1,7 @@
 ﻿import json
 import pygame
 from GameObject import GameObject
+from Scripts.AstroidComponent import Astroid
 from Scripts.CoreComponents import Transform
 from Scripts.PhysicsComponents import Rigidbody
 from Scripts.PlayerComponents import Player
@@ -29,15 +30,18 @@ def load_prefab_instance(world, file_path):
 
         # Create a new component based on the data in the JSON file and add it to the GameObject
         if component_type == 'Transform':
-            transform = Transform.deserialize(component_data)
+            transform = Transform.deserialize(component_data, go)
             transform.position = pygame.math.Vector2(data['initial_position']['x'], data['initial_position']['y'])
             go.add_component(transform)
         elif component_type == 'Rigidbody':
-            rigidbody = Rigidbody.deserialize(component_data)
+            rigidbody = Rigidbody.deserialize(component_data, go)
             go.add_component(rigidbody)
         elif component_type == 'Player':
             player = Player(go)
             go.add_component(player)
+        elif component_type == 'Astroid':
+            astroid = Astroid(go)
+            go.add_component(astroid)
         else:
             # If the component type is not recognized, raise an error
             raise ValueError(f'Invalid component type: {component_type}')

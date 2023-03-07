@@ -30,7 +30,7 @@ class Player(Component):
 
     @classmethod
     @override
-    def deserialize(cls, d: dict) -> 'Player':
+    def deserialize(cls, d: dict, owner_go) -> 'Player':
         pass
 
     @override
@@ -46,11 +46,8 @@ class Player(Component):
         if self.rigidbody is None:
             return
 
-        self.rigidbody.update_velocity('x', self.owner.world.delta_time, keys, self.directions)
-        self.rigidbody.update_velocity('y', self.owner.world.delta_time, keys, self.directions)
-
-        # update the position based on velocity
-        self.owner.transform.translate(*self.rigidbody.velocity * self.owner.world.delta_time)
+        self.rigidbody.update_velocity('x', keys, self.directions, self.owner)
+        self.rigidbody.update_velocity('y', keys, self.directions, self.owner)
 
         if self.rigidbody.velocity.magnitude() > 0.0:
             print(f"Velocity > x: {self.rigidbody.velocity.x.__round__()}, y: {self.rigidbody.velocity.y.__round__()}")

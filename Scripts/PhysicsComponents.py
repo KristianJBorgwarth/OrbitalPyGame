@@ -8,10 +8,12 @@ class Rigidbody(Component):
 
     def __init__(self, acceleration, friction, max_speed, owner_go):
         super().__init__(owner_go)
+        self.owner = owner_go
         self.acceleration = pygame.math.Vector2(acceleration)  # set the acceleration to a certain value
         self.friction = pygame.math.Vector2(friction)  # set the friction to a certain value
         self.max_speed = pygame.math.Vector2(max_speed)  # set the maximum speed to a certain value
         self._velocity = pygame.math.Vector2(0, 0)  # initialize the velocity to zero
+
 
     def serialize(self):
         dt = super().serialize()
@@ -26,12 +28,12 @@ class Rigidbody(Component):
 
     @classmethod
     @override
-    def deserialize(cls, d: dict) -> 'Rigidbody':
+    def deserialize(cls, d: dict, owner_go) -> 'Rigidbody':
         acceleration = pygame.math.Vector2(d["acceleration"])
         friction = pygame.math.Vector2(d["friction"])
         max_speed = pygame.math.Vector2(d["max_speed"])
-        velocity = pygame.math.Vector2(d["velocity"])
-        return cls(acceleration, friction, max_speed, velocity)
+        owner = owner_go
+        return cls(acceleration, friction, max_speed, owner)
 
     @property
     def velocity(self):
@@ -39,9 +41,18 @@ class Rigidbody(Component):
 
     @override
     def update(self):
+
+
         super().update()
 
-    def update_velocity(self, axis, delta_time, keys, directions):
+    def add_force(self, direction, go):
+        # Convert direction to a vector
+        force = pygame.math.Vector2(direction)
+
+        # Apply the force based on the elapsed time
+        self._velocity += force
+        go.transform.translate(*self.velocity * self.owner.world.delta_time)
+    def update_velocity(self, axis, keys, directions, go):
         # Get the current velocity, acceleration, max speed, and friction for the given axis
         velocity = getattr(self._velocity, axis)
         acceleration = getattr(self.acceleration, axis)
@@ -50,16 +61,16 @@ class Rigidbody(Component):
 
         # Update the velocity based on user input and acceleration
         if keys[directions[axis]['positive']]:
-            velocity = min(velocity + acceleration * delta_time, max_speed)
+            velocity = min(velocity + acceleration * self.owner.world.delta_time, max_speed)
         elif keys[directions[axis]['negative']]:
-            velocity = max(velocity - acceleration * delta_time, -max_speed)
+            velocity = max(velocity - acceleration * self.owner.world.delta_time, -max_speed)
         else:
             # Apply friction if no input is given
-            friction_force = friction * delta_time
+            friction_force = friction * self.owner.world.delta_time
             velocity = max(0, abs(velocity) - friction_force) * (1 if velocity > 0 else -1)
 
         # Set the updated velocity for the given axis
         setattr(self._velocity, axis, velocity)
-
+        go.transform.translate(*self.velocity * self.owner.world.delta_time)
 
 

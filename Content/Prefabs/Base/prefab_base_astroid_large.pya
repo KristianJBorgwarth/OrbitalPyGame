@@ -1,10 +1,10 @@
 {
-    "gameobject_name": "player",
+    "gameobject_name": "astroid_large",
     "initial_position": {
         "x": 300.0,
         "y": 400.0
     },
-    "image_path": "A:\\GitKraken\\OrbitalPyGame\\Content\\Player\\player.png",
+    "image_path": "A:\\GitKraken\\OrbitalPyGame\\Content\\Astroid\\astroid_large.png",
     "components": [
         {
             "type": "Transform",
@@ -21,16 +21,16 @@
         {
             "type": "Rigidbody",
             "acceleration": [
-                350.0,
-                150.0
+                50.0,
+                50.0
             ],
             "friction": [
                 200.0,
                 200.0
             ],
             "max_speed": [
-                350.0,
-                250.0
+                50.0,
+                50.0
             ],
             "velocity": [
                 0.0,
@@ -38,8 +38,7 @@
             ]
         },
         {
-            "type": "Player"
-        },
-        null
+            "type": "Astroid"
+        }
     ]
 }

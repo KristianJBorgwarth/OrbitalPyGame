@@ -1,10 +1,10 @@
 {
-    "gameobject_name": "player",
+    "gameobject_name": "astroid_small",
     "initial_position": {
         "x": 300.0,
         "y": 400.0
     },
-    "image_path": "A:\\GitKraken\\OrbitalPyGame\\Content\\Player\\player.png",
+    "image_path": "A:\\GitKraken\\OrbitalPyGame\\Content\\Astroid\\astroid_small.png",
     "components": [
         {
             "type": "Transform",
@@ -38,8 +38,7 @@
             ]
         },
         {
-            "type": "Player"
-        },
-        null
+            "type": "Astroid"
+        }
     ]
 }
