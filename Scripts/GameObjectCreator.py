@@ -1,4 +1,4 @@
-from Scripts.Components import Rigidbody, Transform, Player, Astroid
+from Scripts.Components import Rigidbody, Transform, Player, Astroid, Animator
 from Scripts.GameObject import GameObject
 from Enums import AstroidType
 from Scripts.PhysicsComponents import Rigidbody
@@ -23,6 +23,12 @@ class GameObjectBuilder:
         player = Player(go)
         go.add_component(player)
         return player
+
+    @staticmethod
+    def add_animator(go: GameObject, sprite_sheet, num_frames, frame_duration) -> Animator:
+        animator = Animator(sprite_sheet, num_frames, frame_duration, go)
+        go.add_component(animator)
+        return animator
 
     # TODO: Add more here
 
