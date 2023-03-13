@@ -23,6 +23,8 @@ class GameObject:
                     return
 
             comp.update()
+        self.screen_wrap()
+
 
     def draw(self, screen):
         if self.get_component(Animator):
@@ -53,3 +55,14 @@ class GameObject:
         components_dict = [c.serialize() for c in self.components]
         return {'name': go_name, 'initial_position': {'x': self.initial_position.x, 'y': self.initial_position.y},
                 'image_path': self.image_path, 'components': components_dict}
+
+    def screen_wrap(self):
+        current_pos = self.transform.position
+        if current_pos.x > self.world.width + 50:
+            self.transform._position.x = -50
+        elif current_pos.x < -50:
+            self.transform._position.x = self.world.width + 50
+        elif current_pos.y > self.world.height + 50:
+            self.transform._position.y = -50
+        elif current_pos.y < -50:
+            self.transform._position.y = self.world.height + 50
