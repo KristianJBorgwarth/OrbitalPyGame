@@ -47,8 +47,8 @@ class GameWorld:
             GameObjectBuilder.add_player(go=go_player)
             idle_image_path = os.path.join(self.project_dir, "Content", "Player", "Idle.png")
             boost_image_path = os.path.join(self.project_dir, "Content", "Player", "Boost.png")
-            animation_list = [Animation("idle", idle_image_path, 1, 1, ), Animation("boost", boost_image_path, 5, .1, )]
-            GameObjectBuilder.add_animator(animation_list, go=go_player)
+            animations_list = [Animation("idle", idle_image_path, 1, 1, ), Animation("boost", boost_image_path, 5, .1, )]
+            GameObjectBuilder.add_animator(animations_list, go=go_player)
 
             PrefabCreator.create_prefab_instance(go=go_player, go_name="player", prefab_file_path=player_prefab_dir)
         else:

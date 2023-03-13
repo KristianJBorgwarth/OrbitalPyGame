@@ -41,7 +41,7 @@ def load_prefab_instance(world, file_path):
             player = Player(go)
             go.add_component(player)
         elif component_type == 'Animator':
-            animator = Animator.deserialize(component_data)
+            animator = Animator.deserialize(component_data, go)
             go.add_component(animator)
 
         elif component_type == 'Astroid':
