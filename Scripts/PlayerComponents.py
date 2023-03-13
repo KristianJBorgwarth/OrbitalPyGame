@@ -5,6 +5,7 @@ from DesignPatterns.ComponentPattern import Component
 from Scripts.CoreComponents import Animator
 from Scripts.GameObject import GameObject
 from Scripts.PhysicsComponents import Rigidbody
+from Scripts.animation import Animation
 
 
 class Player(Component):
@@ -18,7 +19,7 @@ class Player(Component):
 
         self.directions = \
             {
-                'x': {'positive': pygame.K_RIGHT, 'negative': pygame.K_LEFT},
+                'x': {'positive': pygame.K_h, 'negative': pygame.K_k},
                 'y': {'positive': pygame.K_DOWN, 'negative': pygame.K_UP},
             }
 
@@ -38,8 +39,16 @@ class Player(Component):
     def update(self):
         super().update()
         keys = pygame.key.get_pressed()
-
         # Quit on escape
+        if keys[pygame.K_LEFT]:
+            comp = self.owner.get_component(Animator).current_anim
+            if comp != None:
+                self.owner.transform.rotate_image(comp, -6)
+        if keys[pygame.K_RIGHT]:
+            comp = self.owner.get_component(Animator).current_anim
+            if comp != None:
+                self.owner.transform.rotate_image(comp, 6)
+
         if keys[pygame.K_ESCAPE]:
             pygame.event.post(pygame.event.Event(pygame.QUIT))
             return
@@ -47,15 +56,11 @@ class Player(Component):
         if self.rigidbody is None:
             return
 
-        self.rigidbody.update_velocity('x', keys, self.directions, self.owner)
+        #self.rigidbody.update_velocity('x', keys, self.directions, self.owner)
         self.rigidbody.update_velocity('y', keys, self.directions, self.owner)
 
         if self.rigidbody.velocity.magnitude() > 0.0:
-            animator = self.owner.get_component(Animator)
-            #if animator.current_anim.state != "boost":
-               # animator.set_animation("boost")
             print(f"Velocity > x: {self.rigidbody.velocity.x.__round__()}, y: {self.rigidbody.velocity.y.__round__()}")
-        else:
-            animator = self.owner.get_component(Animator)
-            #if animator.current_anim.state != "idle":
-                #animator.set_animation("idle")
+
+
+

@@ -2,24 +2,34 @@ import pygame
 
 from DesignPatterns.ComponentPattern import Component
 from Scripts.CoreComponents import Transform, Animator
+from Scripts.animation import Animation
 
 
 class GameObject:
     def __init__(self, x, y, image_path, world):
         self.initial_position = pygame.math.Vector2(x, y)
         self.image_path = image_path
-        #self.image = pygame.image.load(image_path)
+        self.image = pygame.image.load(image_path)
         self.world = world
         self.components = []
         self.transform = Transform(position=(x, y), owner_go=self)
         self.add_component(self.transform)
 
     def update(self):
+        keys = pygame.key.get_pressed()
         for comp in self.components:
+            if isinstance(comp, Animator):
+                if len(comp.animations_list) <= 0:
+                    return
+
             comp.update()
 
     def draw(self, screen):
-        screen.blit(self.get_component(Animator).get_current_frame(), self.transform.position)
+        if self.get_component(Animator):
+            img_copy = pygame.transform.rotate(self.get_component(Animator).get_current_frame(), self.transform.rotation)
+            screen.blit(img_copy, (self.transform._position.x - int(img_copy.get_width() / 2), self.transform.position.y - int(img_copy.get_height() / 2)))
+        else:
+            screen.blit(self.image, self.transform.position)
         pass
 
     def add_component(self, component: Component):

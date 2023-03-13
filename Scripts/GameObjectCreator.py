@@ -29,8 +29,8 @@ class GameObjectBuilder:
         return player
 
     @staticmethod
-    def add_animator(animation_list, go: GameObject) -> Animator:
-        animator = Animator(go, animation_list)
+    def add_animator(animations_list, go: GameObject) -> Animator:
+        animator = Animator(go, animations_list)
         go.add_component(animator)
         return animator
 
