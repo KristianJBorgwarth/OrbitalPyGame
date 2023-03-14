@@ -1,6 +1,7 @@
 import pygame
 import os
 import PrefabCreator
+from FontManager.fontmanager import FontManager
 from SoundManager.soundmanager import SoundManager
 import globals
 from DesignPatterns.StatePattern import StateMachine
@@ -15,6 +16,7 @@ class GameWorld:
 
         globals.soundManager = SoundManager()
         globals.soundManager.play_music("menu")
+
         self.menu_game_state = None
         self.play_game_state = None
         self.stateMachine = None
@@ -28,6 +30,7 @@ class GameWorld:
         self.prefab_base_dir = os.path.join(self.project_dir, "Content", "Prefabs", "Base")
         self.InitializeStates()
         pygame.init()
+        globals.fontManager = FontManager(os.path.join(self.project_dir, "FontManager", "Fonts", "Arcade.TTF"))
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption(self.caption)
 
@@ -77,7 +80,9 @@ class GameWorld:
             go.update()
 
     def draw(self):
+
         self.screen.fill((255, 255, 255))
+        globals.fontManager.render_font(f"Score:{globals.score}", (50, 50), self.screen, "black")
         for obj in self.gameobjects:
             obj.draw(self.screen)
         pygame.display.flip()
