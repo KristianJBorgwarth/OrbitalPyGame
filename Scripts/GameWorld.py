@@ -1,6 +1,8 @@
 import pygame
 import os
 import PrefabCreator
+from SoundManager.soundmanager import SoundManager
+import globals
 from DesignPatterns.StatePattern import StateMachine
 from GameObjectCreator import GameObjectFactory, GameObjectBuilder
 from GameStates.SubGameStates import PlayGameState, MenuGameState
@@ -11,6 +13,8 @@ from Scripts.animation import Animation
 class GameWorld:
     def __init__(self, width, height, caption):
 
+        globals.soundManager = SoundManager()
+        globals.soundManager.play_music("menu")
         self.menu_game_state = None
         self.play_game_state = None
         self.stateMachine = None
@@ -26,6 +30,7 @@ class GameWorld:
         pygame.init()
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption(self.caption)
+
 
     def initialize_player(self):
 

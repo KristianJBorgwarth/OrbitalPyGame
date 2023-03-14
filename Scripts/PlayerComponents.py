@@ -1,6 +1,8 @@
 ﻿import os
 import pygame
 from overrides import override
+
+import globals
 from DesignPatterns.ComponentPattern import Component
 from Scripts.CoreComponents import Animator
 from Scripts.GameObject import GameObject
@@ -38,8 +40,20 @@ class Player(Component):
     @override
     def update(self):
         super().update()
+
         keys = pygame.key.get_pressed()
+        # keys_down stores the value of pygames events
+        keys_down = pygame.event.get()
         # Quit on escape
+        #loops through the keys_down events
+        for k in keys_down:
+            #checks the type of event this is for keys that are held down
+            if k.type == pygame.KEYDOWN:
+                #check if the key held down is space
+                if k.key == pygame.K_SPACE:
+                    #sets key repeating delay , interval before being able to run this again
+                    pygame.key.set_repeat(1, 500 )
+                    globals.soundManager.play_sound("shoot")
         if keys[pygame.K_LEFT]:
             comp = self.owner.get_component(Animator).current_anim
             if comp != None:
