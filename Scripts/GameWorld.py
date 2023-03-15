@@ -20,10 +20,11 @@ class GameWorld:
         self.delta_time = None
         self.project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
         self.prefab_base_dir = os.path.join(self.project_dir, "Content", "Prefabs", "Base")
-        self.InitializeStates()
         pygame.init()
         self.screen = pygame.display.set_mode((self.width, self.height))
+        self.screen.fill((0, 0, 0))
         pygame.display.set_caption(self.caption)
+        self.InitializeStates()
 
     def initialize_player(self):
 
@@ -54,10 +55,13 @@ class GameWorld:
     def instantiate_go(self, go):
         self.gameobjects.append(go)
 
+    def destroy_go(self, go):
+        self.gameobjects.remove(go)
+        print(go.tag)
+
     def update(self):
-        self.delta_time = self.clock.tick(60) / 1000.0
-        for go in self.gameobjects:
-            go.update()
+        self.stateMachine.currentState.execute()
+        self.stateMachine.currentState.state_transition()
 
     def draw(self):
         self.screen.fill((255, 255, 255))
@@ -81,4 +85,4 @@ class GameWorld:
         self.stateMachine = StateMachine()
         self.play_game_state = PlayGameState(self, self.stateMachine)
         self.menu_game_state = MenuGameState(self, self.stateMachine)
-        self.stateMachine.start_statemachine(self.play_game_state)
+        self.stateMachine.start_statemachine(self.menu_game_state)

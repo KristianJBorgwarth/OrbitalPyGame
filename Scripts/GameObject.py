@@ -20,7 +20,6 @@ class GameObject:
 
     def draw(self, screen):
         screen.blit(self.image, self.transform.position)
-        pass
 
     def add_component(self, component: Component):
         if self.components.__contains__(component):

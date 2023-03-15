@@ -8,11 +8,9 @@ class Component(ABC):
     def update(self):
         pass
 
-    @abstractmethod
     def serialize(self):
         return {'type': self.__class__.__name__}
 
     @classmethod
-    @abstractmethod
     def deserialize(cls, d: dict) -> 'Component':
         pass

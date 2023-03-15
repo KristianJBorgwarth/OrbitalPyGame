@@ -1,25 +1,31 @@
-﻿import GameStates.SuperGameStates
-from MenuLogic.Button import Button
-from Enviroment.Backgrounds import MenuBackground
-from MenuLogic.ButtonCommands import StartGameCommand, ExitGameCommand
+﻿import os
+import pygame.font
+import GameStates.SuperGameStates
+from UI.UIComponents import UIButton, BackGround
+from UI.UIObjects import UIObject
 
 
 class MenuGameState(GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
+        pygame.font.init()
+        self.test_event = pygame.USEREVENT + 1
 
     def enter(self):
         super().enter()
-        start_game_cmd = StartGameCommand()
-        exit_game_cmd = ExitGameCommand()
-        start_button = Button(725, 350, "Content\GUI\playButton.png", self, "PLAY", start_game_cmd)
-        exit_button = Button(725, 650, "Content\GUI\playButton.png", self, "EXIT", exit_game_cmd)
-        score_button = Button(725, 500, "Content\GUI\playButton.png", self, "HIGHSCORE", exit_game_cmd)
-        back_ground = MenuBackground(0, 0, "Content\GUI\spaceBackground.png", self)
-        self.game_world.instantiate_go(back_ground)
-        self.game_world.instantiate_go(exit_button)
-        self.game_world.instantiate_go(start_button)
-        self.game_world.instantiate_go(score_button)
+        pygame.event.set_allowed(pygame.USEREVENT + 1)
+        _start_b_image = os.path.join(self.game_world.project_dir, "Content", "GUI", "play.png")
+        _start_b_image_hover = os.path.join(self.game_world.project_dir, "Content", "GUI", "play_hover.png")
+        _exit_b_image = os.path.join(self.game_world.project_dir, "Content", "GUI", "quit.png")
+        _exit_b_image_hover = os.path.join(self.game_world.project_dir, "Content", "GUI", "quit_hover.png")
+        _backGround_b_image = os.path.join(self.game_world.project_dir, "Content", "GUI", "spaceBackGround.png")
+        background_go = UIObject(0, 0, self.game_world)
+        background_go.add_component(BackGround(background_go, _backGround_b_image))
+        button_go = UIObject(835, 300, self.game_world)
+        button_go.add_component(UIButton(button_go, _start_b_image, _start_b_image_hover, self.test_event))
+        self.game_world.instantiate_go(background_go)
+        self.game_world.instantiate_go(button_go)
+        print()
 
     def execute(self):
         super().execute()
@@ -28,7 +34,11 @@ class MenuGameState(GameStates.SuperGameStates.GameState):
         super().draw(screen)
 
     def state_transition(self):
-        pass
+        for event in pygame.event.get():
+            if event.type == self.test_event:
+                for obj in list(self.game_world.gameobjects):
+                    self.game_world.destroy_go(obj)
+                self.stateMachine.change_state(self.game_world.play_game_state)
 
     def exit(self):
         super().exit()

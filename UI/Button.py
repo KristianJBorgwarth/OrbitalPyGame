@@ -1,11 +1,15 @@
 ﻿import pygame
 from overrides import override
-from GameObject import GameObject
+
+from DesignPatterns.CommandPattern import ICommand
+from DesignPatterns.ComponentPattern import Component
+from Scripts.GameObject import GameObject
 
 
-class Button(GameObject):
-    def __init__(self, x, y, image, world, text, command):
-        super().__init__(x, y, image, world)
+class Button(Component):
+
+    def __init__(self, owner_go: GameObject, command: ICommand, text):
+        super().__init__(owner_go)
         self.button_command = command
         self.color = (27, 27, 27)
         self.hoverColor = (79, 79, 79)
@@ -13,7 +17,7 @@ class Button(GameObject):
         self.text_color = (255, 255, 255)
         self.font_size = 50
         self.font = pygame.font.SysFont(None, self.font_size)
-        self.rect = pygame.Rect(x, y, 400, 100)
+        self.rect = pygame.Rect(self.owner.transform.position.x, self.owner.transform.position.y, 400, 100)
         self.canClick = False
         self.pressBlock = False
 
@@ -22,8 +26,8 @@ class Button(GameObject):
         self.check_hover_on_button()
         self.execute_on_press()
         self.reset_canPress()
+        self.draw(self.owner.world.screen)
 
-    @override
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.rect)
         text_surface = self.font.render(self.text, True, self.text_color)
