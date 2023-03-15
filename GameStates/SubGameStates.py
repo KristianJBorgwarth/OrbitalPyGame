@@ -24,7 +24,7 @@ class MenuGameState(GameStates.SuperGameStates.GameState):
         button_go = UIObject(835, 300, self.game_world)
         button_go.add_component(UIButton(button_go, _start_b_image, _start_b_image_hover, self.test_event))
         self.game_world.instantiate_go(background_go)
-        self.game_world.instantiate_go(button_go)
+
         print()
 
     def execute(self):
