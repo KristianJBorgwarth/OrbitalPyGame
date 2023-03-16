@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 
 class Component(ABC):
@@ -12,6 +13,5 @@ class Component(ABC):
         return {'type': self.__class__.__name__}
 
     @classmethod
-    @abstractmethod
-    def deserialize(cls, d: dict, owner_go) -> 'Component':
+    def deserialize(cls, d: dict, owner_go) -> Any:
         pass

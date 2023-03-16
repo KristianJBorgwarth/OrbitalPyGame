@@ -13,6 +13,7 @@ class GameObject:
         self.components = []
         self.transform = Transform(position=(x, y), owner_go=self)
         self.add_component(self.transform)
+        self.tag = ""
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -24,11 +25,14 @@ class GameObject:
             comp.update()
         self.screen_wrap()
 
-
     def draw(self, screen):
         if self.get_component(Animator):
-            img_copy = pygame.transform.rotate(self.get_component(Animator).get_current_frame(), self.transform.rotation)
-            screen.blit(img_copy, (self.transform._position.x - int(img_copy.get_width() / 2), self.transform.position.y - int(img_copy.get_height() / 2)))
+            print(self.get_component(Animator).current_anim.frames.lenght)
+            if self.get_component(Animator).get_current_frame() is None: return
+            img_copy = pygame.transform.rotate(self.get_component(Animator).get_current_frame(),
+                                               self.transform.rotation)
+            screen.blit(img_copy, (self.transform._position.x - int(img_copy.get_width() / 2),
+                                   self.transform.position.y - int(img_copy.get_height() / 2)))
         else:
             screen.blit(self.image, self.transform.position)
         pass

@@ -4,5 +4,5 @@ from typing import Any
 
 class AbstractFactory(ABC):
     @abstractmethod
-    def CreateProduct(self, enum) -> Any:
+    def CreateProduct(self, enum, game_world) -> Any:
         pass

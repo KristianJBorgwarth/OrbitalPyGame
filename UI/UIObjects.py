@@ -2,8 +2,8 @@
 
 
 class UIObject:
-    def __init__(self, x, y, world):
-        self.is_enabled = None
+    def __init__(self, world, x, y):
+        self.is_enabled = True
         self.position = pygame.math.Vector2(x, y)
         self.components = []
         self.world = world

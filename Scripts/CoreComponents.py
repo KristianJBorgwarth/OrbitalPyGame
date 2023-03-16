@@ -58,7 +58,6 @@ class Transform(Component):
 
         return self._position
 
-
     def rotate_image(self, surf, rotate):
         self._rotation += rotate
 
@@ -74,8 +73,6 @@ class Animator(Component):
         self.current_frame = 0
         self.frame_timer = 0
         self.start = False
-
-
 
     def update(self):
         if self.current_anim == None:
@@ -121,7 +118,7 @@ class Animator(Component):
         animations_list = []
         for comp_data in d['animations_list']:
             animation = Animation(comp_data['state'], str(comp_data['image_path']), comp_data['num_frames'],
-                                   comp_data['frame_duration'])
+                                  comp_data['frame_duration'])
             animations_list.append(animation)
 
         cls.animations_list = animations_list
