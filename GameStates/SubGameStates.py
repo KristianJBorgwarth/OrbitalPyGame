@@ -58,3 +58,23 @@ class PlayGameState(GameStates.SuperGameStates.GameState):
 
     def exit(self):
         super().exit()
+
+
+class GameOverState(GameStates.SuperGameStates.GameState):
+    def __init__(self, world, StateMachine):
+        super().__init__(world, StateMachine)
+
+    def enter(self):
+        pass
+
+    def execute(self):
+        pass
+
+    def state_transition(self):
+        pass
+
+    def draw(self, screen):
+        pass
+
+    def exit(self):
+        pass
