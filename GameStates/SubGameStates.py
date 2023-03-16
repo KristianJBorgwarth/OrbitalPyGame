@@ -2,6 +2,7 @@
 import pygame.font
 import GameStates.SuperGameStates
 from UI.UIComponents import UIButton, BackGround
+from UI.UIFactory import ButtonFactory, UIProduct
 from UI.UIObjects import UIObject
 
 
@@ -9,22 +10,17 @@ class MenuGameState(GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
         pygame.font.init()
-        self.test_event = pygame.USEREVENT + 1
 
     def enter(self):
         super().enter()
-        pygame.event.set_allowed(pygame.USEREVENT + 1)
         _start_b_image = os.path.join(self.game_world.project_dir, "Content", "GUI", "play.png")
         _start_b_image_hover = os.path.join(self.game_world.project_dir, "Content", "GUI", "play_hover.png")
         _exit_b_image = os.path.join(self.game_world.project_dir, "Content", "GUI", "quit.png")
         _exit_b_image_hover = os.path.join(self.game_world.project_dir, "Content", "GUI", "quit_hover.png")
         _backGround_b_image = os.path.join(self.game_world.project_dir, "Content", "GUI", "spaceBackGround.png")
-        background_go = UIObject(0, 0, self.game_world)
-        background_go.add_component(BackGround(background_go, _backGround_b_image))
-        button_go = UIObject(835, 300, self.game_world)
-        button_go.add_component(UIButton(button_go, _start_b_image, _start_b_image_hover, self.test_event))
-        self.game_world.instantiate_go(background_go)
 
+        a = ButtonFactory()
+        self.game_world.instantiate_go(a.CreateProduct(UIProduct.StartButton))
         print()
 
     def execute(self):

@@ -1,5 +1,6 @@
 ﻿from typing import Type
 
+import pygame
 from overrides import overrides
 
 from DesignPatterns.FactoryPattern import AbstractFactory
@@ -16,17 +17,19 @@ class UIProduct(Enum):
     PlayAgainButton = 4
 
 
-class ButtonFactory(AbstractFactory, AbstractSingleton):
+class ButtonFactory(AbstractFactory):
+
     def __init__(self):
-        pass
+        self.test_event = pygame.USEREVENT + 1
+        pygame.event.set_allowed(pygame.USEREVENT + 1)
 
     @overrides
-    def CreateProduct(self, event, enum: UIProduct) -> Type[UIObject]:
+    def CreateProduct(self, enum: UIProduct) -> Type[UIObject]:
         button_go = UIObject
         if enum is UIProduct.StartButton:
-            start_img_path = "Content/GUI/play.png"
+            start_img_path = "Content/GUI/play_hover.png"
             start_img_path_h = "Content/GUI/play_hover.png"
-            button_go.add_component(UIButton(button_go, start_img_path, start_img_path_h, event))
+            button_go.add_component(UIButton(button_go, start_img_path, start_img_path_h, self.test_event))
             return button_go
 
         elif enum is UIProduct.ExitButton:
