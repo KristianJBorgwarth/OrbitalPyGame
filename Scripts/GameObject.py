@@ -27,7 +27,7 @@ class GameObject:
 
     def draw(self, screen):
         if self.get_component(Animator):
-            print(self.get_component(Animator).current_anim.frames.lenght)
+            if self.get_component(Animator).current_anim is None: return
             if self.get_component(Animator).get_current_frame() is None: return
             img_copy = pygame.transform.rotate(self.get_component(Animator).get_current_frame(),
                                                self.transform.rotation)
