@@ -4,6 +4,11 @@ import GameStates.SuperGameStates
 from UI.UIComponents import UIButton, BackGround
 from UI.UIFactory import ButtonFactory, UIProduct
 from UI.UIObjects import UIObject
+﻿import GameStates.SuperGameStates
+from MenuLogic.Button import Button
+from Enviroment.Backgrounds import MenuBackground
+from MenuLogic.ButtonCommands import StartGameCommand, ExitGameCommand
+from Scripts.Spawner import Spawner
 
 
 class MenuGameState(GameStates.SuperGameStates.GameState):
@@ -47,6 +52,7 @@ class PlayGameState(GameStates.SuperGameStates.GameState):
     def enter(self):
         super().enter()
         self.game_world.initialize_player()
+        self.spawner = Spawner(self.game_world)
 
     def execute(self):
         super().execute()

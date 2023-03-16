@@ -1,6 +1,7 @@
 ﻿import pygame
 from DesignPatterns.ComponentPattern import Component
-from Scripts.CoreComponents import Transform
+from Scripts.CoreComponents import Transform, Animator
+from Scripts.animation import Animation
 
 
 class GameObject:
@@ -14,11 +15,23 @@ class GameObject:
         self.add_component(self.transform)
 
     def update(self):
+        keys = pygame.key.get_pressed()
         for comp in self.components:
+            if isinstance(comp, Animator):
+                if len(comp.animations_list) <= 0:
+                    return
+
             comp.update()
+        self.screen_wrap()
+
 
     def draw(self, screen):
-        screen.blit(self.image, self.transform.position)
+        if self.get_component(Animator):
+            img_copy = pygame.transform.rotate(self.get_component(Animator).get_current_frame(), self.transform.rotation)
+            screen.blit(img_copy, (self.transform._position.x - int(img_copy.get_width() / 2), self.transform.position.y - int(img_copy.get_height() / 2)))
+        else:
+            screen.blit(self.image, self.transform.position)
+        pass
 
     def add_component(self, component: Component):
         if self.components.__contains__(component):
@@ -41,3 +54,14 @@ class GameObject:
         components_dict = [c.serialize() for c in self.components]
         return {'name': go_name, 'initial_position': {'x': self.initial_position.x, 'y': self.initial_position.y},
                 'image_path': self.image_path, 'components': components_dict}
+
+    def screen_wrap(self):
+        current_pos = self.transform.position
+        if current_pos.x > self.world.width + 50:
+            self.transform._position.x = -50
+        elif current_pos.x < -50:
+            self.transform._position.x = self.world.width + 50
+        elif current_pos.y > self.world.height + 50:
+            self.transform._position.y = -50
+        elif current_pos.y < -50:
+            self.transform._position.y = self.world.height + 50

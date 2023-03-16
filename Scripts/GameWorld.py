@@ -1,13 +1,21 @@
 import pygame
 import os
 import PrefabCreator
+from FontManager.fontmanager import FontManager
+from SoundManager.soundmanager import SoundManager
+import globals
 from DesignPatterns.StatePattern import StateMachine
 from GameObjectCreator import GameObjectFactory, GameObjectBuilder
 from GameStates.SubGameStates import PlayGameState, MenuGameState
+from Scripts.Spawner import Spawner
+from Scripts.animation import Animation
 
 
 class GameWorld:
     def __init__(self, width, height, caption):
+
+        globals.soundManager = SoundManager()
+        globals.soundManager.play_music("menu")
 
         self.menu_game_state = None
         self.play_game_state = None
@@ -21,10 +29,12 @@ class GameWorld:
         self.project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
         self.prefab_base_dir = os.path.join(self.project_dir, "Content", "Prefabs", "Base")
         pygame.init()
+        globals.fontManager = FontManager(os.path.join(self.project_dir, "FontManager", "Fonts", "Arcade.TTF"))
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.screen.fill((0, 0, 0))
         pygame.display.set_caption(self.caption)
         self.InitializeStates()
+
 
     def initialize_player(self):
 
@@ -44,6 +54,10 @@ class GameWorld:
                                             )
 
             GameObjectBuilder.add_player(go=go_player)
+            idle_image_path = os.path.join(self.project_dir, "Content", "Player", "Idle.png")
+            boost_image_path = os.path.join(self.project_dir, "Content", "Player", "Boost.png")
+            animations_list = [Animation("idle", idle_image_path, 1, 1, ), Animation("boost", boost_image_path, 5, .1, )]
+            GameObjectBuilder.add_animator(animations_list, go=go_player)
 
             PrefabCreator.create_prefab_instance(go=go_player, go_name="player", prefab_file_path=player_prefab_dir)
         else:
@@ -51,6 +65,12 @@ class GameWorld:
             go_player = PrefabCreator.load_prefab_instance(file_path=player_prefab_dir, world=self)
 
         self.instantiate_go(go=go_player)
+
+    def initialize_spawner(self):
+        spawner = Spawner
+        spawner.__init__(self)
+
+
 
     def instantiate_go(self, go):
         self.gameobjects.append(go)
@@ -64,7 +84,9 @@ class GameWorld:
         self.stateMachine.currentState.state_transition()
 
     def draw(self):
+
         self.screen.fill((255, 255, 255))
+        globals.fontManager.render_font(f"Score:{globals.score}", (50, 50), self.screen, "black")
         for obj in self.gameobjects:
             obj.draw(self.screen)
         pygame.display.flip()
