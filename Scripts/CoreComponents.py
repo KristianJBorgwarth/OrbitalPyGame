@@ -43,7 +43,16 @@ class Transform(Component):
 
     @property
     def rotation(self):
+        
+        if self._rotation > 360:
+            self._rotation = self._rotation % 360
+        elif self._rotation < -360:
+            self._rotation = -((-self._rotation) % 360)
         return self._rotation
+    
+    @rotation.setter
+    def rotation(self, value):
+        self._rotation = value
 
     @property
     def scale(self):
@@ -56,6 +65,12 @@ class Transform(Component):
         # Update the position
         self._position += offset
 
+        return self._position
+
+    def translate_Vector(self, Vector2):
+        # Update the position
+        self.position += pygame.math.Vector2(Vector2)
+    
         return self._position
 
 

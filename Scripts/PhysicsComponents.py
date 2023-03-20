@@ -46,19 +46,31 @@ class Rigidbody(Component):
         super().update()
 
     def add_force(self, direction, go):
-        # Convert direction to a vector
-        force = pygame.math.Vector2(direction)
-
-        # Apply the force based on the elapsed time
+        # Convert direction to a vector and normalize it
+        force_direction = pygame.math.Vector2(direction).normalize()
+    
+        # Calculate the force based on acceleration and elapsed time
+        force = self.acceleration * self.owner.world.delta_time
+        force.x *= force_direction.x
+        force.y *= force_direction.y
+    
+        # Update the velocity with the force
         self._velocity += force
-        go.transform.translate(*self.velocity * self.owner.world.delta_time)
-    def update_velocity(self, axis, keys, directions, go):
+    
+        # Cap the velocity using the max speed
+        if self._velocity.length() > self.max_speed.length():
+            self._velocity = self._velocity.normalize() * self.max_speed.length()
+    
+        # Translate the game object based on the updated velocity and elapsed time
+        go.transform.translate(*(self.velocity * self.owner.world.delta_time))
+            
+    def update_velocity(self, axis, keys, directions, go, forward_dir):
         # Get the current velocity, acceleration, max speed, and friction for the given axis
         velocity = getattr(self._velocity, axis)
         acceleration = getattr(self.acceleration, axis)
         max_speed = getattr(self.max_speed, axis)
         friction = getattr(self.friction, axis)
-
+    
         # Update the velocity based on user input and acceleration
         if keys[directions[axis]['positive']]:
             velocity = min(velocity + acceleration * self.owner.world.delta_time, max_speed)
@@ -68,9 +80,21 @@ class Rigidbody(Component):
             # Apply friction if no input is given
             friction_force = friction * self.owner.world.delta_time
             velocity = max(0, abs(velocity) - friction_force) * (1 if velocity > 0 else -1)
-
+    
         # Set the updated velocity for the given axis
         setattr(self._velocity, axis, velocity)
-        go.transform.translate(*self.velocity * self.owner.world.delta_time)
+    
+        # Check if the forward direction vector has a length of zero
+        if forward_dir.length() == 0:
+            # If it does, move the game object in the direction of the velocity vector
+            target_dir = self.velocity.normalize()
+        else:
+            # Multiply the velocity vector with the forward direction vector to get the velocity in the forward direction
+            target_dir = forward_dir.normalize() * velocity
+    
+        # Translate the player's position using the target direction and the delta time
+        translation = target_dir * self.owner.world.delta_time
+        
+        go.transform.translate(translation.x, translation.y)
 
 

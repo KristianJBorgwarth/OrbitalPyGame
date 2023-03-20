@@ -39,33 +39,55 @@ class Spawner(Component):
             astroid_image_path = os.path.join(self.world.project_dir, "Content", "Astroid", "astroid_large.png")
 
         # Checks if there is a save file on player. If there is use that instead!
-        if not os.path.exists(astroid_prefab_dir):
-            print("No file found: Creating new small astroid!")
+        # if not os.path.exists(astroid_prefab_dir):
+        #     print("No file found: Creating new small astroid!")
+        # 
+        #     go_astroid = GameObjectFactory.build_base(x=300, y=400, image_path=astroid_image_path, world=self.world)
+        # 
+        #     if type == Enums.AstroidType.small:
+        #         GameObjectBuilder.add_rigidbody(go=go_astroid,
+        #                                         acceleration=(350, 150),
+        #                                         friction=(200, 200),
+        #                                         max_speed=(350, 250)
+        #                                         )
+        # 
+        #         GameObjectBuilder.add_astroid_small(go=go_astroid)
+        #         name = "astroid_small"
+        #     else:
+        #         GameObjectBuilder.add_rigidbody(go=go_astroid,
+        #                                         acceleration=(50, 50),
+        #                                         friction=(200, 200),
+        #                                         max_speed=(50, 50)
+        #                                         )
+        # 
+        #         GameObjectBuilder.add_astroid_small(go=go_astroid)
+        #         name = "astroid_large"
+        # 
+        #     PrefabCreator.create_prefab_instance(go=go_astroid, go_name=name, prefab_file_path=astroid_prefab_dir)
+        # else:
+        #     print("File found: Creating player from file!")
+        #     go_astroid = PrefabCreator.load_prefab_instance(file_path=astroid_prefab_dir, world=self.world)
 
-            go_astroid = GameObjectFactory.build_base(x=300, y=400, image_path=astroid_image_path, world=self.world)
+        from Scripts.GameObject import Layers
+        go_astroid = GameObjectFactory.build_base(x=300, y=400, image_path=astroid_image_path, world=self.world, layer=Layers.FOREGROUND)
 
-            if type == Enums.AstroidType.small:
-                GameObjectBuilder.add_rigidbody(go=go_astroid,
-                                                acceleration=(350, 150),
-                                                friction=(200, 200),
-                                                max_speed=(350, 250)
-                                                )
+        if type == Enums.AstroidType.small:
+            GameObjectBuilder.add_rigidbody(go=go_astroid,
+                                            acceleration=(350, 150),
+                                            friction=(200, 200),
+                                            max_speed=(350, 250)
+                                            )
 
-                GameObjectBuilder.add_astroid_small(go=go_astroid)
-                name = "astroid_small"
-            else:
-                GameObjectBuilder.add_rigidbody(go=go_astroid,
-                                                acceleration=(50, 50),
-                                                friction=(200, 200),
-                                                max_speed=(50, 50)
-                                                )
-
-                GameObjectBuilder.add_astroid_small(go=go_astroid)
-                name = "astroid_large"
-
-            PrefabCreator.create_prefab_instance(go=go_astroid, go_name=name, prefab_file_path=astroid_prefab_dir)
+            GameObjectBuilder.add_astroid_small(go=go_astroid)
+            name = "astroid_small"
         else:
-            print("File found: Creating player from file!")
-            go_astroid = PrefabCreator.load_prefab_instance(file_path=astroid_prefab_dir, world=self.world)
+            GameObjectBuilder.add_rigidbody(go=go_astroid,
+                                            acceleration=(50, 50),
+                                            friction=(200, 200),
+                                            max_speed=(50, 50)
+                                            )
+
+            GameObjectBuilder.add_astroid_small(go=go_astroid)
+            name = "astroid_large"
 
         self.world.instantiate_go(go=go_astroid)

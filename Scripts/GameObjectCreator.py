@@ -1,17 +1,13 @@
-from Scripts.CoreComponents import Transform, Animator
-from Scripts.PhysicsComponents import Rigidbody
-from Scripts.PlayerComponents import Player
+from Scripts.CoreComponents import Animator
 from Scripts.AstroidComponent import Astroid
 from Scripts.GameObject import GameObject
-from Enums import AstroidType
 from Scripts.PhysicsComponents import Rigidbody
-from Scripts.PlayerComponents import Player
-from Scripts.animation import Animation
+from Scripts.Projectile import BaseProjectile
 
 class GameObjectFactory:
     @staticmethod
-    def build_base(x, y, image_path, world) -> GameObject:
-        go = GameObject(x, y, image_path, world)
+    def build_base(x, y, image_path, world, layer) -> GameObject:
+        go = GameObject(x, y, image_path, world, layer=layer)
         return go
 
 
@@ -23,7 +19,8 @@ class GameObjectBuilder:
         return rigidbody
 
     @staticmethod
-    def add_player(go: GameObject) -> Player:
+    def add_player(go: GameObject):
+        from Scripts.PlayerComponents import Player
         player = Player(go)
         go.add_component(player)
         return player
@@ -34,7 +31,12 @@ class GameObjectBuilder:
         go.add_component(animator)
         return animator
 
-
+    
+    @staticmethod
+    def add_base_projectile(go: GameObject, damage, direction, rotation) -> BaseProjectile:
+        projectile = BaseProjectile(owner_go=go, damage=damage, forward_dir=direction, rotation=rotation)
+        go.add_component(projectile)
+        return projectile
 
     # TODO: Add more here
 
