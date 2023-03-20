@@ -18,7 +18,7 @@ class GameState(IState, ABC):
 
     @abstractmethod
     def execute(self):
-        self.delta_time = self.clock.tick(60) / 1000.0
+        self.game_world.delta_time = self.clock.tick(60) / 1000.0
         for go in self.game_world.gameobjects:
             go.update()
 

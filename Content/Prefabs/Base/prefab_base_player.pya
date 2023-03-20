@@ -4,7 +4,7 @@
         "x": 300.0,
         "y": 400.0
     },
-    "image_path": "A:\\GitKraken\\OrbitalPyGame\\Content\\Player\\player.png",
+    "image_path": "C:\\Users\\kjfic\\OneDrive\\Skrivebord\\OrbitalPyGame\\Content\\Player\\player.png",
     "components": [
         {
             "type": "Transform",
@@ -39,6 +39,25 @@
         },
         {
             "type": "Player"
+        },
+        {
+            "type": "Animator",
+            "animations_list": [
+                {
+                    "type": "Animation",
+                    "state": "idle",
+                    "image_path": "C:\\Users\\kjfic\\OneDrive\\Skrivebord\\OrbitalPyGame\\Content\\Player\\Idle.png",
+                    "num_frames": 1,
+                    "frame_duration": 1
+                },
+                {
+                    "type": "Animation",
+                    "state": "boost",
+                    "image_path": "C:\\Users\\kjfic\\OneDrive\\Skrivebord\\OrbitalPyGame\\Content\\Player\\Boost.png",
+                    "num_frames": 5,
+                    "frame_duration": 0.1
+                }
+            ]
         }
     ]
 }

@@ -1,10 +1,11 @@
-﻿import json
+import json
 import pygame
 from GameObject import GameObject
 from Scripts.AstroidComponent import Astroid
-from Scripts.CoreComponents import Transform
+from Scripts.CoreComponents import Transform, Animator
 from Scripts.PhysicsComponents import Rigidbody
 from Scripts.PlayerComponents import Player
+from Scripts.animation import Animation
 
 
 def create_prefab_instance(go: GameObject, go_name, prefab_file_path):
@@ -39,6 +40,10 @@ def load_prefab_instance(world, file_path):
         elif component_type == 'Player':
             player = Player(go)
             go.add_component(player)
+        elif component_type == 'Animator':
+            animator = Animator.deserialize(component_data, go)
+            go.add_component(animator)
+
         elif component_type == 'Astroid':
             astroid = Astroid(go)
             go.add_component(astroid)
