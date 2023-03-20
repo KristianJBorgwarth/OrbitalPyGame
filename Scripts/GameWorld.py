@@ -7,7 +7,7 @@ import globals
 from DesignPatterns.StatePattern import StateMachine
 from GameObjectCreator import GameObjectFactory, GameObjectBuilder
 from GameStates.SubGameStates import PlayGameState, MenuGameState
-from Scripts.Spawner import Spawner
+from Enviroment.Actor.Spawner import Spawner
 from Scripts.animation import Animation
 
 

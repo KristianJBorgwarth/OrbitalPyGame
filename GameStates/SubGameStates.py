@@ -1,8 +1,7 @@
-﻿import os
-import pygame.font
+﻿import pygame.font
 import GameStates.SuperGameStates
 from UI.UIFactory import ButtonFactory, UIProduct, BackGroundFactory, UIBackground
-from Scripts.Spawner import Spawner
+from Enviroment.Actor.Spawner import Spawner
 import globals
 
 

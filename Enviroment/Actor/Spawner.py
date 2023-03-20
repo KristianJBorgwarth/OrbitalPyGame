@@ -12,7 +12,7 @@ class Spawner(Component):
     def __init__(self, world):
         self.world = world
         print("init")
-        self.project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
+        self.project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
         self.initialize_astroid(Enums.AstroidType.large)
         self.initialize_astroid(Enums.AstroidType.small)
 
@@ -33,10 +33,10 @@ class Spawner(Component):
         # Get where the player prefab should be located
         if type == Enums.AstroidType.small:
             astroid_prefab_dir = os.path.join(self.world.prefab_base_dir, "prefab_base_astroid_small.pya")
-            astroid_image_path = os.path.join(self.world.project_dir, "Content", "Astroid", "astroid_small.png")
+            astroid_image_path = os.path.join(self.world.project_dir, "Content", "Actor", "astroid_small.png")
         else:
             astroid_prefab_dir = os.path.join(self.world.prefab_base_dir, "prefab_base_astroid_large.pya")
-            astroid_image_path = os.path.join(self.world.project_dir, "Content", "Astroid", "astroid_large.png")
+            astroid_image_path = os.path.join(self.world.project_dir, "Content", "Actor", "astroid_large.png")
 
         # Checks if there is a save file on player. If there is use that instead!
         if not os.path.exists(astroid_prefab_dir):

@@ -1,12 +1,9 @@
-from Scripts.CoreComponents import Transform, Animator
-from Scripts.PhysicsComponents import Rigidbody
-from Scripts.PlayerComponents import Player
-from Scripts.AstroidComponent import Astroid
+﻿from Scripts.CoreComponents import Animator
+from Enviroment.Actor.AstroidComponent import Astroid
 from Scripts.GameObject import GameObject
-from Enums import AstroidType
 from Scripts.PhysicsComponents import Rigidbody
 from Scripts.PlayerComponents import Player
-from Scripts.animation import Animation
+
 
 class GameObjectFactory:
     @staticmethod

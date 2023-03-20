@@ -26,7 +26,7 @@ class Astroid(Component):
         return d
 
     @classmethod
-    def deserialize(cls, d: dict, owner_go) -> 'Astroid':
+    def deserialize(cls, d: dict, owner_go) -> 'Actor':
         pass
 
     @override
