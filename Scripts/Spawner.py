@@ -11,7 +11,6 @@ class Spawner(Component):
 
     def __init__(self, world):
         self.world = world
-        print("init")
         self.project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
         self.initialize_astroid(Enums.AstroidType.large)
         self.initialize_astroid(Enums.AstroidType.small)
@@ -26,7 +25,6 @@ class Spawner(Component):
     @override
     def update(self):
         super().update()
-        print("test")
 
     def initialize_astroid(self, type):
 
@@ -69,7 +67,7 @@ class Spawner(Component):
         #     go_astroid = PrefabCreator.load_prefab_instance(file_path=astroid_prefab_dir, world=self.world)
 
         from Scripts.GameObject import Layers
-        go_astroid = GameObjectFactory.build_base(x=300, y=400, image_path=astroid_image_path, world=self.world, layer=Layers.FOREGROUND)
+        go_astroid = GameObjectFactory.build_base(x=300, y=400, image_path=astroid_image_path, world=self.world, layer=Layers.FOREGROUND, tag="Asteroid")
 
         if type == Enums.AstroidType.small:
             GameObjectBuilder.add_rigidbody(go=go_astroid,
@@ -89,5 +87,8 @@ class Spawner(Component):
 
             GameObjectBuilder.add_astroid_small(go=go_astroid)
             name = "astroid_large"
+            
+        GameObjectBuilder.add_collision_handler(go_astroid)
+            
 
         self.world.instantiate_go(go=go_astroid)

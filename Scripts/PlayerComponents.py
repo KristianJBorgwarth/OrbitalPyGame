@@ -8,8 +8,6 @@ from Scripts.CoreComponents import Animator
 from Scripts.GameObject import GameObject, Layers
 from Scripts.GameObjectCreator import GameObjectFactory, GameObjectBuilder
 from Scripts.PhysicsComponents import Rigidbody
-from Scripts.animation import Animation
-
 
 class Player(Component):
     def __init__(self, owner_go: GameObject):
@@ -26,7 +24,9 @@ class Player(Component):
             }
 
         self.forward_dir = pygame.math.Vector2(0, 0)
-
+    
+        
+        
     def serialize(self):
         d = super().serialize()
         d.update({
@@ -46,8 +46,6 @@ class Player(Component):
         # Get the forward direction vector based on the player's current rotation
         self.forward_dir = pygame.math.Vector2(1, 0).rotate(-self.owner.transform.rotation)
         # Note the negative sign before go.transform.rotation this is because pygame uses a different coordinate system.
-
-        print(self.forward_dir)
 
         keys = pygame.key.get_pressed()
         # keys_down stores the value of pygames events
@@ -86,12 +84,12 @@ class Player(Component):
         offset = pygame.math.Vector2(25, 0)
         projectile_ejection = self.owner.transform.position + offset
         go_projectile = GameObjectFactory.build_base(x=projectile_ejection.x, y=projectile_ejection.y,
-                                                     image_path=self.projectile_dir, world=self.owner.world, layer=Layers.MIDDLEGROUND)
+                                                     image_path=self.projectile_dir, world=self.owner.world, layer=Layers.MIDDLEGROUND, tag="P_Projectile")
 
         GameObjectBuilder.add_rigidbody(go=go_projectile,
-                                        acceleration=(800, 800),
+                                        acceleration=(750, 750),
                                         friction=(200, 200),
-                                        max_speed=(100, 100)
+                                        max_speed=(1000, 1000)
                                         )
 
         projectile = GameObjectBuilder.add_base_projectile(go=go_projectile, damage=10, direction=self.forward_dir, rotation=self.owner.transform.rotation)

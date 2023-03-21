@@ -13,6 +13,7 @@ class Transform(Component):
         self._position = pygame.math.Vector2(position)
         self._rotation = rotation
         self._scale = pygame.math.Vector2(scale)
+        self._rect = owner_go.image.get_rect(center=position)
 
     def serialize(self):
         d = super().serialize()
@@ -37,19 +38,23 @@ class Transform(Component):
     def position(self):
         return self._position
 
+    @property
+    def rect(self):
+        return self._rect
+
     @position.setter
     def position(self, value):
         self._position = value
 
     @property
     def rotation(self):
-        
+
         if self._rotation > 360:
             self._rotation = self._rotation % 360
         elif self._rotation < -360:
             self._rotation = -((-self._rotation) % 360)
         return self._rotation
-    
+
     @rotation.setter
     def rotation(self, value):
         self._rotation = value
@@ -65,14 +70,8 @@ class Transform(Component):
         # Update the position
         self._position += offset
 
+        self._rect.center = self._position
         return self._position
-
-    def translate_Vector(self, Vector2):
-        # Update the position
-        self.position += pygame.math.Vector2(Vector2)
-    
-        return self._position
-
 
     def rotate_image(self, surf, rotate):
         self._rotation += rotate
@@ -89,8 +88,6 @@ class Animator(Component):
         self.current_frame = 0
         self.frame_timer = 0
         self.start = False
-
-
 
     def update(self):
         if self.current_anim == None:
@@ -136,7 +133,7 @@ class Animator(Component):
         animations_list = []
         for comp_data in d['animations_list']:
             animation = Animation(comp_data['state'], str(comp_data['image_path']), comp_data['num_frames'],
-                                   comp_data['frame_duration'])
+                                  comp_data['frame_duration'])
             animations_list.append(animation)
 
         cls.animations_list = animations_list

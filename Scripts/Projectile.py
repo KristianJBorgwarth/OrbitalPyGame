@@ -1,4 +1,5 @@
 import pygame
+from overrides import override
 
 from DesignPatterns.ComponentPattern import Component
 from Scripts import GameObject
@@ -13,7 +14,6 @@ class BaseProjectile(Component):
         self.transform.rotation = rotation
         self.owner.image = pygame.transform.rotate(self.owner.image, self.transform.rotation)
         
-
     def serialize(self):
         dt = super().serialize()
         dt.update(

@@ -1,5 +1,7 @@
 ﻿from abc import ABC, abstractmethod
 
+import pygame
+
 
 class Component(ABC):
     def __init__(self, owner_go):

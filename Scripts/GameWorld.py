@@ -25,14 +25,14 @@ class GameWorld:
         self.height = height
         self.caption = caption
         self.gameobjects = []
+        self.colliding_gameobjects = []
         self.go_to_remove = []
         self.clock = pygame.time.Clock()
         self.delta_time = None
         self.project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
         self.prefab_base_dir = os.path.join(self.project_dir, "Content", "Prefabs", "Base")
         self.InitializeStates()
-     
-    
+
         pygame.init()
         globals.fontManager = FontManager(os.path.join(self.project_dir, "FontManager", "Fonts", "Arcade.TTF"))
         self.screen = pygame.display.set_mode((self.width, self.height))
@@ -68,14 +68,16 @@ class GameWorld:
         #     go_player = PrefabCreator.load_prefab_instance(file_path=player_prefab_dir, world=self)
 
         player_image_path = os.path.join(self.project_dir, "Content", "Player", "player.png")
-        go_player = GameObjectFactory.build_base(x=300, y=400, image_path=player_image_path, world=self, layer=Layers.FOREGROUND)
-    
+        go_player = GameObjectFactory.build_base(x=600, y=600, image_path=player_image_path, world=self,
+                                                 layer=Layers.FOREGROUND, tag="Player")
+
         GameObjectBuilder.add_rigidbody(go=go_player,
                                         acceleration=(350, 150),
                                         friction=(200, 200),
                                         max_speed=(350, 250)
                                         )
-    
+        
+        GameObjectBuilder.add_collision_handler(go=go_player)
         GameObjectBuilder.add_player(go=go_player)
         idle_image_path = os.path.join(self.project_dir, "Content", "Player", "Idle.png")
         boost_image_path = os.path.join(self.project_dir, "Content", "Player", "Boost.png")
@@ -90,35 +92,61 @@ class GameWorld:
 
     def instantiate_go(self, go):
         self.render_layers[go.layer.value].append(go)
-        # self.gameobjects.append(go)
+        self.gameobjects.append(go)
 
     def destroy_go(self, go):
         self.go_to_remove.append(go)
 
-    def _remove_gos(self):
+    def _clear_removed_objects(self):
         for go in self.go_to_remove:
             if self.render_layers[go.layer.value].__contains__(go):
                 self.render_layers[go.layer.value].remove(go)
+            if self.gameobjects.__contains__(go):
+                self.gameobjects.remove(go)
             self.go_to_remove.remove(go)
 
     def update(self):
         self.delta_time = self.clock.tick(60) / 1000.0
+
+        # Update all game objects
         for layer in self.render_layers:
             for go in layer:
                 go.update()
-        self._remove_gos()
+        
+        # Handle collision between two gameobjects
+        for go1 in self.gameobjects:
+            for go2 in self.gameobjects:
+                if go1.tag != go2.tag:
+                    if go1.transform.rect.colliderect(go2.transform.rect):
+                        if (go1, go2) not in self.colliding_gameobjects:
+                            # Objects have just started colliding
+                            go1.handle_collision(go2, "enter")
+                            go2.handle_collision(go1, "enter")
+                            self.colliding_gameobjects.append((go1, go2))
+                        else:
+                            # Objects are still colliding
+                            go1.handle_collision(go2, "stay")
+                            go2.handle_collision(go1, "stay")
+                    elif (go1, go2) in self.colliding_gameobjects:
+                        # Objects have stopped colliding
+                        go1.handle_collision(go2, "exit")
+                        go2.handle_collision(go1, "exit")
+                        self.colliding_gameobjects.remove((go1, go2))
+
+        # Remove any game objects that have been destroyed
+        self._clear_removed_objects()
 
     def draw(self):
 
         self.screen.fill((255, 255, 255))
         globals.fontManager.render_font(f"Score:{globals.score}", (50, 50), self.screen, "black")
-        
+
         for layer in self.render_layers:
             for go in layer:
                 go.draw(self.screen)
-        
-        # for obj in self.gameobjects:
-        #     obj.draw(self.screen)
+                pygame.draw.rect(surface=self.screen, color=go.collision_color,
+                                 rect=go.transform.rect, width=3)
+
         pygame.display.flip()
 
     def start(self):

@@ -22,7 +22,7 @@ def load_prefab_instance(world, file_path):
         data = json.load(file)
 
     # Create a new GameObject instance using data from the JSON file
-    go = GameObject(data["initial_position"]["x"], data["initial_position"]["y"], data['image_path'], world)
+    go = GameObject(data["initial_position"]["x"], data["initial_position"]["y"], data['image_path'], world, )
 
     # Loop through the components defined in the JSON file
     for component_data in data['components']:
