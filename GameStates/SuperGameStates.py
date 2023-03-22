@@ -38,8 +38,9 @@ class GameState(IState, ABC):
                 from Scripts.GameObject import GameObject
                 if isinstance(go, GameObject):
                     go.draw(screen)
-                    pygame.draw.rect(surface=screen, color=go.collision_color,
-                                     rect=go.transform.rect, width=3)
+                    if go.get_image_rect() is not None:
+                        pygame.draw.rect(surface=screen, color=go.collision_color,
+                                        rect=go.get_image_rect(), width=3)
                 else:
                     go.draw(screen)
 

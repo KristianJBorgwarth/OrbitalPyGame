@@ -1,6 +1,6 @@
 ﻿import pygame.image
 from overrides import override
-
+import globals
 from DesignPatterns.ComponentPattern import Component
 
 
@@ -8,10 +8,17 @@ class Animation(Component):
     def __init__(self, state, image_path, num_frames, frame_duration):
         self.state = state
         self.image_path = image_path
-        self.sprite_sheet = pygame.image.load(image_path)
+        #self.sprite_sheet = pygame.image.load(image_path)
+        self.original_image = pygame.image.load(image_path)
+        self.original_width, self.original_height = self.original_image.get_size()
+
+        self.scaled_width = int(self.original_width * globals.go_size_scale)
+        self.scaled_height = int(self.original_height * globals.go_size_scale)
+        self.sprite_sheet = pygame.transform.scale(self.original_image, (self.scaled_width, self.scaled_height))
         self.num_frames = num_frames
         self.frame_duration = frame_duration
         self.frames = []
+
 
         # Split the spritesheet into frames
         frame_width = self.sprite_sheet.get_width() // self.num_frames
