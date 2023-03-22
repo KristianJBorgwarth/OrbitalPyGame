@@ -1,6 +1,7 @@
 ﻿import os
 import random
 
+import DesignPatterns.CollisionPattern
 import globals
 from enum import Enum
 from DesignPatterns.FactoryPattern import AbstractFactory
@@ -12,6 +13,7 @@ from Scripts.GameObject import GameObject, Layers
 class AstroidType(Enum):
     SmallAstroid = 1
     LargeAstroid = 2
+    SplitAstroid = 3
 
 
 class AstroidFactory(AbstractFactory):
@@ -20,7 +22,7 @@ class AstroidFactory(AbstractFactory):
         self.y = None
         self.ranPoint = None
 
-    def CreateProduct(self, enum: AstroidType, game_world) -> GameObject:
+    def CreateProduct(self, enum: AstroidType, game_world, offset=(0, 0)) -> GameObject:
         from Scripts.GameObjectCreator import GameObjectFactory, GameObjectBuilder
         if enum is AstroidType.SmallAstroid:
             img_path = os.path.join(globals.project_path, "Content", "Astroid", "astroid_small.png")
@@ -54,6 +56,21 @@ class AstroidFactory(AbstractFactory):
                                                        layer=Layers.FOREGROUND, tag="Asteroid_Large")
             GameObjectBuilder.add_astroid_large(asteroid_go)
 
+        if enum is AstroidType.SplitAstroid:
+            img_path = os.path.join(globals.project_path, "Content", "Astroid", "astroid_small.png")
+            img_width = 16
+            img_height = 16
+
+            if offset[0] is not 0 and offset[1] is not 0:
+                self.x = offset[0]
+                self.y = offset[1]
+
+            print(self.x, self.y)
+            asteroid_go = GameObjectFactory.build_base(x=self.x, y=self.y, image_path=img_path, world=game_world,
+                                                       layer=Layers.FOREGROUND, tag="Asteroid_Split")
+
+            GameObjectBuilder.add_astroid_split(asteroid_go)
+            globals.astroidCount += 1
         GameObjectBuilder.add_collision_handler(asteroid_go)
         
         # Add Collision rules here

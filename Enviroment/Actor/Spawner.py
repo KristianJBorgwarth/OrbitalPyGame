@@ -4,6 +4,7 @@ from DesignPatterns.ComponentPattern import Component
 from Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
 import globals
 
+
 class Spawner():
 
     def __init__(self, game_world):
@@ -14,10 +15,9 @@ class Spawner():
 
     def initialize_astroid(self, type):
         self.world.instantiate_go(AstroidFactory().CreateProduct(AstroidType.LargeAstroid, self.world))
-        globals.astroidCount += 1
     def split_astroid(self, type):
         self.world.instantiate_go(AstroidFactory().CreateProduct(AstroidType.SmallAstroid, self.world))
-        globals.astroidCount += 1
+
 
     def update(self):
         self.count += 1

@@ -3,11 +3,13 @@
 from DesignPatterns.ComponentPattern import Component
 
 
+
 class CollisionHandler(Component):
 
     def __init__(self, owner_go):
         super().__init__(owner_go)
         self.collision_rules = []
+
 
     def on_collision_enter(self, other_go):
         if other_go.tag in self.collision_rules:
@@ -48,16 +50,22 @@ class Player_Projectile_CollisionHandler(CollisionHandler):
     def on_collision_enter(self, other_go):
         if super().on_collision_enter(other_go):
             return
+        self.owner.world.destroy_go(self.owner)
 
     def on_collision_exit(self, other_go):
         if super().on_collision_exit(other_go):
             return
-        self.owner.world.destroy_go(self.owner)
+
 
 class Small_Asteroid_CollisionHandler(CollisionHandler):
     def on_collision_enter(self, other_go):
         if super().on_collision_enter(other_go):
             return
+        if other_go.tag == "Player_Projectile":
+            from Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
+            self.owner.world.instantiate_go(AstroidFactory().CreateProduct(AstroidType.SplitAstroid, self.owner.world,
+                                                                           (self.owner.transform.position.x,
+                                                                            self.owner.transform.position.y)))
 
     def on_collision_exit(self, other_go):
         if super().on_collision_exit(other_go):
@@ -68,6 +76,16 @@ class Large_Asteroid_CollisionHandler(CollisionHandler):
     def on_collision_enter(self, other_go):
         if super().on_collision_enter(other_go):
             return
+        print(self.owner.tag)
+        print(other_go.tag)
+        if other_go.tag == "Player_Projectile":
+            from Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
+            self.owner.world.instantiate_go(AstroidFactory().CreateProduct(AstroidType.SplitAstroid, self.owner.world,
+                                                                           (self.owner.transform.position.x, self.owner.transform.position.y)))
+            print("test")
+            self.owner.world.destroy_go(self.owner)
+
+
 
     def on_collision_exit(self, other_go):
         if super().on_collision_exit(other_go):

@@ -1,7 +1,7 @@
 ﻿import random
 from DesignPatterns.ComponentPattern import Component
 from Scripts.GameObject import GameObject
-from pygame.math import Vector2
+
 
 
 class Astroid(Component):
@@ -30,6 +30,8 @@ class Astroid(Component):
 
     def update(self):
         self.owner.transform.translate(self.y//500, self.x//500)
+
+
 
 
 
