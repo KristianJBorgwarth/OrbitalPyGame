@@ -36,9 +36,11 @@ class GameObject:
 
     def draw(self, screen):
         if self.get_component(Animator):
+            if self.get_component(Animator).current_anim is None: return
+            if self.get_component(Animator).get_current_frame() is None: return
             img_copy = pygame.transform.rotate(self.get_component(Animator).get_current_frame(),
                                                self.transform.rotation)
-            screen.blit(img_copy, (self.transform.position.x - int(img_copy.get_width() / 2),
+            screen.blit(img_copy, (self.transform._position.x - int(img_copy.get_width() / 2),
                                    self.transform.position.y - int(img_copy.get_height() / 2)))
         else:
             center_x = self.transform.position.x - int(self.image.get_width() / 2)
@@ -102,6 +104,8 @@ class GameObject:
                 self.world.destroy_go(self)
 
         else:
+
+            coll = self.get_component(CollisionHandler)
             if current_pos.x > self.world.width + 50:
                 self.transform.position.x = -50
             elif current_pos.x < -50:
@@ -110,3 +114,5 @@ class GameObject:
                 self.transform.position.y = -50
             elif current_pos.y < -50:
                 self.transform.position.y = self.world.height + 50
+
+

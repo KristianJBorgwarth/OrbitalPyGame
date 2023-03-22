@@ -84,14 +84,19 @@ class Player(Component):
         offset = pygame.math.Vector2(25, 0)
         projectile_ejection = self.owner.transform.position + offset
         go_projectile = GameObjectFactory.build_base(x=projectile_ejection.x, y=projectile_ejection.y,
-                                                     image_path=self.projectile_dir, world=self.owner.world, layer=Layers.MIDDLEGROUND, tag="P_Projectile")
+                                                     image_path=self.projectile_dir, world=self.owner.world, layer=Layers.MIDDLEGROUND, tag="Player_Projectile")
+
+        GameObjectBuilder.add_collision_handler(go_projectile)
+        go_projectile.add_collision_rule("Player")
+        go_projectile.add_collision_rule("Player_Projectile")
+
 
         GameObjectBuilder.add_rigidbody(go=go_projectile,
-                                        acceleration=(750, 750),
-                                        friction=(200, 200),
-                                        max_speed=(1000, 1000)
-                                        )
-
+                                            acceleration=(750, 750),
+                                            friction=(200, 200),
+                                            max_speed=(1000, 1000)
+                                            )
+    
         projectile = GameObjectBuilder.add_base_projectile(go=go_projectile, damage=10, direction=self.forward_dir, rotation=self.owner.transform.rotation)
         self.owner.world.instantiate_go(go_projectile)
 

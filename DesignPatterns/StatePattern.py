@@ -20,7 +20,8 @@ class StateMachine:
         self.currentState = None
 
     def start_statemachine(self, startingState: IState):
-        startingState.enter()
+        self.currentState = startingState
+        self.currentState.enter()
 
     def change_state(self, newState: IState):
         if newState is self.currentState: return

@@ -1,9 +1,10 @@
 from DesignPatterns.CollisionPattern import CollisionHandler, collision_handler_map
+from Enviroment.Actor.AstroidComponent import Astroid
 from Scripts.CoreComponents import Animator
-from Scripts.AstroidComponent import Astroid
 from Scripts.GameObject import GameObject
 from Scripts.PhysicsComponents import Rigidbody
 from Scripts.Projectile import BaseProjectile
+
 
 class GameObjectFactory:
     @staticmethod
@@ -24,7 +25,7 @@ class GameObjectBuilder:
         from Scripts.PlayerComponents import Player
         player = Player(go)
         go.add_component(player)
-        go.add_collision_rule("P_Projectile")
+        go.add_collision_rule("Player_Projectile")
         return player
 
     @staticmethod
@@ -37,7 +38,7 @@ class GameObjectBuilder:
     @staticmethod
     def add_base_projectile(go: GameObject, damage, direction, rotation) -> BaseProjectile:
         projectile = BaseProjectile(owner_go=go, damage=damage, forward_dir=direction, rotation=rotation)
-        go.add_component(projectile)
+        go.add_component(projectile)    
         return projectile
     
     @staticmethod

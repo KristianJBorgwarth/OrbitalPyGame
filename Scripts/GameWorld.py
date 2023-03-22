@@ -2,41 +2,41 @@ import pygame
 import os
 import PrefabCreator
 from FontManager.fontmanager import FontManager
-from Scripts.GameObject import Layers
+from Scripts.GameObject import Layers, GameObject
 from SoundManager.soundmanager import SoundManager
 import globals
 from DesignPatterns.StatePattern import StateMachine
 from GameObjectCreator import GameObjectFactory, GameObjectBuilder
 from GameStates.SubGameStates import PlayGameState, MenuGameState
-from Scripts.Spawner import Spawner
+from Enviroment.Actor.Spawner import Spawner
 from Scripts.animation import Animation
 
 
 class GameWorld:
-    def __init__(self, width, height, caption):
+    def __init__(self):
         self.render_layers = [[] for _ in range(len(Layers))]
         globals.soundManager = SoundManager()
         globals.soundManager.play_music("menu")
-
         self.menu_game_state = None
         self.play_game_state = None
         self.stateMachine = None
-        self.width = width
-        self.height = height
-        self.caption = caption
+        self.width = 1920
+        self.height = 1080
+        self.caption = "Orbital 2.0"
         self.gameobjects = []
         self.colliding_gameobjects = []
-        self.go_to_remove = []
+        self.gameobjects_to_destroy = []
         self.clock = pygame.time.Clock()
         self.delta_time = None
         self.project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
+        globals.project_path = self.project_dir
         self.prefab_base_dir = os.path.join(self.project_dir, "Content", "Prefabs", "Base")
-        self.InitializeStates()
-
         pygame.init()
         globals.fontManager = FontManager(os.path.join(self.project_dir, "FontManager", "Fonts", "Arcade.TTF"))
         self.screen = pygame.display.set_mode((self.width, self.height))
+        self.screen.fill((0, 0, 0))
         pygame.display.set_caption(self.caption)
+        self.InitializeStates()
 
     def initialize_player(self):
 
@@ -91,61 +91,36 @@ class GameWorld:
         spawner.__init__(self)
 
     def instantiate_go(self, go):
-        self.render_layers[go.layer.value].append(go)
         self.gameobjects.append(go)
+        
+        if isinstance(go, GameObject):
+            self.render_layers[go.layer.value].append(go)
 
     def destroy_go(self, go):
-        self.go_to_remove.append(go)
+        self.gameobjects_to_destroy.append(go)
 
-    def _clear_removed_objects(self):
-        for go in self.go_to_remove:
-            if self.render_layers[go.layer.value].__contains__(go):
-                self.render_layers[go.layer.value].remove(go)
-            if self.gameobjects.__contains__(go):
-                self.gameobjects.remove(go)
-            self.go_to_remove.remove(go)
+    def clear_removed_objects(self):
+        for go in self.gameobjects_to_destroy:
+            if isinstance(go, GameObject):
+                if go in self.gameobjects:
+                    self.gameobjects.remove(go)
+                if go in self.render_layers[go.layer.value]:
+                    self.render_layers[go.layer.value].remove(go)
+            else:
+                if go in self.gameobjects:
+                    self.gameobjects.remove(go)
+            
+            self.gameobjects_to_destroy.remove(go)
 
     def update(self):
         self.delta_time = self.clock.tick(60) / 1000.0
-
-        # Update all game objects
-        for layer in self.render_layers:
-            for go in layer:
-                go.update()
-        
-        # Handle collision between two gameobjects
-        for go1 in self.gameobjects:
-            for go2 in self.gameobjects:
-                if go1.tag != go2.tag:
-                    if go1.transform.rect.colliderect(go2.transform.rect):
-                        if (go1, go2) not in self.colliding_gameobjects:
-                            # Objects have just started colliding
-                            go1.handle_collision(go2, "enter")
-                            go2.handle_collision(go1, "enter")
-                            self.colliding_gameobjects.append((go1, go2))
-                        else:
-                            # Objects are still colliding
-                            go1.handle_collision(go2, "stay")
-                            go2.handle_collision(go1, "stay")
-                    elif (go1, go2) in self.colliding_gameobjects:
-                        # Objects have stopped colliding
-                        go1.handle_collision(go2, "exit")
-                        go2.handle_collision(go1, "exit")
-                        self.colliding_gameobjects.remove((go1, go2))
-
-        # Remove any game objects that have been destroyed
-        self._clear_removed_objects()
+        self.stateMachine.currentState.execute()
+        self.stateMachine.currentState.state_transition()
 
     def draw(self):
-
         self.screen.fill((255, 255, 255))
+        self.stateMachine.currentState.draw(self.screen)
         globals.fontManager.render_font(f"Score:{globals.score}", (50, 50), self.screen, "black")
-
-        for layer in self.render_layers:
-            for go in layer:
-                go.draw(self.screen)
-                pygame.draw.rect(surface=self.screen, color=go.collision_color,
-                                 rect=go.transform.rect, width=3)
 
         pygame.display.flip()
 
@@ -155,7 +130,6 @@ class GameWorld:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-
             self.update()
             self.draw()
 
@@ -165,4 +139,4 @@ class GameWorld:
         self.stateMachine = StateMachine()
         self.play_game_state = PlayGameState(self, self.stateMachine)
         self.menu_game_state = MenuGameState(self, self.stateMachine)
-        self.stateMachine.start_statemachine(self.play_game_state)
+        self.stateMachine.start_statemachine(self.menu_game_state)
