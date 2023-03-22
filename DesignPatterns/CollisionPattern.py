@@ -1,4 +1,4 @@
-﻿import pygame
+import pygame
 
 from DesignPatterns.ComponentPattern import Component
 
