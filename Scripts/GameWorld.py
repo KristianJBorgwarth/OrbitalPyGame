@@ -82,7 +82,6 @@ class GameWorld:
         self.stateMachine.currentState.state_transition()
 
     def draw(self):
-        self.screen.fill((255, 255, 255))
         self.stateMachine.currentState.draw(self.screen)
         pygame.display.flip()
 

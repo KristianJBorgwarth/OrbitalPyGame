@@ -42,15 +42,15 @@ class PlayGameState(GameStates.SuperGameStates.GameState):
 
     def enter(self):
         super().enter()
+        self.game_world.instantiate_go(BackGroundFactory().CreateProduct(UIBackground.EasyDiffBackground, self.game_world))
         self.game_world.initialize_player()
-        self.spawner = Spawner(self.game_world)
+        Spawner(self.game_world)
 
     def execute(self):
         super().execute()
 
     def draw(self, screen):
         super().draw(screen)
-        print("drawing player")
         globals.fontManager.render_font(f"Score:{globals.score}", (50, 50), screen, "black")
 
     def state_transition(self):
@@ -65,16 +65,16 @@ class GameOverState(GameStates.SuperGameStates.GameState):
         super().__init__(world, StateMachine)
 
     def enter(self):
-        pass
+        self.game_world.instantiate_go(BackGroundFactory().CreateProduct(UIBackground.GameOverBackground, self.game_world))
 
     def execute(self):
-        pass
+        super().execute()
 
     def state_transition(self):
-        pass
+        super().state_transition()
 
     def draw(self, screen):
-        pass
+        super().draw(screen)
 
     def exit(self):
-        pass
+        super().exit()

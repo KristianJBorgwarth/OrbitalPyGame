@@ -49,7 +49,7 @@ class UIButton(UIComponent):
             pygame.event.post(self.event)
 
 
-class BackGround(UIComponent):
+class ScrollingBackGround(UIComponent):
     def __init__(self, game_object, image):
         super().__init__(game_object, image)
         self.go.tag = "background"
@@ -67,3 +67,15 @@ class BackGround(UIComponent):
         self.go.position.y += scroll_speed
         if self.go.position.y > self.image.get_height():
             self.go.position.y = 0
+
+
+class UIDecor(UIComponent):
+    def __init__(self, game_object, image):
+        super().__init__(game_object, image)
+        self.go.tag = "background"
+
+    def update(self):
+        pass
+
+    def draw(self, screen):
+        super().draw(screen)

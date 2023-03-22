@@ -2,7 +2,7 @@
 import pygame
 import globals
 from DesignPatterns.FactoryPattern import AbstractFactory
-from UI.UIComponents import UIButton, BackGround
+from UI.UIComponents import UIButton, ScrollingBackGround, UIDecor
 from UI.UIObjects import UIObject
 from enum import Enum
 
@@ -19,6 +19,7 @@ class UIBackground(Enum):
     EasyDiffBackground = 2
     HardDiffBackground = 3
     BossDiffBackground = 4
+    GameOverBackground = 5
 
 
 class ButtonFactory(AbstractFactory):
@@ -55,9 +56,22 @@ class ButtonFactory(AbstractFactory):
 class BackGroundFactory(AbstractFactory):
     def CreateProduct(self, enum: UIBackground, game_world) -> UIObject:
         gw = game_world
+        bg_go = UIObject(gw, 0, 0)
 
         if enum is UIBackground.MenuBackGround:
-            bg_go = UIObject(gw, 0, 0)
             _backGround_b_image = os.path.join(gw.project_dir, "Content", "GUI", "spaceBackGround.png")
-            bg_go.add_component(BackGround(bg_go, _backGround_b_image))
+            bg_go.add_component(ScrollingBackGround(bg_go, _backGround_b_image))
             return bg_go
+        elif enum is UIBackground.EasyDiffBackground:
+            _image = os.path.join(gw.project_dir, "Content", "GUI", "easydiff.jpg")
+            bg_go.add_component(UIDecor(bg_go, _image))
+            return bg_go
+        elif enum is UIBackground.GameOverBackground:
+            _image = os.path.join(gw.project_dir, "Content", "GUI", "overlay_black.png")
+            bg_go.add_component(UIDecor(bg_go, _image))
+            return bg_go
+
+
+class UIDecorFactory(AbstractFactory):
+    def CreateProduct(self, enum, game_world) -> UIObject:
+        pass
