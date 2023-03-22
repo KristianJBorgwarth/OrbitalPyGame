@@ -17,14 +17,19 @@ class Astroid(Component):
         self.y = owner_go.transform.position.y
 
         # set astroid direction based on initial spawn position
-        if self.x < 1920 // 2:
-            self.xdir = 1
+        if owner_go.tag is not "Asteroid_Split":
+            if self.x < 1920 // 2:
+                self.xdir = 1
+            else:
+                self.xdir = -1
+            if self.y < 1080 // 2:
+                self.ydir = 1
+            else:
+                self.ydir = -1
         else:
-            self.xdir = -1
-        if self.y < 1080 // 2:
-            self.ydir = 1
-        else:
-            self.ydir = -1
+            self.xdir = [-1,1][random.randrange(2)]
+            self.ydir = [-1,1][random.randrange(2)]
+
         self.xv = self.xdir * random.randrange(1, 3)
         self.yv = self.ydir * random.randrange(1, 3)
 
