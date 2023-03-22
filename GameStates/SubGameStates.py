@@ -1,8 +1,8 @@
-﻿import os
-import pygame.font
+﻿import pygame.font
 import GameStates.SuperGameStates
 from UI.UIFactory import ButtonFactory, UIProduct, BackGroundFactory, UIBackground
-from Scripts.Spawner import Spawner
+from Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
+from Enviroment.Actor.Spawner import Spawner
 import globals
 
 
@@ -48,10 +48,12 @@ class PlayGameState(GameStates.SuperGameStates.GameState):
 
     def execute(self):
         super().execute()
+        self.spawner.update()
 
     def draw(self, screen):
         super().draw(screen)
         globals.fontManager.render_font(f"Score:{globals.score}", (50, 50), screen, "black")
+        globals.fontManager.render_font(f"Astroids:{globals.astroidCount}", (50, 100), screen, "black")
 
     def state_transition(self):
         pass
