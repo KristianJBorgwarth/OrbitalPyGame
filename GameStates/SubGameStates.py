@@ -1,26 +1,21 @@
-﻿import GameStates.SuperGameStates
-from MenuLogic.Button import Button
-from Enviroment.Backgrounds import MenuBackground
-from MenuLogic.ButtonCommands import StartGameCommand, ExitGameCommand
-from Scripts.Spawner import Spawner
+﻿import pygame.font
+import GameStates.SuperGameStates
+from UI.UIFactory import ButtonFactory, UIProduct, BackGroundFactory, UIBackground
+from Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
+from Enviroment.Actor.Spawner import Spawner
+import globals
 
 
 class MenuGameState(GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
+        pygame.font.init()
 
     def enter(self):
         super().enter()
-        start_game_cmd = StartGameCommand()
-        exit_game_cmd = ExitGameCommand()
-        start_button = Button(725, 350, "Content\GUI\playButton.png", self, "PLAY", start_game_cmd)
-        exit_button = Button(725, 650, "Content\GUI\playButton.png", self, "EXIT", exit_game_cmd)
-        score_button = Button(725, 500, "Content\GUI\playButton.png", self, "HIGHSCORE", exit_game_cmd)
-        back_ground = MenuBackground(0, 0, "Content\GUI\spaceBackground.png", self)
-        self.game_world.instantiate_go(back_ground)
-        self.game_world.instantiate_go(exit_button)
-        self.game_world.instantiate_go(start_button)
-        self.game_world.instantiate_go(score_button)
+        self.game_world.instantiate_go(BackGroundFactory().CreateProduct(UIBackground.MenuBackGround, self.game_world))
+        self.game_world.instantiate_go(ButtonFactory().CreateProduct(UIProduct.StartButton, self.game_world))
+        self.game_world.instantiate_go(ButtonFactory().CreateProduct(UIProduct.ExitButton, self.game_world))
 
     def execute(self):
         super().execute()
@@ -29,7 +24,13 @@ class MenuGameState(GameStates.SuperGameStates.GameState):
         super().draw(screen)
 
     def state_transition(self):
-        pass
+        for event in pygame.event.get():
+            if event.type == globals.start_event:
+                for obj in list(self.game_world.gameobjects):
+                    self.game_world.destroy_go(obj)
+                self.stateMachine.change_state(self.game_world.play_game_state)
+            elif event.type == globals.quit_event:
+                pygame.quit()
 
     def exit(self):
         super().exit()
@@ -46,12 +47,35 @@ class PlayGameState(GameStates.SuperGameStates.GameState):
 
     def execute(self):
         super().execute()
+        self.spawner.update()
 
     def draw(self, screen):
         super().draw(screen)
+        globals.fontManager.render_font(f"Score:{globals.score}", (50, 50), screen, "black")
+        globals.fontManager.render_font(f"Astroids:{globals.astroidCount}", (50, 100), screen, "black")
 
     def state_transition(self):
         pass
 
     def exit(self):
         super().exit()
+
+
+class GameOverState(GameStates.SuperGameStates.GameState):
+    def __init__(self, world, StateMachine):
+        super().__init__(world, StateMachine)
+
+    def enter(self):
+        pass
+
+    def execute(self):
+        pass
+
+    def state_transition(self):
+        pass
+
+    def draw(self, screen):
+        pass
+
+    def exit(self):
+        pass

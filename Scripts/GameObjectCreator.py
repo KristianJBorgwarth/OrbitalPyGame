@@ -1,17 +1,15 @@
-from Scripts.CoreComponents import Transform, Animator
-from Scripts.PhysicsComponents import Rigidbody
-from Scripts.PlayerComponents import Player
-from Scripts.AstroidComponent import Astroid
+from DesignPatterns.CollisionPattern import CollisionHandler, collision_handler_map
+from Enviroment.Actor.AstroidComponent import Astroid
+from Scripts.CoreComponents import Animator
 from Scripts.GameObject import GameObject
-from Enums import AstroidType
 from Scripts.PhysicsComponents import Rigidbody
-from Scripts.PlayerComponents import Player
-from Scripts.animation import Animation
+from Scripts.Projectile import BaseProjectile
+
 
 class GameObjectFactory:
     @staticmethod
-    def build_base(x, y, image_path, world) -> GameObject:
-        go = GameObject(x, y, image_path, world)
+    def build_base(x, y, image_path, world, layer, tag="null") -> GameObject:
+        go = GameObject(x, y, image_path, world, layer=layer, tag=tag)
         return go
 
 
@@ -23,9 +21,11 @@ class GameObjectBuilder:
         return rigidbody
 
     @staticmethod
-    def add_player(go: GameObject) -> Player:
+    def add_player(go: GameObject):
+        from Scripts.PlayerComponents import Player
         player = Player(go)
         go.add_component(player)
+        go.add_collision_rule("Player_Projectile")
         return player
 
     @staticmethod
@@ -34,7 +34,19 @@ class GameObjectBuilder:
         go.add_component(animator)
         return animator
 
-
+    
+    @staticmethod
+    def add_base_projectile(go: GameObject, damage, direction, rotation) -> BaseProjectile:
+        projectile = BaseProjectile(owner_go=go, damage=damage, forward_dir=direction, rotation=rotation)
+        go.add_component(projectile)    
+        return projectile
+    
+    @staticmethod
+    def add_collision_handler(go: GameObject) -> CollisionHandler:
+        collision_handler = collision_handler_map.get(go.tag, CollisionHandler)
+        collision = collision_handler(go)
+        go.add_component(collision)
+        return collision
 
     # TODO: Add more here
 

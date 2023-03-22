@@ -13,7 +13,7 @@ class Animation(Component):
         self.frame_duration = frame_duration
         self.frames = []
 
-        #Split the spritesheet into frames
+        # Split the spritesheet into frames
         frame_width = self.sprite_sheet.get_width() // self.num_frames
         for i in range(self.num_frames):
             frame_rect = pygame.Rect(i * frame_width, 0, frame_width, self.sprite_sheet.get_height())
@@ -22,6 +22,7 @@ class Animation(Component):
 
     def __str__(self):
         return f"{self.state}, {self.image_path}, {self.num_frames}, {self.frame_duration}"
+
     def serialize(self):
         d = super().serialize()
         d.update({
@@ -41,4 +42,3 @@ class Animation(Component):
         num_frames = d["num_frames"]
         frame_duration = d["frame_duration"]
         return cls(owner_go, state, image_path, num_frames, frame_duration)
-
