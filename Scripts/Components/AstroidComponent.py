@@ -1,6 +1,6 @@
 ﻿import random
-from DesignPatterns.ComponentPattern import Component
-from Scripts.GameObject import GameObject
+from Scripts.DesignPatterns.ComponentPattern import Component
+from Scripts.Core.GameObject import GameObject
 from pygame.math import Vector2
 
 

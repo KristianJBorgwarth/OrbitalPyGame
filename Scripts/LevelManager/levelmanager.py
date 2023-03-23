@@ -1,5 +1,4 @@
-﻿# level_manager.py
-import globals
+﻿import globals
 
 
 class LevelManager:

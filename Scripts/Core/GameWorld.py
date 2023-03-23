@@ -1,16 +1,16 @@
 import pygame
 import os
-import PrefabCreator
-from FontManager.fontmanager import FontManager
-from Scripts.GameObject import Layers, GameObject
-from SoundManager.soundmanager import SoundManager
-from LevelManager.levelmanager import LevelManager
+from Scripts.Core import PrefabCreator
+from Scripts.FontManager.fontmanager import FontManager
+from Scripts.Core.GameObject import Layers, GameObject
+from Scripts.SoundManager.soundmanager import SoundManager
+from Scripts.LevelManager.levelmanager import LevelManager
 import globals
-from DesignPatterns.StatePattern import StateMachine
-from GameObjectCreator import GameObjectFactory, GameObjectBuilder
-from GameStates.SubGameStates import PlayGameState, MenuGameState
-from Enviroment.Actor.Spawner import Spawner
-from Scripts.animation import Animation
+from Scripts.DesignPatterns.StatePattern import StateMachine
+from Scripts.Core.GameObjectCreator import GameObjectFactory, GameObjectBuilder
+from Scripts.GameStates.SubGameStates import PlayGameState, MenuGameState
+from Scripts.Enviroment.Actor.Spawner import Spawner
+from Scripts.Components.animation import Animation
 
 
 class GameWorld:
@@ -30,11 +30,12 @@ class GameWorld:
         self.gameobjects_to_destroy = []
         self.clock = pygame.time.Clock()
         self.delta_time = None
-        self.project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
+        self.project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
         globals.project_path = self.project_dir
         self.prefab_base_dir = os.path.join(self.project_dir, "Content", "Prefabs", "Base")
         pygame.init()
-        globals.fontManager = FontManager(os.path.join(self.project_dir, "FontManager", "Fonts", "Arcade.TTF"))
+        globals.fontManager = FontManager(
+            os.path.join(self.project_dir, "Scripts", "FontManager", "Fonts", "Arcade.TTF"))
         self.screen = pygame.display.set_mode((globals.width, globals.height))
         self.screen.fill((0, 0, 0))
         pygame.display.set_caption(self.caption)
@@ -69,6 +70,7 @@ class GameWorld:
         #     print("File found: Creating player from file!")
         #     go_player = PrefabCreator.load_prefab_instance(file_path=player_prefab_dir, world=self)
 
+        print(os.path.join(self.project_dir, "Scripts", "FontManager", "Fonts", "Arcade.TTF"))
         player_image_path = os.path.join(self.project_dir, "Content", "Player", "player.png")
         go_player = GameObjectFactory.build_base(x=600, y=600, image_path=player_image_path, world=self,
                                                  layer=Layers.FOREGROUND, tag="Player")
