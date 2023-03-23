@@ -3,12 +3,14 @@ import GameStates.SuperGameStates
 from UI.UIFactory import ButtonFactory, UIProduct, BackGroundFactory, UIBackground
 from Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
 from Enviroment.Actor.Spawner import Spawner
+from HighscoreManager.highscoremanager import HighScoreManager
 import globals
 
 
 class MenuGameState(GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
+        globals.highscore_manager = HighScoreManager()
         pygame.font.init()
 
     def enter(self):
@@ -48,13 +50,14 @@ class PlayGameState(GameStates.SuperGameStates.GameState):
     def execute(self):
         super().execute()
         self.spawner.update()
+        globals.highscore_manager.update_high_score()
         globals.levelManager.update_level()
 
     def draw(self, screen):
         super().draw(screen)
-        globals.fontManager.render_font(f"Score:{globals.score}", (50, 50), screen, "white")
-        globals.fontManager.render_font(f"Level:{globals.level}", (globals.width - globals.fontManager.get_text_width(f"Level:{globals.score}") + 25, 50), screen, "white")
-        globals.fontManager.render_font(f"Astroids:{globals.astroidCount}", (50, 100), screen, "white")
+        globals.fontManager.render_font(f"Score:{globals.score}", (50, 100), screen, "white")
+        globals.fontManager.render_font(f"Level:{globals.level}", (globals.width - globals.fontManager.get_text_width(f"Level:{globals.score}") - 25, 50), screen, "white")
+        globals.fontManager.render_font(f"High Score:{globals.high_score}", (50, 50), screen, "white")
 
 
     def state_transition(self):
@@ -69,6 +72,9 @@ class GameOverState(GameStates.SuperGameStates.GameState):
         super().__init__(world, StateMachine)
 
     def enter(self):
+        globals.highscore_manager.add_score("Martin")
+        globals.highscore_manager.save_leaderboard()
+        globals.highscore_manager.reset_score()
         pass
 
     def execute(self):
