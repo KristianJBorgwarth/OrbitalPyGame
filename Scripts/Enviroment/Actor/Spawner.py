@@ -1,4 +1,4 @@
-﻿import os
+import os
 from overrides import override
 from Scripts.DesignPatterns.ComponentPattern import Component
 from Scripts.Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType

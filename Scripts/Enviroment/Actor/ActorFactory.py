@@ -1,4 +1,4 @@
-﻿import os
+import os
 import random
 
 import Scripts.DesignPatterns.CollisionPattern

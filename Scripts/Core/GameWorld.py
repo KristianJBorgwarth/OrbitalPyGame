@@ -1,12 +1,13 @@
 import pygame
 import os
-
-from Scripts.Core.GameObjectCreator import GameObjectFactory, GameObjectBuilder
+from Scripts.Core import PrefabCreator
 from Scripts.FontManager.fontmanager import FontManager
 from Scripts.Core.GameObject import Layers, GameObject
 from Scripts.SoundManager.soundmanager import SoundManager
+from Scripts.LevelManager.levelmanager import LevelManager
 import globals
 from Scripts.DesignPatterns.StatePattern import StateMachine
+from Scripts.Core.GameObjectCreator import GameObjectFactory, GameObjectBuilder
 from Scripts.GameStates.SubGameStates import PlayGameState, MenuGameState
 from Scripts.Enviroment.Actor.Spawner import Spawner
 from Scripts.Components.animation import Animation
@@ -17,12 +18,12 @@ class GameWorld:
         self.render_layers = [[] for _ in range(len(Layers))]
         globals.soundManager = SoundManager()
         globals.soundManager.play_music("menu")
+        globals.levelManager = LevelManager()
         self.menu_game_state = None
         self.play_game_state = None
-        self.death_screen_state = None
         self.stateMachine = None
-        self.width = 1920
-        self.height = 1080
+        globals.width = 1920
+        globals.height = 1080
         self.caption = "Orbital 2.0"
         self.gameobjects = []
         self.colliding_gameobjects = []
@@ -33,8 +34,9 @@ class GameWorld:
         globals.project_path = self.project_dir
         self.prefab_base_dir = os.path.join(self.project_dir, "Content", "Prefabs", "Base")
         pygame.init()
-        globals.fontManager = FontManager(os.path.join(self.project_dir, "Scripts", "FontManager", "Fonts", "Arcade.TTF"))
-        self.screen = pygame.display.set_mode((self.width, self.height))
+        globals.fontManager = FontManager(
+            os.path.join(self.project_dir, "Scripts", "FontManager", "Fonts", "Arcade.TTF"))
+        self.screen = pygame.display.set_mode((globals.width, globals.height))
         self.screen.fill((0, 0, 0))
         pygame.display.set_caption(self.caption)
         self.InitializeStates()
@@ -68,6 +70,7 @@ class GameWorld:
         #     print("File found: Creating player from file!")
         #     go_player = PrefabCreator.load_prefab_instance(file_path=player_prefab_dir, world=self)
 
+        print(os.path.join(self.project_dir, "Scripts", "FontManager", "Fonts", "Arcade.TTF"))
         player_image_path = os.path.join(self.project_dir, "Content", "Player", "player.png")
         go_player = GameObjectFactory.build_base(x=600, y=600, image_path=player_image_path, world=self,
                                                  layer=Layers.FOREGROUND, tag="Player")
@@ -77,7 +80,7 @@ class GameWorld:
                                         friction=(200, 200),
                                         max_speed=(350, 250)
                                         )
-        
+
         GameObjectBuilder.add_collision_handler(go=go_player)
         GameObjectBuilder.add_player(go=go_player)
         idle_image_path = os.path.join(self.project_dir, "Content", "Player", "Idle.png")
@@ -93,7 +96,7 @@ class GameWorld:
 
     def instantiate_go(self, go):
         self.gameobjects.append(go)
-        
+
         if isinstance(go, GameObject):
             self.render_layers[go.layer.value].append(go)
 
@@ -110,7 +113,7 @@ class GameWorld:
             else:
                 if go in self.gameobjects:
                     self.gameobjects.remove(go)
-            
+
             self.gameobjects_to_destroy.remove(go)
 
     def update(self):
@@ -119,9 +122,8 @@ class GameWorld:
         self.stateMachine.currentState.state_transition()
 
     def draw(self):
-        self.screen.fill((255, 255, 255))
+        self.screen.fill((0, 0, 0))
         self.stateMachine.currentState.draw(self.screen)
-        globals.fontManager.render_font(f"Score:{globals.score}", (50, 50), self.screen, "black")
 
         pygame.display.flip()
 
@@ -133,7 +135,9 @@ class GameWorld:
                     running = False
             self.update()
             self.draw()
-
+        globals.highscore_manager.add_score("Martin")
+        globals.highscore_manager.save_leaderboard()
+        globals.highscore_manager.reset_score()
         pygame.quit()
 
     def InitializeStates(self):

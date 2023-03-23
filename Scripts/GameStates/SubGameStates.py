@@ -1,7 +1,9 @@
-﻿import pygame.font
+import pygame.font
+
+from Scripts.HighscoreManager.highscoremanager import HighScoreManager
+
 import Scripts.GameStates.SuperGameStates
 from Scripts.UI.UIFactory import ButtonFactory, UIProduct, BackGroundFactory, UIBackground
-from Scripts.Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
 from Scripts.Enviroment.Actor.Spawner import Spawner
 import globals
 
@@ -9,6 +11,7 @@ import globals
 class MenuGameState(Scripts.GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
+        globals.highscore_manager = HighScoreManager()
         pygame.font.init()
 
     def enter(self):
@@ -48,13 +51,15 @@ class PlayGameState(Scripts.GameStates.SuperGameStates.GameState):
     def execute(self):
         super().execute()
         self.spawner.update()
-
+        globals.highscore_manager.update_high_score()
+        globals.levelManager.update_level()
 
     def draw(self, screen):
         super().draw(screen)
-        globals.fontManager.render_font(f"Score:{globals.score}", (50, 50), screen, "black")
-        globals.fontManager.render_font(f"Health:{globals.player_health}", (50, 150), screen, "red")
-
+        globals.fontManager.render_font(f"Score:{globals.score}", (50, 100), screen, "white")
+        globals.fontManager.render_font(f"Level:{globals.level}", (globals.width - globals.fontManager.get_text_width(f"Level:{globals.score}") - 25, 50), screen, "white")
+        globals.fontManager.render_font(f"High Score:{globals.high_score}", (50, 50), screen, "white")
+        
         #stage display
         if globals.score < globals.Stages.one.value:
             globals.fontManager.render_font(f"Stage:{globals.Stages.one.name}", (50, 100), screen, "black")
@@ -64,6 +69,7 @@ class PlayGameState(Scripts.GameStates.SuperGameStates.GameState):
             globals.fontManager.render_font(f"Stage:{globals.Stages.three.name}", (50, 100), screen, "black")
         elif globals.score < globals.Stages.four.value:
             globals.fontManager.render_font(f"Stage:{globals.Stages.four.name}", (50, 100), screen, "black")
+
 
     def state_transition(self):
         pass
@@ -77,6 +83,9 @@ class GameOverState(Scripts.GameStates.SuperGameStates.GameState):
         super().__init__(world, StateMachine)
 
     def enter(self):
+        globals.highscore_manager.add_score("Martin")
+        globals.highscore_manager.save_leaderboard()
+        globals.highscore_manager.reset_score()
         pass
 
     def execute(self):

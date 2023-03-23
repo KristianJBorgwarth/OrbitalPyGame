@@ -1,4 +1,4 @@
-﻿import os
+import os
 import pygame
 from overrides import override
 
@@ -58,21 +58,15 @@ class Player(Component):
                 # check if the key held down is space
                 if k.key == pygame.K_SPACE:
                     # sets key repeating delay , interval before being able to run this again
-                    pygame.key.set_repeat(1, 200)
+                    pygame.key.set_repeat(1, 500)
                     self.ShootProjectile()
-                if keys[pygame.K_UP]:
-                    globals.soundManager.play_sound("engine")
-                    pygame.key.set_repeat(1,500)
-
-
-
 
         anim = self.owner.get_component(Animator).current_anim
         if anim is not None:
             if keys[pygame.K_RIGHT]:
-                self.owner.transform.rotate_image(anim, -5)
+                self.owner.transform.rotate_image(anim, -6)
             if keys[pygame.K_LEFT]:
-                self.owner.transform.rotate_image(anim, 5)
+                self.owner.transform.rotate_image(anim, 6)
 
         if keys[pygame.K_ESCAPE]:
             pygame.event.post(pygame.event.Event(pygame.QUIT))
@@ -98,8 +92,8 @@ class Player(Component):
 
 
         GameObjectBuilder.add_rigidbody(go=go_projectile,
-                                            acceleration=(6500, 6500),
-                                            friction=(0, 0),
+                                            acceleration=(750, 750),
+                                            friction=(200, 200),
                                             max_speed=(1000, 1000)
                                             )
     

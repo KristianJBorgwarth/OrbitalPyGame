@@ -1,4 +1,4 @@
-﻿import random
+import random
 from Scripts.DesignPatterns.ComponentPattern import Component
 from Scripts.Core.GameObject import GameObject
 

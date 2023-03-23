@@ -1,6 +1,6 @@
 import json
 import pygame
-from GameObject import GameObject
+from Scripts.Core import GameObject
 from Scripts.Components.AstroidComponent import Astroid
 from Scripts.Components.CoreComponents import Transform, Animator
 from Scripts.Components.PhysicsComponents import Rigidbody
