@@ -2,8 +2,8 @@
 fontManager = None
 levelManager = None
 
-width = 1920
-height = 1080
+screen_width = 1920
+screen_height = 1080
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)

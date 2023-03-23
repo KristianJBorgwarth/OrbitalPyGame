@@ -1,16 +1,9 @@
 import pygame
-from enum import Enum
-
 from Scripts.DesignPatterns.CollisionPattern import CollisionHandler
 from Scripts.DesignPatterns.ComponentPattern import Component
 from Scripts.Components.CoreComponents import Transform, Animator
 import globals
-
-
-class Layers(Enum):
-    BACKGROUND = 0
-    MIDDLEGROUND = 1
-    FOREGROUND = 2
+from Scripts.Extensions.ExtensionsEnum import Layers
 
 
 class GameObject:
@@ -18,11 +11,11 @@ class GameObject:
         self.initial_position = pygame.math.Vector2(x, y)
         #Image  and Image scaling
         self.image_path = image_path
-        self.original_image = pygame.image.load(image_path)
-        self.original_width, self.original_height = self.original_image.get_size()
-        self.scaled_width = int(self.original_width * globals.go_size_scale)
-        self.scaled_height = int(self.original_height * globals.go_size_scale)
-        self.image = pygame.transform.scale(self.original_image, (self.scaled_width, self.scaled_height))
+        self._original_image = pygame.image.load(image_path)
+        self._original_width, self.original_height = self._original_image.get_size()
+        self._scaled_width = int(self._original_width * globals.go_size_scale)
+        self._scaled_height = int(self.original_height * globals.go_size_scale)
+        self.image = pygame.transform.scale(self._original_image, (self._scaled_width, self._scaled_height))
 
         self.world = world
         self.components = []
@@ -102,11 +95,11 @@ class GameObject:
 
         from Scripts.Components.Projectile import BaseProjectile
         if self.get_component(BaseProjectile) is not None:
-            if current_pos.x > globals.width + 50:
+            if current_pos.x > globals.screen_width + 50:
                 self.world.destroy_go(self)
             elif current_pos.x < -50:
                 self.world.destroy_go(self)
-            elif current_pos.y > globals.height + 50:
+            elif current_pos.y > globals.screen_height + 50:
                 self.world.destroy_go(self)
             elif current_pos.y < -50:
                 self.world.destroy_go(self)
@@ -114,14 +107,14 @@ class GameObject:
         else:
 
             coll = self.get_component(CollisionHandler)
-            if current_pos.x > globals.width + 50:
+            if current_pos.x > globals.screen_width + 50:
                 self.transform.position.x = -50
             elif current_pos.x < -50:
-                self.transform.position.x = globals.width + 50
-            elif current_pos.y > globals.height + 50:
+                self.transform.position.x = globals.screen_width + 50
+            elif current_pos.y > globals.screen_height + 50:
                 self.transform.position.y = -50
             elif current_pos.y < -50:
-                self.transform.position.y = globals.height + 50
+                self.transform.position.y = globals.screen_height + 50
 
     def get_image_rect(self):
         animator = self.get_component(Animator)

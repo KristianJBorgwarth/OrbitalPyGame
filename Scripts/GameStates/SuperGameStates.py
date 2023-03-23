@@ -30,8 +30,8 @@ class GameState(IState, ABC):
 
     @abstractmethod
     def draw(self, screen):
-        for obj in self.game_world.gameobjects:
-            obj.draw(screen)
+        for go in self.game_world.gameobjects:
+            go.draw(screen)
 
         for layer in self.game_world.render_layers:
             for go in layer:

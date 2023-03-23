@@ -22,8 +22,8 @@ class GameWorld:
         self.menu_game_state = None
         self.play_game_state = None
         self.stateMachine = None
-        globals.width = 1920
-        globals.height = 1080
+        globals.screen_width = 1920
+        globals.screen_height = 1080
         self.caption = "Orbital 2.0"
         self.gameobjects = []
         self.colliding_gameobjects = []
@@ -36,7 +36,7 @@ class GameWorld:
         pygame.init()
         globals.fontManager = FontManager(
             os.path.join(self.project_dir, "Scripts", "FontManager", "Fonts", "Arcade.TTF"))
-        self.screen = pygame.display.set_mode((globals.width, globals.height))
+        self.screen = pygame.display.set_mode((globals.screen_width, globals.screen_height))
         self.screen.fill((0, 0, 0))
         pygame.display.set_caption(self.caption)
         self.InitializeStates()

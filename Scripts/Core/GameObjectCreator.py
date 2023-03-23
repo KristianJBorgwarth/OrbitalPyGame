@@ -1,9 +1,11 @@
-from Scripts.DesignPatterns.CollisionPattern import CollisionHandler, collision_handler_map
+from Scripts.Core.GameObject import GameObject
+from Scripts.Components.Enemy import Enemy
 from Scripts.Components.AstroidComponent import Astroid
 from Scripts.Components.CoreComponents import Animator
-from Scripts.Core.GameObject import GameObject
 from Scripts.Components.PhysicsComponents import Rigidbody
 from Scripts.Components.Projectile import BaseProjectile
+from Scripts.Extensions.ExtensionsEnum import EnemyType
+from Scripts.DesignPatterns.CollisionPattern import CollisionHandler, collision_handler_map
 
 
 class GameObjectFactory:
@@ -34,21 +36,11 @@ class GameObjectBuilder:
         go.add_component(animator)
         return animator
 
-    
     @staticmethod
     def add_base_projectile(go: GameObject, damage, direction, rotation) -> BaseProjectile:
         projectile = BaseProjectile(owner_go=go, damage=damage, forward_dir=direction, rotation=rotation)
-        go.add_component(projectile)    
+        go.add_component(projectile)
         return projectile
-    
-    @staticmethod
-    def add_collision_handler(go: GameObject) -> CollisionHandler:
-        collision_handler = collision_handler_map.get(go.tag, CollisionHandler)
-        collision = collision_handler(go)
-        go.add_component(collision)
-        return collision
-
-    # TODO: Add more here
 
     @staticmethod
     def add_astroid_small(go: GameObject) -> Astroid:
@@ -62,5 +54,17 @@ class GameObjectBuilder:
         go.add_component(astroid)
         return astroid
 
+    @staticmethod
+    def add_collision_handler(go: GameObject) -> CollisionHandler:
+        collision_handler = collision_handler_map.get(go.tag, CollisionHandler)
+        collision = collision_handler(go)
+        go.add_component(collision)
+        return collision
+    
+    @staticmethod
+    def add_enemy(go: GameObject) -> Enemy:
+        comp_enemy = Enemy(owner_go=go)
+        go.add_component(comp_enemy)
+        return comp_enemy
 
-# TODO: Add more here
+    # TODO: Add more here
