@@ -60,6 +60,12 @@ class Player(Component):
                     # sets key repeating delay , interval before being able to run this again
                     pygame.key.set_repeat(1, 200)
                     self.ShootProjectile()
+                if keys[pygame.K_UP]:
+                    globals.soundManager.play_sound("engine")
+                    pygame.key.set_repeat(1,500)
+
+
+
 
         anim = self.owner.get_component(Animator).current_anim
         if anim is not None:

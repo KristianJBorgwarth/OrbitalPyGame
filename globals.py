@@ -1,4 +1,6 @@
-﻿soundManager = None
+﻿from enum import Enum
+
+soundManager = None
 fontManager = None
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -13,3 +15,9 @@ quit_event = None
 score = 0
 astroidCount = 0
 player_health = 100
+
+class Stages(Enum):
+    one = 100
+    two = 200
+    three = 300
+    four = 400
