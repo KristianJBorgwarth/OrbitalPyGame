@@ -63,7 +63,7 @@ class PlayGameState(Scripts.GameStates.SuperGameStates.GameState):
         super().draw(screen)
         globals.fontManager.render_font(f"Score:{globals.score}", (50, 100), screen, "white")
         globals.fontManager.render_font(f"Level:{globals.level}", (
-            globals.width - globals.fontManager.get_text_width(f"Level:{globals.score}") - 25, 50), screen, "white")
+            globals.screen_width - globals.fontManager.get_text_width(f"Level:{globals.score}") - 25, 50), screen, "white")
         globals.fontManager.render_font(f"High Score:{globals.high_score}", (50, 50), screen, "white")
 
     def state_transition(self):
@@ -130,7 +130,7 @@ class HighScoreMenuState(Scripts.GameStates.SuperGameStates.GameState):
         for title in globals.highscore_manager.leaderboard:
             score_text = f"{title['tag']}, {title['score']}"
             globals.fontManager.render_font(score_text, (
-                globals.width / 2 - globals.fontManager.get_text_width(score_text),
+                globals.screen_width / 2 - globals.fontManager.get_text_width(score_text),
                 175 + globals.fontManager.get_text_height(score_text) * counter), screen, "white")
             counter += 1
             if counter > 10:
