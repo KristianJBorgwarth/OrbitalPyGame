@@ -26,6 +26,8 @@ score = 0
 level = 1
 astroidCount = 0
 player_health = 100
+level_up_score = 100
+
 
 class Stages(Enum):
     one = 100
