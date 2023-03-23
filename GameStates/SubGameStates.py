@@ -16,6 +16,8 @@ class MenuGameState(GameStates.SuperGameStates.GameState):
         self.game_world.instantiate_go(BackGroundFactory().CreateProduct(UIBackground.MenuBackGround, self.game_world))
         self.game_world.instantiate_go(ButtonFactory().CreateProduct(UIButtonProduct.StartButton, self.game_world))
         self.game_world.instantiate_go(ButtonFactory().CreateProduct(UIButtonProduct.ExitButton, self.game_world))
+        self.game_world.instantiate_go(ButtonFactory().CreateProduct(UIButtonProduct.HighScoreButton, self.game_world))
+        self.game_world.instantiate_go(ButtonFactory().CreateProduct(UIButtonProduct.ControlsButton, self.game_world))
 
     def execute(self):
         super().execute()
@@ -26,15 +28,18 @@ class MenuGameState(GameStates.SuperGameStates.GameState):
     def state_transition(self):
         for event in pygame.event.get():
             if event.type == globals.start_event:
-                for obj in list(self.game_world.gameobjects):
-                    self.game_world.destroy_go(obj)
                 self.stateMachine.change_state(self.game_world.play_game_state)
+            elif event.type == globals.highscore_event:
+                self.stateMachine.change_state(self.game_world.highscore_game_state)
+            elif event.type == globals.controls_event:
+                self.stateMachine.change_state(self.game_world.controls_game_state)
             elif event.type == globals.quit_event:
                 pygame.quit()
 
     def exit(self):
         super().exit()
         pygame.event.clear()
+        self.game_world.destroy_all_go()
 
 
 class PlayGameState(GameStates.SuperGameStates.GameState):
@@ -72,10 +77,11 @@ class GameOverState(GameStates.SuperGameStates.GameState):
         super().__init__(world, StateMachine)
 
     def enter(self):
-        self.game_world.instantiate_go(
-            BackGroundFactory().CreateProduct(UIBackground.GameOverBackground, self.game_world))
+        self.game_world.instantiate_go(BackGroundFactory().CreateProduct(UIBackground.GameOverBackground, self.game_world))
         self.game_world.instantiate_go(ButtonFactory().CreateProduct(UIButtonProduct.PlayAgainButton, self.game_world))
         self.game_world.instantiate_go(ButtonFactory().CreateProduct(UIButtonProduct.BackButton, self.game_world))
+        self.game_world.instantiate_go(UIDecorFactory().CreateProduct(UIDecorProduct.GameOverText, self.game_world))
+        self.game_world.instantiate_go(UIDecorFactory().CreateProduct(UIDecorProduct.HighScoreText, self.game_world))
 
     def execute(self):
         super().execute()
@@ -84,12 +90,8 @@ class GameOverState(GameStates.SuperGameStates.GameState):
         super().state_transition()
         for event in pygame.event.get():
             if event.type == globals.play_again_event:
-                for obj in self.game_world.gameobjects:
-                    self.game_world.destroy_go(obj)
                 self.stateMachine.change_state(self.game_world.play_game_state)
             elif event.type == globals.back_event:
-                for obj in self.game_world.gameobjects:
-                    self.game_world.destroy_go(obj)
                 self.stateMachine.change_state(self.game_world.menu_game_state)
 
     def draw(self, screen):
@@ -97,6 +99,7 @@ class GameOverState(GameStates.SuperGameStates.GameState):
 
     def exit(self):
         super().exit()
+        self.game_world.destroy_all_go()
 
 
 class HighScoreMenuState(GameStates.SuperGameStates.GameState):
@@ -104,19 +107,23 @@ class HighScoreMenuState(GameStates.SuperGameStates.GameState):
         super().__init__(world, StateMachine)
 
     def enter(self):
-        pass
+        self.game_world.instantiate_go(BackGroundFactory().CreateProduct(UIBackground.MenuBackGround, self.game_world))
+        self.game_world.instantiate_go(ButtonFactory().CreateProduct(UIButtonProduct.BackButton, self.game_world))
 
     def execute(self):
-        pass
+        super().execute()
 
     def state_transition(self):
-        pass
+        for event in pygame.event.get():
+            if event.type == globals.back_event:
+                self.stateMachine.change_state(self.game_world.menu_game_state)
 
     def draw(self, screen):
-        pass
+        super().draw(screen)
 
     def exit(self):
-        pass
+        super().exit()
+        self.game_world.destroy_all_go()
 
 
 class ControlMenuState(GameStates.SuperGameStates.GameState):
@@ -124,16 +131,20 @@ class ControlMenuState(GameStates.SuperGameStates.GameState):
         super().__init__(world, StateMachine)
 
     def enter(self):
-        pass
+        self.game_world.instantiate_go(BackGroundFactory().CreateProduct(UIBackground.MenuBackGround, self.game_world))
+        self.game_world.instantiate_go(ButtonFactory().CreateProduct(UIButtonProduct.BackButton, self.game_world))
 
     def execute(self):
-        pass
+        super().execute()
 
     def state_transition(self):
-        pass
+        for event in pygame.event.get():
+            if event.type == globals.back_event:
+                self.stateMachine.change_state(self.game_world.menu_game_state)
 
     def draw(self, screen):
-        pass
+        super().draw(screen)
 
     def exit(self):
-        pass
+        super().exit()
+        self.game_world.destroy_all_go()

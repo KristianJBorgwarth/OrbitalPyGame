@@ -7,7 +7,7 @@ from SoundManager.soundmanager import SoundManager
 import globals
 from DesignPatterns.StatePattern import StateMachine
 from GameObjectCreator import GameObjectFactory, GameObjectBuilder
-from GameStates.SubGameStates import PlayGameState, MenuGameState, GameOverState
+from GameStates.SubGameStates import PlayGameState, MenuGameState, GameOverState, HighScoreMenuState, ControlMenuState
 from Enviroment.Actor.Spawner import Spawner
 from Scripts.animation import Animation
 
@@ -20,6 +20,8 @@ class GameWorld:
         self.menu_game_state = None
         self.play_game_state = None
         self.game_over_game_state = None
+        self.highscore_game_state = None
+        self.controls_game_state = None
         self.stateMachine = None
         self.width = 1920
         self.height = 1080
@@ -100,6 +102,10 @@ class GameWorld:
     def destroy_go(self, go):
         self.gameobjects_to_destroy.append(go)
 
+    def destroy_all_go(self):
+        for obj in self.gameobjects:
+            self.gameobjects_to_destroy.append(obj)
+
     def clear_removed_objects(self):
         for go in self.gameobjects_to_destroy:
             if isinstance(go, GameObject):
@@ -140,4 +146,6 @@ class GameWorld:
         self.play_game_state = PlayGameState(self, self.stateMachine)
         self.menu_game_state = MenuGameState(self, self.stateMachine)
         self.game_over_game_state = GameOverState(self, self.stateMachine)
-        self.stateMachine.start_statemachine(self.game_over_game_state)
+        self.highscore_game_state = HighScoreMenuState(self, self.stateMachine)
+        self.controls_game_state = ControlMenuState(self, self.stateMachine)
+        self.stateMachine.start_statemachine(self.menu_game_state)
