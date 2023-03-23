@@ -1,11 +1,10 @@
 ﻿import os
-from typing import Any
 
 import pygame
 import globals
-from DesignPatterns.FactoryPattern import AbstractFactory
-from UI.UIComponents import UIButton, ScrollingBackGround, UIDecor, TextBox
-from UI.UIObjects import UIObject
+from Scripts.DesignPatterns.FactoryPattern import AbstractFactory
+from Scripts.UI.UIComponents import UIButton, ScrollingBackGround, UIDecor, TextBox
+from Scripts.UI.UIObjects import UIObject
 from enum import Enum
 
 
@@ -142,7 +141,8 @@ class UITextBoxFactory(AbstractFactory):
     def CreateProduct(self, enum, game_world) -> UIObject:
         gw = game_world
         if enum is UITextBoxProduct.HighscoreName:
-            go = UIObject(gw, 600, 450)
-            img = os.path.join(gw.project_dir, "Content", "GUI", "inputbox.png")
-            go.add_component(TextBox(go, img))
+            go = UIObject(gw, 770, 450)
+            img = os.path.join(gw.project_dir, "Content", "GUI", "enter_name_display_1.png")
+            img_h = os.path.join(gw.project_dir, "Content", "GUI", "enter_name_display_selected.png")
+            go.add_component(TextBox(go, img, img_h))
             return go

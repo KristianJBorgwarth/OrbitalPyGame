@@ -1,4 +1,4 @@
-﻿from GameWorld import GameWorld
+﻿from Scripts.Core.GameWorld import GameWorld
 
 
 gw = GameWorld()

@@ -1,13 +1,12 @@
 ﻿import pygame.font
-import GameStates.SuperGameStates
-from UI.UIFactory import ButtonFactory, UIButtonProduct, BackGroundFactory, UIBackground, UIDecorProduct, \
+import Scripts.GameStates.SuperGameStates
+from Scripts.UI.UIFactory import ButtonFactory, UIButtonProduct, BackGroundFactory, UIBackground, UIDecorProduct, \
     UIDecorFactory, UITextBoxFactory, UITextBoxProduct
-from Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
-from Enviroment.Actor.Spawner import Spawner
+from Scripts.Enviroment.Actor.Spawner import Spawner
 import globals
 
 
-class MenuGameState(GameStates.SuperGameStates.GameState):
+class MenuGameState(Scripts.GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
         pygame.font.init()
@@ -27,7 +26,7 @@ class MenuGameState(GameStates.SuperGameStates.GameState):
         super().draw(screen)
 
     def state_transition(self):
-        for event in pygame.event.get():
+        for event in self.game_world.list_of_events:
             if event.type == globals.start_event:
                 self.stateMachine.change_state(self.game_world.play_game_state)
             elif event.type == globals.highscore_event:
@@ -43,7 +42,7 @@ class MenuGameState(GameStates.SuperGameStates.GameState):
         self.game_world.destroy_all_go()
 
 
-class PlayGameState(GameStates.SuperGameStates.GameState):
+class PlayGameState(Scripts.GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
 
@@ -73,7 +72,7 @@ class PlayGameState(GameStates.SuperGameStates.GameState):
         super().exit()
 
 
-class GameOverState(GameStates.SuperGameStates.GameState):
+class GameOverState(Scripts.GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
 
@@ -90,7 +89,7 @@ class GameOverState(GameStates.SuperGameStates.GameState):
 
     def state_transition(self):
         super().state_transition()
-        for event in pygame.event.get():
+        for event in self.game_world.list_of_events:
             if event.type == globals.play_again_event:
                 self.stateMachine.change_state(self.game_world.play_game_state)
             elif event.type == globals.back_event:
@@ -104,7 +103,7 @@ class GameOverState(GameStates.SuperGameStates.GameState):
         self.game_world.destroy_all_go()
 
 
-class HighScoreMenuState(GameStates.SuperGameStates.GameState):
+class HighScoreMenuState(Scripts.GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
 
@@ -116,7 +115,7 @@ class HighScoreMenuState(GameStates.SuperGameStates.GameState):
         super().execute()
 
     def state_transition(self):
-        for event in pygame.event.get():
+        for event in self.game_world.list_of_events:
             if event.type == globals.back_event:
                 self.stateMachine.change_state(self.game_world.menu_game_state)
 
@@ -128,7 +127,7 @@ class HighScoreMenuState(GameStates.SuperGameStates.GameState):
         self.game_world.destroy_all_go()
 
 
-class ControlMenuState(GameStates.SuperGameStates.GameState):
+class ControlMenuState(Scripts.GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
 
@@ -141,7 +140,7 @@ class ControlMenuState(GameStates.SuperGameStates.GameState):
         super().execute()
 
     def state_transition(self):
-        for event in pygame.event.get():
+        for event in self.game_world.list_of_events:
             if event.type == globals.back_event:
                 self.stateMachine.change_state(self.game_world.menu_game_state)
 

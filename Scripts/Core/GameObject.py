@@ -1,9 +1,9 @@
 import pygame
 from enum import Enum
 
-from DesignPatterns.CollisionPattern import CollisionHandler
-from DesignPatterns.ComponentPattern import Component
-from Scripts.CoreComponents import Transform, Animator
+from Scripts.DesignPatterns.CollisionPattern import CollisionHandler
+from Scripts.DesignPatterns.ComponentPattern import Component
+from Scripts.Components.CoreComponents import Transform, Animator
 
 
 class Layers(Enum):
@@ -94,7 +94,7 @@ class GameObject:
 
         # TODO: Move this into Components make it overrideable?
 
-        from Scripts.Projectile import BaseProjectile
+        from Scripts.Components.Projectile import BaseProjectile
         if self.get_component(BaseProjectile) is not None:
             if current_pos.x > self.world.width + 50:
                 self.world.destroy_go(self)

@@ -1,15 +1,14 @@
 import pygame
 import os
-import PrefabCreator
-from FontManager.fontmanager import FontManager
-from Scripts.GameObject import Layers, GameObject
-from SoundManager.soundmanager import SoundManager
+from Scripts.FontManager.fontmanager import FontManager
+from Scripts.Core.GameObject import Layers, GameObject
+from Scripts.SoundManager.soundmanager import SoundManager
 import globals
-from DesignPatterns.StatePattern import StateMachine
-from GameObjectCreator import GameObjectFactory, GameObjectBuilder
-from GameStates.SubGameStates import PlayGameState, MenuGameState, GameOverState, HighScoreMenuState, ControlMenuState
-from Enviroment.Actor.Spawner import Spawner
-from Scripts.animation import Animation
+from Scripts.DesignPatterns.StatePattern import StateMachine
+from Scripts.Core.GameObjectCreator import GameObjectFactory, GameObjectBuilder
+from Scripts.GameStates.SubGameStates import PlayGameState, MenuGameState, GameOverState, HighScoreMenuState, ControlMenuState
+from Scripts.Enviroment.Actor.Spawner import Spawner
+from Scripts.Components.animation import Animation
 
 
 class GameWorld:
@@ -22,6 +21,7 @@ class GameWorld:
         self.game_over_game_state = None
         self.highscore_game_state = None
         self.controls_game_state = None
+        self.list_of_events = None
         self.stateMachine = None
         self.width = 1920
         self.height = 1080
@@ -31,11 +31,11 @@ class GameWorld:
         self.gameobjects_to_destroy = []
         self.clock = pygame.time.Clock()
         self.delta_time = None
-        self.project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
+        self.project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
         globals.project_path = self.project_dir
         self.prefab_base_dir = os.path.join(self.project_dir, "Content", "Prefabs", "Base")
         pygame.init()
-        globals.fontManager = FontManager(os.path.join(self.project_dir, "FontManager", "Fonts", "Arcade.TTF"))
+        globals.fontManager = FontManager(os.path.join(self.project_dir,"Scripts", "FontManager", "Fonts", "Arcade.TTF"))
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.screen.fill((0, 0, 0))
         pygame.display.set_caption(self.caption)
@@ -133,7 +133,8 @@ class GameWorld:
     def start(self):
         running = True
         while running:
-            for event in pygame.event.get():
+            self.list_of_events = pygame.event.get()
+            for event in self.list_of_events:
                 if event.type == pygame.QUIT:
                     running = False
             self.update()

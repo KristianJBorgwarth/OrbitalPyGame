@@ -3,10 +3,8 @@ import random
 
 import globals
 from enum import Enum
-from DesignPatterns.FactoryPattern import AbstractFactory
-from Enviroment.Actor import AstroidComponent
-from Enviroment.Actor.AstroidComponent import Astroid
-from Scripts.GameObject import GameObject, Layers
+from Scripts.DesignPatterns.FactoryPattern import AbstractFactory
+from Scripts.Core.GameObject import GameObject, Layers
 
 
 class AstroidType(Enum):
@@ -21,7 +19,7 @@ class AstroidFactory(AbstractFactory):
         self.ranPoint = None
 
     def CreateProduct(self, enum: AstroidType, game_world) -> GameObject:
-        from Scripts.GameObjectCreator import GameObjectFactory, GameObjectBuilder
+        from Scripts.Core.GameObjectCreator import GameObjectFactory, GameObjectBuilder
         if enum is AstroidType.SmallAstroid:
             img_path = os.path.join(globals.project_path, "Content", "Astroid", "astroid_small.png")
             img_width = 16

@@ -1,7 +1,6 @@
 ﻿import random
-from DesignPatterns.ComponentPattern import Component
-from Scripts.GameObject import GameObject
-from pygame.math import Vector2
+from Scripts.DesignPatterns.ComponentPattern import Component
+from Scripts.Core.GameObject import GameObject
 
 
 class Astroid(Component):
