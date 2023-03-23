@@ -1,4 +1,4 @@
-﻿import pygame.image
+import pygame.image
 from overrides import override
 import globals
 from Scripts.DesignPatterns.ComponentPattern import Component

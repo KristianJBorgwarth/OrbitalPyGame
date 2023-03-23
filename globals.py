@@ -1,6 +1,9 @@
-﻿soundManager = None
+﻿from enum import Enum
+
+soundManager = None
 fontManager = None
 levelManager = None
+highscore_manager = None
 
 screen_width = 1920
 screen_height = 1080
@@ -15,9 +18,17 @@ quit_event = None
 
 
 #Game Object Size
-go_size_scale = 0.5
+go_size_scale = 0.85
 
 #UI font elements
-score = 660000
-level = 0
+high_score = 0
+score = 0
+level = 1
 astroidCount = 0
+player_health = 100
+
+class Stages(Enum):
+    one = 100
+    two = 200
+    three = 300
+    four = 400

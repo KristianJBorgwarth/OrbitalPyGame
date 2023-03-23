@@ -135,7 +135,9 @@ class GameWorld:
                     running = False
             self.update()
             self.draw()
-
+        globals.highscore_manager.add_score("Martin")
+        globals.highscore_manager.save_leaderboard()
+        globals.highscore_manager.reset_score()
         pygame.quit()
 
     def InitializeStates(self):

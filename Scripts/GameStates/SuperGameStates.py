@@ -1,4 +1,4 @@
-﻿from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod
 import pygame.time
 from Scripts.DesignPatterns.StatePattern import IState
 
@@ -53,17 +53,17 @@ class GameState(IState, ABC):
         # Handle collision between two gameobjects
         gameobjects = self.game_world.gameobjects
         num_gameobjects = len(gameobjects)
-    
+
         for i in range(num_gameobjects):
             go1 = gameobjects[i]
             if not isinstance(go1, GameObject):
                 continue
-    
+
             for j in range(i + 1, num_gameobjects):
                 go2 = gameobjects[j]
                 if not isinstance(go2, GameObject):
                     continue
-    
+
                 if go1.transform.rect.colliderect(go2.transform.rect):
                     if (go1, go2) not in self.game_world.colliding_gameobjects:
                         # Objects have just started colliding

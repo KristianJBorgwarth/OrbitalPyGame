@@ -4,7 +4,6 @@ from Scripts.Components.AstroidComponent import Astroid
 from Scripts.Components.CoreComponents import Animator
 from Scripts.Components.PhysicsComponents import Rigidbody
 from Scripts.Components.Projectile import BaseProjectile
-from Scripts.Extensions.ExtensionsEnum import EnemyType
 from Scripts.DesignPatterns.CollisionPattern import CollisionHandler, collision_handler_map
 
 
@@ -68,3 +67,9 @@ class GameObjectBuilder:
         return comp_enemy
 
     # TODO: Add more here
+
+    @staticmethod
+    def add_astroid_split(go: GameObject) -> Astroid:
+        astroid = Astroid(owner_go=go)
+        go.add_component(astroid)
+        return astroid

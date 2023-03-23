@@ -4,8 +4,6 @@ import random
 import pygame
 
 import globals
-from Scripts.Extensions.ExtensionsEnum import Layers
-
 
 class Behaviour:
     def __init__(self, enemy):
@@ -82,6 +80,7 @@ class DefaultAttackBehaviour(Behaviour):
 
         offset = pygame.math.Vector2(0, 75)
         projectile_ejection = self.enemy.owner.transform.position + offset
+        from Scripts.Core.GameObject import Layers
         go_projectile = GameObjectFactory.build_base(x=projectile_ejection.x, y=projectile_ejection.y,
                                                      image_path=img_path, world=self.enemy.owner.world, layer=Layers.MIDDLEGROUND, tag="Enemy_Projectile")
 
@@ -129,6 +128,7 @@ class BossAttackBehaviour(Behaviour):
     
         offset = pygame.math.Vector2(0, 75)
         projectile_ejection = self.enemy.owner.transform.position + offset
+        from Scripts.Core.GameObject import Layers
         go_projectile = GameObjectFactory.build_base(x=projectile_ejection.x, y=projectile_ejection.y,
                                                      image_path=img_path, world=self.enemy.owner.world, layer=Layers.MIDDLEGROUND, tag="Enemy_Projectile")
     

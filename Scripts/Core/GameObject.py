@@ -1,9 +1,15 @@
+from enum import Enum
+
 import pygame
 from Scripts.DesignPatterns.CollisionPattern import CollisionHandler
 from Scripts.DesignPatterns.ComponentPattern import Component
 from Scripts.Components.CoreComponents import Transform, Animator
 import globals
-from Scripts.Extensions.ExtensionsEnum import Layers
+
+class Layers(Enum):
+    BACKGROUND = 0
+    MIDDLEGROUND = 1
+    FOREGROUND = 2
 
 
 class GameObject:
