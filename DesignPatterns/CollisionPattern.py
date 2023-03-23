@@ -118,11 +118,13 @@ class Large_Asteroid_CollisionHandler(CollisionHandler):
         # Large asteroid colliding with large asteroid
         # no points
         if other_go.tag == "Asteroid_Large":
-            self.owner.world.instantiate_go(AstroidFactory()
-                                            .CreateProduct(AstroidType.SplitAstroid,
-                                                            self.owner.world,
-                                                           (self.owner.transform.position.x,
-                                                            self.owner.transform.position.y)))
+            from Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
+            self.owner.world.instantiate_go(AstroidFactory().
+                                            CreateProduct(AstroidType.SplitAstroid,
+                                                          self.owner.world,
+                                                          (self.owner.transform.position.x,
+                                                           self.owner.transform.position.y)))
+            globals.soundManager.play_sound("hit")
             self.owner.world.destroy_go(self.owner)
         # Player colliding with large astroid
         if other_go.tag == "Player":

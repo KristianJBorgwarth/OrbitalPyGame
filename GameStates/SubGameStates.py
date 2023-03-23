@@ -53,9 +53,17 @@ class PlayGameState(GameStates.SuperGameStates.GameState):
     def draw(self, screen):
         super().draw(screen)
         globals.fontManager.render_font(f"Score:{globals.score}", (50, 50), screen, "black")
-        globals.fontManager.render_font(f"Astroids:{globals.astroidCount}", (50, 100), screen, "black")
-        globals.fontManager.render_font(f"Health:{globals.player_health}", (50, 150), screen, "black")
+        globals.fontManager.render_font(f"Health:{globals.player_health}", (50, 150), screen, "red")
 
+        #stage display
+        if globals.score < globals.Stages.one.value:
+            globals.fontManager.render_font(f"Stage:{globals.Stages.one.name}", (50, 100), screen, "black")
+        elif globals.score < globals.Stages.two.value:
+            globals.fontManager.render_font(f"Stage:{globals.Stages.two.name}", (50, 100), screen, "black")
+        elif globals.score < globals.Stages.three.value:
+            globals.fontManager.render_font(f"Stage:{globals.Stages.three.name}", (50, 100), screen, "black")
+        elif globals.score < globals.Stages.four.value:
+            globals.fontManager.render_font(f"Stage:{globals.Stages.four.name}", (50, 100), screen, "black")
 
     def state_transition(self):
         pass
