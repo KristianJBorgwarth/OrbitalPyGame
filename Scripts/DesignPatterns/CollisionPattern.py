@@ -142,6 +142,9 @@ class Enemy_CollisionHandler(CollisionHandler):
             from Scripts.Components.Enemy import Enemy
             enemy = self.owner.get_component(Enemy)
             enemy.on_take_damage()
+        if other_go.tag == "Player":
+            globals.player_health -= 20
+            globals.soundManager.play_sound("explosion")
 
     def on_collision_exit(self, other_go):
         if super().on_collision_exit(other_go):

@@ -54,10 +54,14 @@ class PlayGameState(Scripts.GameStates.SuperGameStates.GameState):
             BackGroundFactory().CreateProduct(UIBackground.EasyDiffBackground, self.game_world))
         self.game_world.initialize_player()
         self.spawner = Spawner(self.game_world)
+        globals.player_health = 100
+        globals.highscore_manager.reset_score
 
     def execute(self):
         super().execute()
         self.spawner.update()
+        globals.highscore_manager.update_high_score()
+        globals.levelManager.update_level()
 
     def draw(self, screen):
         super().draw(screen)
@@ -74,8 +78,7 @@ class PlayGameState(Scripts.GameStates.SuperGameStates.GameState):
             for obj in self.game_world.gameobjects:
                 obj.on_disable()
             self.stateMachine.change_state(self.game_world.game_over_game_state)
-        globals.highscore_manager.update_high_score()
-        globals.levelManager.update_level()
+
 
     def exit(self):
         super().exit()

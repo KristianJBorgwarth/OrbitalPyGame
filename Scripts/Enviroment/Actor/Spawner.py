@@ -14,7 +14,7 @@ class Spawner():
         self.count = 1
         self.initialize_astroid(AstroidType.LargeAstroid)
         self.last_spawn_time = 0
-        self.cooldown_time = 3000  # set the cooldown time in milliseconds
+        self.cooldown_time = 10000  # set the cooldown time in milliseconds
         self.boss_count = 0
 
     def initialize_astroid(self, type):

@@ -2,8 +2,8 @@
 
 
 class LevelManager:
-    def __init__(self, level_up_score=5000):
-        self.level_up_score = level_up_score
+    def __init__(self):
+        self.level_up_score = globals.level_up_score
 
     def update_level(self):
         if globals.score >= self.level_up_score * globals.level:
