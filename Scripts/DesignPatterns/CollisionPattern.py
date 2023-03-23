@@ -142,11 +142,16 @@ class Enemy_CollisionHandler(CollisionHandler):
     def on_collision_enter(self, other_go):
         if super().on_collision_enter(other_go):
             return
+        if other_go.tag == "Player_Projectile":
+            from Scripts.Components.Enemy import Enemy
+            enemy = self.owner.get_component(Enemy)
+            enemy.on_take_damage()
 
     def on_collision_exit(self, other_go):
         if super().on_collision_exit(other_go):
             return
-        
+
+
 class Enemy_Projectile_CollisionHandler(CollisionHandler):
 
     def on_collision_enter(self, other_go):

@@ -11,7 +11,7 @@ class Spawner():
         self.world = game_world
         self.count = 1
         self.initialize_astroid(AstroidType.LargeAstroid)
-        self.spawn_enemy(EnemyType.DEFAULT)
+        self.spawn_enemy(EnemyType.BOSS)
 
     def initialize_astroid(self, type):
         self.world.instantiate_go(AstroidFactory().CreateProduct(AstroidType.LargeAstroid, self.world))
@@ -25,25 +25,24 @@ class Spawner():
     def update(self):
         self.count += 1
         if globals.score < globals.Stages.one.value:
-            print("level one")
+
             if self.count % 300 == 0:
                 self.initialize_astroid(AstroidType.LargeAstroid)
             if self.count % 500 == 0:
                 self.split_astroid(AstroidType.SmallAstroid)
         elif globals.score < globals.Stages.two.value:
-            print("level two")
+
             if self.count % 250 == 0:
                 self.initialize_astroid(AstroidType.LargeAstroid)
             if self.count % 300 == 0:
                 self.split_astroid(AstroidType.SmallAstroid)
         elif globals.score < globals.Stages.three.value:
-            print("level three")
             if self.count % 200 == 0:
                 self.initialize_astroid(AstroidType.LargeAstroid)
             if self.count % 250 == 0:
                 self.split_astroid(AstroidType.SmallAstroid)
         elif globals.score < globals.Stages.four.value:
-            print("level four")
+
             if self.count % 150 == 0:
                 self.initialize_astroid(AstroidType.LargeAstroid)
             if self.count % 200 == 0:
