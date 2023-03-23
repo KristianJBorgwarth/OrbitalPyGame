@@ -1,13 +1,14 @@
 ﻿import pygame.font
-import GameStates.SuperGameStates
-from UI.UIFactory import ButtonFactory, UIProduct, BackGroundFactory, UIBackground
-from Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
-from Enviroment.Actor.Spawner import Spawner
-from HighscoreManager.highscoremanager import HighScoreManager
+
+from Scripts.HighscoreManager.highscoremanager import HighScoreManager
+
+import Scripts.GameStates.SuperGameStates
+from Scripts.UI.UIFactory import ButtonFactory, UIProduct, BackGroundFactory, UIBackground
+from Scripts.Enviroment.Actor.Spawner import Spawner
 import globals
 
 
-class MenuGameState(GameStates.SuperGameStates.GameState):
+class MenuGameState(Scripts.GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
         globals.highscore_manager = HighScoreManager()
@@ -38,7 +39,7 @@ class MenuGameState(GameStates.SuperGameStates.GameState):
         super().exit()
 
 
-class PlayGameState(GameStates.SuperGameStates.GameState):
+class PlayGameState(Scripts.GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
 
@@ -67,7 +68,7 @@ class PlayGameState(GameStates.SuperGameStates.GameState):
         super().exit()
 
 
-class GameOverState(GameStates.SuperGameStates.GameState):
+class GameOverState(Scripts.GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
 

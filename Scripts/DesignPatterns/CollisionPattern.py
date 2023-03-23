@@ -1,6 +1,6 @@
 ﻿import pygame
 
-from DesignPatterns.ComponentPattern import Component
+from Scripts.DesignPatterns.ComponentPattern import Component
 
 
 class CollisionHandler(Component):
