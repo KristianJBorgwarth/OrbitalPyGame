@@ -1,4 +1,4 @@
-﻿from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod
 import pygame.time
 from Scripts.DesignPatterns.StatePattern import IState
 
@@ -38,8 +38,9 @@ class GameState(IState, ABC):
                 from Scripts.Core.GameObject import GameObject
                 if isinstance(go, GameObject):
                     go.draw(screen)
-                    pygame.draw.rect(surface=screen, color=go.collision_color,
-                                     rect=go.transform.rect, width=3)
+                    if go.get_image_rect() is not None:
+                        pygame.draw.rect(surface=screen, color=go.collision_color,
+                                        rect=go.get_image_rect(), width=3)
                 else:
                     go.draw(screen)
 
@@ -50,22 +51,31 @@ class GameState(IState, ABC):
     def _handle_collisions(self):
         from Scripts.Core.GameObject import GameObject
         # Handle collision between two gameobjects
-        for go1 in self.game_world.gameobjects:
-            for go2 in self.game_world.gameobjects:
-                if isinstance(go1, GameObject) and isinstance(go2, GameObject):
-                    if go1 != go2:
-                        if go1.transform.rect.colliderect(go2.transform.rect):
-                            if (go1, go2) not in self.game_world.colliding_gameobjects:
-                                # Objects have just started colliding
-                                go1.handle_collision(go2, "enter")
-                                go2.handle_collision(go1, "enter")
-                                self.game_world.colliding_gameobjects.append((go1, go2))
-                            else:
-                                # Objects are still colliding
-                                go1.handle_collision(go2, "stay")
-                                go2.handle_collision(go1, "stay")
-                        elif (go1, go2) in self.game_world.colliding_gameobjects:
-                            # Objects have stopped colliding
-                            go1.handle_collision(go2, "exit")
-                            go2.handle_collision(go1, "exit")
-                            self.game_world.colliding_gameobjects.remove((go1, go2))
+        gameobjects = self.game_world.gameobjects
+        num_gameobjects = len(gameobjects)
+
+        for i in range(num_gameobjects):
+            go1 = gameobjects[i]
+            if not isinstance(go1, GameObject):
+                continue
+
+            for j in range(i + 1, num_gameobjects):
+                go2 = gameobjects[j]
+                if not isinstance(go2, GameObject):
+                    continue
+
+                if go1.transform.rect.colliderect(go2.transform.rect):
+                    if (go1, go2) not in self.game_world.colliding_gameobjects:
+                        # Objects have just started colliding
+                        go1.handle_collision(go2, "enter")
+                        go2.handle_collision(go1, "enter")
+                        self.game_world.colliding_gameobjects.append((go1, go2))
+                    else:
+                        # Objects are still colliding
+                        go1.handle_collision(go2, "stay")
+                        go2.handle_collision(go1, "stay")
+                elif (go1, go2) in self.game_world.colliding_gameobjects:
+                    # Objects have stopped colliding
+                    go1.handle_collision(go2, "exit")
+                    go2.handle_collision(go1, "exit")
+                    self.game_world.colliding_gameobjects.remove((go1, go2))

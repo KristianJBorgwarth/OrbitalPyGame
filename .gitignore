@@ -153,3 +153,5 @@ cython_debug/
 
 # Custom
 .pya
+
+highscore.json

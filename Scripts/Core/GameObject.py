@@ -4,6 +4,7 @@ from enum import Enum
 from Scripts.DesignPatterns.CollisionPattern import CollisionHandler
 from Scripts.DesignPatterns.ComponentPattern import Component
 from Scripts.Components.CoreComponents import Transform, Animator
+import globals
 
 
 class Layers(Enum):
@@ -15,8 +16,14 @@ class Layers(Enum):
 class GameObject:
     def __init__(self, x, y, image_path, world, layer: Layers, tag):
         self.initial_position = pygame.math.Vector2(x, y)
+        #Image  and Image scaling
         self.image_path = image_path
-        self.image = pygame.image.load(image_path)
+        self.original_image = pygame.image.load(image_path)
+        self.original_width, self.original_height = self.original_image.get_size()
+        self.scaled_width = int(self.original_width * globals.go_size_scale)
+        self.scaled_height = int(self.original_height * globals.go_size_scale)
+        self.image = pygame.transform.scale(self.original_image, (self.scaled_width, self.scaled_height))
+
         self.world = world
         self.components = []
         self.layer = layer
@@ -25,6 +32,7 @@ class GameObject:
         self.tag = tag
         self.collision_color = pygame.Color(255, 0, 0)
         self.isDisabled = False
+        self.image_rect = pygame.Rect(0, 0, 0, 0)
 
     def update(self):
         if self.isDisabled is True: return
@@ -96,11 +104,11 @@ class GameObject:
 
         from Scripts.Components.Projectile import BaseProjectile
         if self.get_component(BaseProjectile) is not None:
-            if current_pos.x > self.world.width + 50:
+            if current_pos.x > globals.width + 50:
                 self.world.destroy_go(self)
             elif current_pos.x < -50:
                 self.world.destroy_go(self)
-            elif current_pos.y > self.world.height + 50:
+            elif current_pos.y > globals.height + 50:
                 self.world.destroy_go(self)
             elif current_pos.y < -50:
                 self.world.destroy_go(self)
@@ -108,17 +116,29 @@ class GameObject:
         else:
 
             coll = self.get_component(CollisionHandler)
-            if current_pos.x > self.world.width + 50:
+            if current_pos.x > globals.width + 50:
                 self.transform.position.x = -50
             elif current_pos.x < -50:
-                self.transform.position.x = self.world.width + 50
-            elif current_pos.y > self.world.height + 50:
+                self.transform.position.x = globals.width + 50
+            elif current_pos.y > globals.height + 50:
                 self.transform.position.y = -50
             elif current_pos.y < -50:
-                self.transform.position.y = self.world.height + 50
+                self.transform.position.y = globals.height + 50
 
     def on_disable(self):
         self.isDisabled = True
 
     def on_enabled(self):
         self.isDisabled = False
+    def get_image_rect(self):
+        animator = self.get_component(Animator)
+
+        if animator is not None:
+            if self.get_component(Animator).current_anim is None: return
+            image = animator.get_current_frame()
+        else:
+            image = self.image
+
+        self.image_rect = image.get_rect(center=self.transform.position)
+
+        return self.image_rect

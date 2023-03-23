@@ -4,11 +4,14 @@ import pygame
 import globals
 from Scripts.DesignPatterns.FactoryPattern import AbstractFactory
 from Scripts.UI.UIComponents import UIButton, ScrollingBackGround, UIDecor, TextBox
+from Scripts.DesignPatterns.FactoryPattern import AbstractFactory
+from Scripts.UI.UIComponents import UIButton, BackGround
 from Scripts.UI.UIObjects import UIObject
 from enum import Enum
 
 
 class UIButtonProduct(Enum):
+class UIProduct(Enum):
     StartButton = 1
     ExitButton = 2
     HighScoreButton = 3

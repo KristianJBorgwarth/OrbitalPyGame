@@ -51,6 +51,7 @@ class UIButton(UIComponent):
 
 
 class ScrollingBackGround(UIComponent):
+class BackGround(UIComponent):
     def __init__(self, game_object, image):
         super().__init__(game_object, image)
         self.go.tag = "background"

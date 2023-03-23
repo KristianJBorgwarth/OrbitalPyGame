@@ -2,6 +2,7 @@
 import Scripts.GameStates.SuperGameStates
 from Scripts.UI.UIFactory import ButtonFactory, UIButtonProduct, BackGroundFactory, UIBackground, UIDecorProduct, \
     UIDecorFactory, UITextBoxFactory, UITextBoxProduct
+from Scripts.HighscoreManager.highscoremanager import HighScoreManager
 from Scripts.Enviroment.Actor.Spawner import Spawner
 import globals
 
@@ -9,6 +10,7 @@ import globals
 class MenuGameState(Scripts.GameStates.SuperGameStates.GameState):
     def __init__(self, world, StateMachine):
         super().__init__(world, StateMachine)
+        globals.highscore_manager = HighScoreManager()
         pygame.font.init()
 
     def enter(self):
@@ -59,14 +61,30 @@ class PlayGameState(Scripts.GameStates.SuperGameStates.GameState):
 
     def draw(self, screen):
         super().draw(screen)
-        globals.fontManager.render_font(f"Score:{globals.score}", (50, 50), screen, "black")
-        globals.fontManager.render_font(f"Astroids:{globals.astroidCount}", (50, 100), screen, "black")
 
     def state_transition(self):
         if globals.player_is_dead is True:
             for obj in self.game_world.gameobjects:
                 obj.on_disable()
             self.stateMachine.change_state(self.game_world.game_over_game_state)
+        globals.highscore_manager.update_high_score()
+        globals.levelManager.update_level()
+
+    def draw(self, screen):
+        super().draw(screen)
+        globals.fontManager.render_font(f"Score:{globals.score}", (50, 100), screen, "white")
+        globals.fontManager.render_font(f"Level:{globals.level}", (globals.width - globals.fontManager.get_text_width(f"Level:{globals.score}") - 25, 50), screen, "white")
+        globals.fontManager.render_font(f"High Score:{globals.high_score}", (50, 50), screen, "white")
+        
+        #stage display
+        if globals.score < globals.Stages.one.value:
+            globals.fontManager.render_font(f"Stage:{globals.Stages.one.name}", (50, 100), screen, "white")
+        elif globals.score < globals.Stages.two.value:
+            globals.fontManager.render_font(f"Stage:{globals.Stages.two.name}", (50, 100), screen, "white")
+        elif globals.score < globals.Stages.three.value:
+            globals.fontManager.render_font(f"Stage:{globals.Stages.three.name}", (50, 100), screen, "white")
+        elif globals.score < globals.Stages.four.value:
+            globals.fontManager.render_font(f"Stage:{globals.Stages.four.name}", (50, 100), screen, "white")
 
     def exit(self):
         super().exit()

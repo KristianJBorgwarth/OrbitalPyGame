@@ -1,4 +1,4 @@
-﻿import os
+import os
 import pygame
 from overrides import override
 import globals
@@ -7,7 +7,6 @@ from Scripts.Components.CoreComponents import Animator
 from Scripts.Core.GameObject import GameObject, Layers
 from Scripts.Core.GameObjectCreator import GameObjectFactory, GameObjectBuilder
 from Scripts.Components.PhysicsComponents import Rigidbody
-
 
 class Player(Component):
     def __init__(self, owner_go: GameObject):

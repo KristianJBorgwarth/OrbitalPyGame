@@ -64,3 +64,9 @@ class GameObjectBuilder:
 
 
 # TODO: Add more here
+
+    @staticmethod
+    def add_astroid_split(go: GameObject) -> Astroid:
+        astroid = Astroid(owner_go=go)
+        go.add_component(astroid)
+        return astroid

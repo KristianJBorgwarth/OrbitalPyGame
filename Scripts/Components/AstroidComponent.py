@@ -1,4 +1,4 @@
-﻿import random
+import random
 from Scripts.DesignPatterns.ComponentPattern import Component
 from Scripts.Core.GameObject import GameObject
 
@@ -15,20 +15,26 @@ class Astroid(Component):
         self.x = owner_go.transform.position.x
         self.y = owner_go.transform.position.y
 
-        # set astroid direction based on initial spawn position
-        if self.x < 1920 // 2:
-            self.xdir = 1
+        if owner_go.tag == "Asteroid_Split":
+            self.xdir = random.choice([-1, 1])
+            self.ydir = random.choice([-1, 1])
         else:
-            self.xdir = -1
-        if self.y < 1080 // 2:
-            self.ydir = 1
-        else:
-            self.ydir = -1
+            # set astroid direction based on initial spawn position
+            if self.x < 1920 // 2:
+                self.xdir = 1
+            else:
+                self.xdir = -1
+            if self.y < 1080 // 2:
+                self.ydir = 1
+            else:
+                self.ydir = -1
         self.xv = self.xdir * random.randrange(1, 3)
         self.yv = self.ydir * random.randrange(1, 3)
 
     def update(self):
-        self.owner.transform.translate(self.y//500, self.x//500)
+        self.owner.transform.translate(self.xv, self.yv)
+
+
 
 
 
