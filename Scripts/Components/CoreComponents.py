@@ -1,8 +1,8 @@
 ﻿import pygame
 from overrides import override
 from Scripts.DesignPatterns.ComponentPattern import Component
-from Scripts.PhysicsComponents import Rigidbody
-from Scripts.animation import Animation
+from Scripts.Components.PhysicsComponents import Rigidbody
+from Scripts.Components.animation import Animation
 
 
 class Transform(Component):

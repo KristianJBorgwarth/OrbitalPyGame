@@ -17,7 +17,6 @@ class SoundManager:
             'hit': pygame.mixer.Sound(os.path.join(self.sound_dir, "hit.ogg")),
             'player_death': pygame.mixer.Sound(os.path.join(self.sound_dir, "death.ogg")),
             'explosion': pygame.mixer.Sound(os.path.join(self.sound_dir, "explosion.ogg")),
-            'engine': pygame.mixer.Sound(os.path.join(self.sound_dir, "engine_sound.ogg")),
 
         }
         self.music = {

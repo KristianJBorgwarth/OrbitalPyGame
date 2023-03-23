@@ -4,10 +4,12 @@ from overrides import override
 
 import globals
 from Scripts.DesignPatterns.ComponentPattern import Component
-from Scripts.CoreComponents import Animator
-from Scripts.GameObject import GameObject, Layers
-from Scripts.GameObjectCreator import GameObjectFactory, GameObjectBuilder
-from Scripts.PhysicsComponents import Rigidbody
+
+from Scripts.Components.CoreComponents import Animator
+from Scripts.Core.GameObject import GameObject, Layers
+from Scripts.Core.GameObjectCreator import GameObjectFactory, GameObjectBuilder
+from Scripts.Components.PhysicsComponents import Rigidbody
+
 
 class Player(Component):
     def __init__(self, owner_go: GameObject):

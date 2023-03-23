@@ -1,10 +1,11 @@
 import json
 import pygame
-from GameObject import GameObject
-from Scripts.Enviroment.Actor.AstroidComponent import Astroid
-from Scripts.CoreComponents import Transform, Animator
-from Scripts.PhysicsComponents import Rigidbody
-from Scripts.PlayerComponents import Player
+
+from Scripts.Core import GameObject
+from Scripts.Components.AstroidComponent import Astroid
+from Scripts.Components.CoreComponents import Transform, Animator
+from Scripts.Components.PhysicsComponents import Rigidbody
+from Scripts.Components.PlayerComponents import Player
 
 
 def create_prefab_instance(go: GameObject, go_name, prefab_file_path):

@@ -2,6 +2,11 @@
 
 soundManager = None
 fontManager = None
+levelManager = None
+highscore_manager = None
+
+width = 1920
+height = 1080
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
@@ -11,10 +16,17 @@ project_path = None
 start_event = None
 quit_event = None
 
+
+#Game Object Size
+go_size_scale = 0.85
+
 #UI font elements
+high_score = 0
 score = 0
+level = 1
 astroidCount = 0
 player_health = 100
+level_up_score=100
 
 class Stages(Enum):
     one = 100

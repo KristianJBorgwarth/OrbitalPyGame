@@ -1,7 +1,9 @@
 import pygame
 
 from Scripts.DesignPatterns.ComponentPattern import Component
-from Scripts import GameObject
+
+from Scripts.Core import GameObject
+
 
 
 class BaseProjectile(Component):
@@ -33,7 +35,7 @@ class BaseProjectile(Component):
         
     
     def move(self, forward_dir):
-        from Scripts.PhysicsComponents import Rigidbody
+        from Scripts.Components.PhysicsComponents import Rigidbody
         rb = self.owner.get_component(Rigidbody)
         rb.add_force((self.forward_dir), self.owner)
     

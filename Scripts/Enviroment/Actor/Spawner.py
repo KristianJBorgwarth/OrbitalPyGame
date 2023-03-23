@@ -17,7 +17,7 @@ class Spawner():
     # updates difficulty/stages based on player score - 4 stages
     def update(self):
         self.count += 1
-        if globals.score < globals.Stages.one.value:
+        if globals.score < globals.level_up_score*globals.level:
             if self.count % 300 == 0:
                 self.initialize_astroid(AstroidType.LargeAstroid)
             if self.count % 500 == 0:
