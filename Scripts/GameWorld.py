@@ -7,7 +7,7 @@ from SoundManager.soundmanager import SoundManager
 import globals
 from DesignPatterns.StatePattern import StateMachine
 from GameObjectCreator import GameObjectFactory, GameObjectBuilder
-from GameStates.SubGameStates import PlayGameState, MenuGameState
+from GameStates.SubGameStates import PlayGameState, MenuGameState, GameOverState
 from Enviroment.Actor.Spawner import Spawner
 from Scripts.animation import Animation
 
@@ -19,6 +19,7 @@ class GameWorld:
         globals.soundManager.play_music("menu")
         self.menu_game_state = None
         self.play_game_state = None
+        self.game_over_game_state = None
         self.stateMachine = None
         self.width = 1920
         self.height = 1080
@@ -138,4 +139,5 @@ class GameWorld:
         self.stateMachine = StateMachine()
         self.play_game_state = PlayGameState(self, self.stateMachine)
         self.menu_game_state = MenuGameState(self, self.stateMachine)
-        self.stateMachine.start_statemachine(self.menu_game_state)
+        self.game_over_game_state = GameOverState(self, self.stateMachine)
+        self.stateMachine.start_statemachine(self.game_over_game_state)

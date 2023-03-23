@@ -7,11 +7,12 @@ from UI.UIObjects import UIObject
 from enum import Enum
 
 
-class UIProduct(Enum):
+class UIButtonProduct(Enum):
     StartButton = 1
     ExitButton = 2
     HighScoreButton = 3
     PlayAgainButton = 4
+    BackButton = 5
 
 
 class UIBackground(Enum):
@@ -22,6 +23,11 @@ class UIBackground(Enum):
     GameOverBackground = 5
 
 
+class UIDecorProduct(Enum):
+    GameOverText = 1
+    HighScoreText = 2
+
+
 class ButtonFactory(AbstractFactory):
 
     def __init__(self):
@@ -29,28 +35,43 @@ class ButtonFactory(AbstractFactory):
         pygame.event.set_allowed(pygame.USEREVENT + 1)
         globals.quit_event = pygame.USEREVENT + 2
         pygame.event.set_allowed(globals.quit_event)
+        globals.play_again_event = pygame.USEREVENT + 3
+        pygame.event.set_allowed(globals.play_again_event)
+        globals.back_event = pygame.USEREVENT + 4
+        pygame.event.set_allowed(globals.back_event)
 
-    def CreateProduct(self, enum: UIProduct, game_world) -> UIObject:
+    def CreateProduct(self, enum: UIButtonProduct, game_world) -> UIObject:
         gw = game_world
-        if enum is UIProduct.StartButton:
+        if enum is UIButtonProduct.StartButton:
             button_go = UIObject(gw, 825, 300)
             start_img_path = os.path.join(globals.project_path, "Content", "GUI", "play.png")
             start_img_path_h = os.path.join(globals.project_path, "Content", "GUI", "play_hover.png")
             button_go.add_component(UIButton(button_go, start_img_path, start_img_path_h, globals.start_event))
             return button_go
 
-        elif enum is UIProduct.ExitButton:
+        elif enum is UIButtonProduct.ExitButton:
             button_go = UIObject(gw, 845, 400)
             exit_b_img_path = os.path.join(globals.project_path, "Content", "GUI", "quit.png")
             exit_b_img_path_h = os.path.join(globals.project_path, "Content", "GUI", "quit_hover.png")
             button_go.add_component(UIButton(button_go, exit_b_img_path, exit_b_img_path_h, globals.quit_event))
             return button_go
 
-        elif enum is UIProduct.HighScoreButton:
+        elif enum is UIButtonProduct.HighScoreButton:
             pass
 
-        elif enum is UIProduct.PlayAgainButton:
-            pass
+        elif enum is UIButtonProduct.PlayAgainButton:
+            button_go = UIObject(gw, 735, 800)
+            play_img = os.path.join(globals.project_path, "Content", "GUI", "play_again.png")
+            play_img_hover = os.path.join(globals.project_path, "Content", "GUI", "play_again_hover.png")
+            button_go.add_component(UIButton(button_go, play_img, play_img_hover, globals.play_again_event))
+            return button_go
+
+        elif enum is UIButtonProduct.BackButton:
+            button_go = UIObject(gw, 850, 900)
+            backb_img = os.path.join(globals.project_path, "Content", "GUI", "back.png")
+            backb_h_img = os.path.join(globals.project_path, "Content", "GUI", "back_hover.png")
+            button_go.add_component(UIButton(button_go, backb_img, backb_h_img, globals.back_event))
+            return button_go
 
 
 class BackGroundFactory(AbstractFactory):
@@ -74,4 +95,6 @@ class BackGroundFactory(AbstractFactory):
 
 class UIDecorFactory(AbstractFactory):
     def CreateProduct(self, enum, game_world) -> UIObject:
-        pass
+        gw = game_world
+        if enum is UIDecorProduct.GameOverText:
+            go = UIObject(gw, 825, 300)
