@@ -57,19 +57,12 @@ class PlayGameState(Scripts.GameStates.SuperGameStates.GameState):
     def draw(self, screen):
         super().draw(screen)
         globals.fontManager.render_font(f"Score:{globals.score}", (50, 100), screen, "white")
-        globals.fontManager.render_font(f"Level:{globals.level}", (globals.width - globals.fontManager.get_text_width(f"Level:{globals.score}") - 25, 50), screen, "white")
+        globals.fontManager.render_font(f"Level:{globals.level}", (
+            globals.screen_width - globals.fontManager.get_text_width(f"Level:{globals.score}") - 25, 50), screen,
+                                        "white")
         globals.fontManager.render_font(f"High Score:{globals.high_score}", (50, 50), screen, "white")
-        
-        #stage display
-        if globals.score < globals.Stages.one.value:
-            globals.fontManager.render_font(f"Stage:{globals.Stages.one.name}", (50, 100), screen, "black")
-        elif globals.score < globals.Stages.two.value:
-            globals.fontManager.render_font(f"Stage:{globals.Stages.two.name}", (50, 100), screen, "black")
-        elif globals.score < globals.Stages.three.value:
-            globals.fontManager.render_font(f"Stage:{globals.Stages.three.name}", (50, 100), screen, "black")
-        elif globals.score < globals.Stages.four.value:
-            globals.fontManager.render_font(f"Stage:{globals.Stages.four.name}", (50, 100), screen, "black")
-
+        globals.fontManager.render_font(f"Health:{globals.player_health}", (
+            50, globals.height - globals.fontManager.get_text_height(f"Level:{globals.score}") - 25), screen, "red")
 
     def state_transition(self):
         pass
