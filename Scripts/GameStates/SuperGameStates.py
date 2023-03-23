@@ -1,6 +1,6 @@
 ﻿from abc import ABC, abstractmethod
 import pygame.time
-from DesignPatterns.StatePattern import IState
+from Scripts.DesignPatterns.StatePattern import IState
 
 
 class GameState(IState, ABC):
@@ -35,7 +35,7 @@ class GameState(IState, ABC):
 
         for layer in self.game_world.render_layers:
             for go in layer:
-                from Scripts.GameObject import GameObject
+                from Scripts.Core.GameObject import GameObject
                 if isinstance(go, GameObject):
                     go.draw(screen)
                     pygame.draw.rect(surface=screen, color=go.collision_color,
@@ -48,7 +48,7 @@ class GameState(IState, ABC):
         pass
 
     def _handle_collisions(self):
-        from Scripts.GameObject import GameObject
+        from Scripts.Core.GameObject import GameObject
         # Handle collision between two gameobjects
         gameobjects = self.game_world.gameobjects
         num_gameobjects = len(gameobjects)

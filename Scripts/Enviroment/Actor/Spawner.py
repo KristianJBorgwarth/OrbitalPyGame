@@ -1,7 +1,7 @@
 ﻿import os
 from overrides import override
-from DesignPatterns.ComponentPattern import Component
-from Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
+from Scripts.DesignPatterns.ComponentPattern import Component
+from Scripts.Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
 import globals
 
 

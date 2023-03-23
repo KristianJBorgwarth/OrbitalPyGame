@@ -1,9 +1,9 @@
-from DesignPatterns.CollisionPattern import CollisionHandler, collision_handler_map
-from Enviroment.Actor.AstroidComponent import Astroid
-from Scripts.CoreComponents import Animator
-from Scripts.GameObject import GameObject
-from Scripts.PhysicsComponents import Rigidbody
-from Scripts.Projectile import BaseProjectile
+from Scripts.DesignPatterns.CollisionPattern import CollisionHandler, collision_handler_map
+from Scripts.Components.AstroidComponent import Astroid
+from Scripts.Components.CoreComponents import Animator
+from Scripts.Core.GameObject import GameObject
+from Scripts.Components.PhysicsComponents import Rigidbody
+from Scripts.Components.Projectile import BaseProjectile
 
 
 class GameObjectFactory:
@@ -22,7 +22,7 @@ class GameObjectBuilder:
 
     @staticmethod
     def add_player(go: GameObject):
-        from Scripts.PlayerComponents import Player
+        from Scripts.Components.PlayerComponents import Player
         player = Player(go)
         go.add_component(player)
         go.add_collision_rule("Player_Projectile")

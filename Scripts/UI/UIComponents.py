@@ -1,7 +1,7 @@
 ﻿import pygame.image
 from overrides import overrides, override
 
-from DesignPatterns.ComponentPattern import Component
+from Scripts.DesignPatterns.ComponentPattern import Component
 
 
 class UIComponent(Component):

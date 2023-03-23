@@ -1,7 +1,7 @@
 import pygame
 
 import globals
-from DesignPatterns.ComponentPattern import Component
+from Scripts.DesignPatterns.ComponentPattern import Component
 
 
 class CollisionHandler(Component):
@@ -105,7 +105,7 @@ class Large_Asteroid_CollisionHandler(CollisionHandler):
         # player projectile colliding with large asteroid
         # 10 points
         if other_go.tag == "Player_Projectile":
-            from Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
+            from Scripts.Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
             globals.soundManager.play_sound("hit")
             globals.score += 10
             for i in range(3):
@@ -118,7 +118,7 @@ class Large_Asteroid_CollisionHandler(CollisionHandler):
         # Large asteroid colliding with large asteroid
         # no points
         if other_go.tag == "Asteroid_Large":
-            from Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
+            from Scripts.Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
             self.owner.world.instantiate_go(AstroidFactory().
                                             CreateProduct(AstroidType.SplitAstroid,
                                                           self.owner.world,
