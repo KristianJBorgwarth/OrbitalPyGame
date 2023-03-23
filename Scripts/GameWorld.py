@@ -19,6 +19,7 @@ class GameWorld:
         globals.soundManager.play_music("menu")
         self.menu_game_state = None
         self.play_game_state = None
+        self.death_screen_state = None
         self.stateMachine = None
         self.width = 1920
         self.height = 1080

@@ -49,10 +49,13 @@ class PlayGameState(GameStates.SuperGameStates.GameState):
         super().execute()
         self.spawner.update()
 
+
     def draw(self, screen):
         super().draw(screen)
         globals.fontManager.render_font(f"Score:{globals.score}", (50, 50), screen, "black")
         globals.fontManager.render_font(f"Astroids:{globals.astroidCount}", (50, 100), screen, "black")
+        globals.fontManager.render_font(f"Health:{globals.player_health}", (50, 150), screen, "black")
+
 
     def state_transition(self):
         pass

@@ -14,9 +14,9 @@ class SoundManager:
         self.sounds = {
             #'move': pygame.mixer.Sound('Sounds/Sound/'),
             'shoot': pygame.mixer.Sound(os.path.join(self.sound_dir, "laser.ogg")),
-            'take_damage': pygame.mixer.Sound(os.path.join(self.sound_dir, "hit.ogg")),
+            'hit': pygame.mixer.Sound(os.path.join(self.sound_dir, "hit.ogg")),
             'player_death': pygame.mixer.Sound(os.path.join(self.sound_dir, "death.ogg")),
-            'enemy_death': pygame.mixer.Sound(os.path.join(self.sound_dir, "explosion.ogg")),
+            'explosion': pygame.mixer.Sound(os.path.join(self.sound_dir, "explosion.ogg")),
         }
         self.music = {
             'menu': pygame.mixer.Sound(os.path.join(self.music_dir, "bg_music.ogg")),

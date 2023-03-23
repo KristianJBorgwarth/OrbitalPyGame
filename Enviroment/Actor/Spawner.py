@@ -21,9 +21,19 @@ class Spawner():
 
     def update(self):
         self.count += 1
-        if self.count % 300 == 0:
-            self.initialize_astroid(AstroidType.LargeAstroid)
-
-        if self.count % 500 == 0:
-            self.split_astroid(AstroidType.SmallAstroid)
+        if globals.score < 100:
+            if self.count % 300 == 0:
+                self.initialize_astroid(AstroidType.LargeAstroid)
+            if self.count % 500 == 0:
+                self.split_astroid(AstroidType.SmallAstroid)
+        elif globals.score < 200:
+            if self.count % 150 == 0:
+                self.initialize_astroid(AstroidType.LargeAstroid)
+            if self.count % 250 == 0:
+                self.split_astroid(AstroidType.SmallAstroid)
+        elif globals.score < 300:
+            if self.count % 75 == 0:
+                self.initialize_astroid(AstroidType.LargeAstroid)
+            if self.count % 125 == 0:
+                self.split_astroid(AstroidType.SmallAstroid)
 

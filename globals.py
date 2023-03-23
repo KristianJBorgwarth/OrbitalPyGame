@@ -12,3 +12,4 @@ quit_event = None
 #UI font elements
 score = 0
 astroidCount = 0
+player_health = 100
