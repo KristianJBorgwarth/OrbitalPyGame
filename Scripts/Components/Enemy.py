@@ -1,5 +1,7 @@
 ﻿import pygame
 from typing import Any
+
+import globals
 from Scripts.DesignPatterns.ComponentPattern import Component
 from Scripts.DesignPatterns.BehaviourPattern import Behaviour
 
@@ -34,4 +36,5 @@ class Enemy(Component):
     def on_take_damage(self):
         self.health -= 1
         if self.health <= 0:
+            globals.score += 30
             self.owner.world.destroy_go(self.owner)
