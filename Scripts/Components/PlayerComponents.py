@@ -8,6 +8,7 @@ from Scripts.Core.GameObject import GameObject, Layers
 from Scripts.Core.GameObjectCreator import GameObjectFactory, GameObjectBuilder
 from Scripts.Components.PhysicsComponents import Rigidbody
 
+
 class Player(Component):
     def __init__(self, owner_go: GameObject):
         super().__init__(owner_go)
@@ -15,7 +16,6 @@ class Player(Component):
         self.owner = owner_go
         self.rigidbody = self.owner.get_component(Rigidbody)
         self.projectile_dir = os.path.join(self.owner.world.project_dir, "Content", "Weaponry", "laser.png")
-        self.health = 0
         self.posted = True
         self.directions = \
             {
@@ -40,7 +40,6 @@ class Player(Component):
     @override
     def update(self):
         super().update()
-        self.OnDeathEvent()
         # Get the forward direction vector based on the player's current rotation
         self.forward_dir = pygame.math.Vector2(1, 0).rotate(-self.owner.transform.rotation)
         # Note the negative sign before go.transform.rotation this is because pygame uses a different coordinate system.
@@ -100,9 +99,3 @@ class Player(Component):
         self.owner.world.instantiate_go(go_projectile)
 
         projectile.move(self.forward_dir)
-
-    # for kean my beautiful friend. call this when the player dies
-    def OnDeathEvent(self):
-        if self.health <= 0 and self.posted == True:
-            #DO DEATH EVENT STUFF HERE. CLEANUP. WHAT NOT FOR PLAYER
-            globals.player_is_dead = True

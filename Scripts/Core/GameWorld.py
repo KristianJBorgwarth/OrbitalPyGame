@@ -8,7 +8,8 @@ from Scripts.LevelManager.levelmanager import LevelManager
 import globals
 from Scripts.DesignPatterns.StatePattern import StateMachine
 from Scripts.Core.GameObjectCreator import GameObjectFactory, GameObjectBuilder
-from Scripts.GameStates.SubGameStates import PlayGameState, MenuGameState
+from Scripts.GameStates.SubGameStates import PlayGameState, MenuGameState, HighScoreMenuState, GameOverState, \
+    ControlMenuState
 from Scripts.Enviroment.Actor.Spawner import Spawner
 from Scripts.Components.animation import Animation
 
@@ -143,9 +144,6 @@ class GameWorld:
                     running = False
             self.update()
             self.draw()
-        globals.highscore_manager.add_score("Martin")
-        globals.highscore_manager.save_leaderboard()
-        globals.highscore_manager.reset_score()
         pygame.quit()
 
     def InitializeStates(self):
@@ -155,4 +153,4 @@ class GameWorld:
         self.game_over_game_state = GameOverState(self, self.stateMachine)
         self.highscore_game_state = HighScoreMenuState(self, self.stateMachine)
         self.controls_game_state = ControlMenuState(self, self.stateMachine)
-        self.stateMachine.start_statemachine(self.game_over_game_state)
+        self.stateMachine.start_statemachine(self.menu_game_state)

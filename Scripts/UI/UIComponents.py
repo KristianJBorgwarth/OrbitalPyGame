@@ -51,6 +51,25 @@ class UIButton(UIComponent):
 
 
 class ScrollingBackGround(UIComponent):
+    def init(self, game_object, image):
+        super().init(game_object, image)
+        self.go.tag = "background"
+
+    def update(self):
+        self.scroll_backGround()
+
+    @overrides
+    def draw(self, screen):
+        screen.blit(self.image, self.go.position)
+        screen.blit(self.image, (self.go.position.x, self.go.position.y - self.image.get_height()))
+
+    def scroll_backGround(self):
+        scroll_speed = 5
+        self.go.position.y += scroll_speed
+        if self.go.position.y > self.image.get_height():
+            self.go.position.y = 0
+
+
 class BackGround(UIComponent):
     def __init__(self, game_object, image):
         super().__init__(game_object, image)
@@ -122,7 +141,12 @@ class TextBox(UIComponent):
                 if event.key == pygame.K_BACKSPACE:
                     self.text = self.text[:-1]
                 elif event.key == pygame.K_RETURN:
-                    self.on_deselect() # MAYBE ADD IT TO THE HIGHSCORE HERE AND SWITCH SOME BOOL SO WE ONLY ADD ONCE
+                    if globals.can_save_score is False: return
+                    globals.highscore_manager.add_score(self.text)
+                    globals.highscore_manager.save_leaderboard()
+                    globals.can_save_score = True
+                    pygame.time.delay(200)
+                    self.on_deselect()
                 elif len(self.text) <= 12:
                     self.text += event.unicode
                     print(self.text)

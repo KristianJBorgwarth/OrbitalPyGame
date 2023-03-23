@@ -2,6 +2,7 @@
 import globals
 import json
 
+
 class HighScoreManager:
     def __init__(self, file_name="highscore.json"):
         self.file_name = file_name
@@ -35,7 +36,6 @@ class HighScoreManager:
         new_entry = {"tag": player_tag, "score": globals.score}
         self.leaderboard.append(new_entry)
         self.leaderboard.sort(key=lambda x: x["score"], reverse=True)
-
 
     def load_leaderboard(self):
         with open(self.file_name, "r") as file:

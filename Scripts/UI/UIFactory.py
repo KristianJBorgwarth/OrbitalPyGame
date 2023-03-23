@@ -11,6 +11,14 @@ from enum import Enum
 
 
 class UIButtonProduct(Enum):
+    StartButton = 1
+    ExitButton = 2
+    PlayAgainButton = 3
+    BackButton = 4
+    HighScoreButton = 5
+    ControlsButton = 6
+
+
 class UIProduct(Enum):
     StartButton = 1
     ExitButton = 2
@@ -30,8 +38,9 @@ class UIBackground(Enum):
 
 class UIDecorProduct(Enum):
     GameOverText = 1
-    HighScoreText = 2
+    ScoreText = 2
     ControlsText = 3
+    HighScoreText = 4
 
 
 class UITextBoxProduct(Enum):
@@ -127,7 +136,7 @@ class UIDecorFactory(AbstractFactory):
             go.add_component(UIDecor(go, gameover_img))
             return go
 
-        elif enum is UIDecorProduct.HighScoreText:
+        elif enum is UIDecorProduct.ScoreText:
             go = UIObject(gw, 490, 250)
             score_img = os.path.join(gw.project_dir, "Content", "GUI", "score_display.png")
             go.add_component(UIDecor(go, score_img))
@@ -137,6 +146,12 @@ class UIDecorFactory(AbstractFactory):
             go = UIObject(gw, 675, 300)
             img_c_dis = os.path.join(gw.project_dir, "Content", "GUI", "controls_display.png")
             go.add_component(UIDecor(go, img_c_dis))
+            return go
+
+        elif enum is UIDecorProduct.HighScoreText:
+            go = UIObject(gw, 500, 50)
+            img = os.path.join(gw.project_dir, "Content", "GUI", "highscore_display.png")
+            go.add_component(UIDecor(go, img))
             return go
 
 
