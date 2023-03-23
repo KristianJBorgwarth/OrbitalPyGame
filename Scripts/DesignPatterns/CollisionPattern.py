@@ -153,6 +153,9 @@ class Enemy_Projectile_CollisionHandler(CollisionHandler):
     def on_collision_enter(self, other_go):
         if super().on_collision_enter(other_go):
             return
+        if other_go.tag == "Player":
+            globals.player_health -= 15
+            globals.soundManager.play_sound("explosion")
 
     def on_collision_exit(self, other_go):
         if super().on_collision_exit(other_go):
