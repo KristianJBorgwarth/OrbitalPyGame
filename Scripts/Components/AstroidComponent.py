@@ -3,7 +3,6 @@ from Scripts.DesignPatterns.ComponentPattern import Component
 from Scripts.Core.GameObject import GameObject
 
 
-
 class Astroid(Component):
 
     def __init__(self, owner_go: GameObject):

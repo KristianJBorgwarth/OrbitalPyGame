@@ -1,4 +1,4 @@
-﻿from enum import Enum
+from enum import Enum
 
 soundManager = None
 fontManager = None
@@ -15,17 +15,24 @@ BLUE = (0, 0, 255)
 project_path = None
 start_event = None
 quit_event = None
+highscore_event = None
+controls_event = None
+player_is_dead = False
+play_again_event = None
+back_event = None
+can_save_score = None
 
 
-#Game Object Size
+# Game Object Size
 go_size_scale = 0.85
 
-#UI font elements
+# UI font elements
 high_score = 0
 score = 0
 level = 1
 astroidCount = 0
-player_health = 100
+player_health = 10
+
 
 class Stages(Enum):
     one = 100

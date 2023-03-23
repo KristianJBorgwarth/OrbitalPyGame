@@ -30,9 +30,11 @@ class GameObject:
         self.add_component(self.transform)
         self.tag = tag
         self.collision_color = pygame.Color(255, 0, 0)
+        self.isDisabled = False
         self.image_rect = pygame.Rect(0, 0, 0, 0)
 
     def update(self):
+        if self.isDisabled is True: return
         for comp in self.components:
             if isinstance(comp, Animator):
                 if len(comp.animations_list) <= 0:
@@ -122,6 +124,11 @@ class GameObject:
             elif current_pos.y < -50:
                 self.transform.position.y = globals.screen_height + 50
 
+    def on_disable(self):
+        self.isDisabled = True
+
+    def on_enabled(self):
+        self.isDisabled = False
     def get_image_rect(self):
         animator = self.get_component(Animator)
 

@@ -28,3 +28,8 @@ class FontManager:
         text_surface = self.font.render(text, True, (0, 0, 0))  # color doesn't matter
         text_width, _ = text_surface.get_size()
         return text_width
+
+    def get_text_height(self, text):
+        text_surface = self.font.render(text, True, (0, 0, 0))  # color doesn't matter
+        _ , text_height = text_surface.get_size()
+        return text_height

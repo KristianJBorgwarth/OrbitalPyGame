@@ -14,7 +14,6 @@ class UIObject:
         for comp in self.components: comp.update()
 
     def draw(self, screen):
-        if self.is_enabled is False: return
         for comp in self.components: comp.draw(screen)
 
     def on_enable(self):

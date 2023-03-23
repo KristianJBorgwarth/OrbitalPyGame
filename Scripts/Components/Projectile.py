@@ -1,5 +1,4 @@
 import pygame
-from overrides import override
 
 from Scripts.DesignPatterns.ComponentPattern import Component
 from Scripts.Core import GameObject

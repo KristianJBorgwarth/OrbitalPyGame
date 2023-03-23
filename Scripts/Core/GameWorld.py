@@ -8,7 +8,8 @@ from Scripts.LevelManager.levelmanager import LevelManager
 import globals
 from Scripts.DesignPatterns.StatePattern import StateMachine
 from Scripts.Core.GameObjectCreator import GameObjectFactory, GameObjectBuilder
-from Scripts.GameStates.SubGameStates import PlayGameState, MenuGameState
+from Scripts.GameStates.SubGameStates import PlayGameState, MenuGameState, HighScoreMenuState, GameOverState, \
+    ControlMenuState
 from Scripts.Enviroment.Actor.Spawner import Spawner
 from Scripts.Components.animation import Animation
 
@@ -21,6 +22,10 @@ class GameWorld:
         globals.levelManager = LevelManager()
         self.menu_game_state = None
         self.play_game_state = None
+        self.game_over_game_state = None
+        self.highscore_game_state = None
+        self.controls_game_state = None
+        self.list_of_events = None
         self.stateMachine = None
         globals.screen_width = 1920
         globals.screen_height = 1080
@@ -103,6 +108,10 @@ class GameWorld:
     def destroy_go(self, go):
         self.gameobjects_to_destroy.append(go)
 
+    def destroy_all_go(self):
+        for obj in self.gameobjects:
+            self.gameobjects_to_destroy.append(obj)
+
     def clear_removed_objects(self):
         for go in self.gameobjects_to_destroy:
             if isinstance(go, GameObject):
@@ -122,7 +131,6 @@ class GameWorld:
         self.stateMachine.currentState.state_transition()
 
     def draw(self):
-        self.screen.fill((0, 0, 0))
         self.stateMachine.currentState.draw(self.screen)
 
         pygame.display.flip()
@@ -130,18 +138,19 @@ class GameWorld:
     def start(self):
         running = True
         while running:
-            for event in pygame.event.get():
+            self.list_of_events = pygame.event.get()
+            for event in self.list_of_events:
                 if event.type == pygame.QUIT:
                     running = False
             self.update()
             self.draw()
-        globals.highscore_manager.add_score("Martin")
-        globals.highscore_manager.save_leaderboard()
-        globals.highscore_manager.reset_score()
         pygame.quit()
 
     def InitializeStates(self):
         self.stateMachine = StateMachine()
         self.play_game_state = PlayGameState(self, self.stateMachine)
         self.menu_game_state = MenuGameState(self, self.stateMachine)
+        self.game_over_game_state = GameOverState(self, self.stateMachine)
+        self.highscore_game_state = HighScoreMenuState(self, self.stateMachine)
+        self.controls_game_state = ControlMenuState(self, self.stateMachine)
         self.stateMachine.start_statemachine(self.menu_game_state)

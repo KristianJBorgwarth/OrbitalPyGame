@@ -19,13 +19,11 @@ class CollisionHandler(Component):
     def on_collision(self, other_go):
         if other_go.tag in self.collision_rules:
             return True
-
         return False
 
     def on_collision_exit(self, other_go):
         if other_go.tag in self.collision_rules:
             return True
-
         self.owner.collision_color = pygame.Color(255, 0, 0)
         return False
 
@@ -39,7 +37,6 @@ class Player_CollisionHandler(CollisionHandler):
     def on_collision_enter(self, other_go):
         if super().on_collision_enter(other_go):
             return
-
 
     def on_collision_exit(self, other_go):
         if super().on_collision_exit(other_go):
@@ -55,7 +52,6 @@ class Player_Projectile_CollisionHandler(CollisionHandler):
     def on_collision_exit(self, other_go):
         if super().on_collision_exit(other_go):
             return
-
 
 class Small_Asteroid_CollisionHandler(CollisionHandler):
     def on_collision_enter(self, other_go):
