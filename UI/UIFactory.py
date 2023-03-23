@@ -1,7 +1,7 @@
 ﻿import os
 import pygame
 import globals
-from DesignPatterns.FactoryPattern import AbstractFactory
+from Scripts.DesignPatterns.FactoryPattern import AbstractFactory
 from UI.UIComponents import UIButton, BackGround
 from UI.UIObjects import UIObject
 from enum import Enum

@@ -1,12 +1,9 @@
 ﻿import os
 import random
 
-import DesignPatterns.CollisionPattern
 import globals
 from enum import Enum
-from DesignPatterns.FactoryPattern import AbstractFactory
-from Enviroment.Actor import AstroidComponent
-from Enviroment.Actor.AstroidComponent import Astroid
+from Scripts.DesignPatterns.FactoryPattern import AbstractFactory
 from Scripts.GameObject import GameObject, Layers
 
 

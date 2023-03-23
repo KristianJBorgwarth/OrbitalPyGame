@@ -1,5 +1,5 @@
-from DesignPatterns.CollisionPattern import CollisionHandler, collision_handler_map
-from Enviroment.Actor.AstroidComponent import Astroid
+from Scripts.DesignPatterns.CollisionPattern import CollisionHandler, collision_handler_map
+from Scripts.Enviroment.Actor.AstroidComponent import Astroid
 from Scripts.CoreComponents import Animator
 from Scripts.GameObject import GameObject
 from Scripts.PhysicsComponents import Rigidbody

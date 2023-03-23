@@ -1,7 +1,7 @@
 ﻿import pygame.image
 from overrides import override
 
-from DesignPatterns.ComponentPattern import Component
+from Scripts.DesignPatterns.ComponentPattern import Component
 
 
 class Animation(Component):

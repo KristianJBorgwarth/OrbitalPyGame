@@ -3,7 +3,7 @@ import pygame
 from overrides import override
 
 import globals
-from DesignPatterns.ComponentPattern import Component
+from Scripts.DesignPatterns.ComponentPattern import Component
 from Scripts.CoreComponents import Animator
 from Scripts.GameObject import GameObject, Layers
 from Scripts.GameObjectCreator import GameObjectFactory, GameObjectBuilder

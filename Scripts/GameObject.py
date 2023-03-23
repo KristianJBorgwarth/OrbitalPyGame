@@ -1,8 +1,8 @@
 import pygame
 from enum import Enum
 
-from DesignPatterns.CollisionPattern import CollisionHandler
-from DesignPatterns.ComponentPattern import Component
+from Scripts.DesignPatterns.CollisionPattern import CollisionHandler
+from Scripts.DesignPatterns.ComponentPattern import Component
 from Scripts.CoreComponents import Transform, Animator
 
 

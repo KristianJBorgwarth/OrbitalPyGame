@@ -1,6 +1,6 @@
 ﻿from abc import ABC, abstractmethod
 import pygame.time
-from DesignPatterns.StatePattern import IState
+from Scripts.DesignPatterns.StatePattern import IState
 
 
 class GameState(IState, ABC):

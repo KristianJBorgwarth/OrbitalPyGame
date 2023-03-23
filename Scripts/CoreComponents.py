@@ -1,8 +1,6 @@
-﻿import math
-
-import pygame
+﻿import pygame
 from overrides import override
-from DesignPatterns.ComponentPattern import Component
+from Scripts.DesignPatterns.ComponentPattern import Component
 from Scripts.PhysicsComponents import Rigidbody
 from Scripts.animation import Animation
 

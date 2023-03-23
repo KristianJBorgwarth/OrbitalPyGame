@@ -1,5 +1,5 @@
 ﻿import random
-from DesignPatterns.ComponentPattern import Component
+from Scripts.DesignPatterns.ComponentPattern import Component
 from Scripts.GameObject import GameObject
 
 
