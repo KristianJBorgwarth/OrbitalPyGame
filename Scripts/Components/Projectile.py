@@ -33,7 +33,7 @@ class BaseProjectile(Component):
         self.move(0)
         
     
-    def move(self, forward_dir):
+    def move(self, dir):
         from Scripts.Components.PhysicsComponents import Rigidbody
         rb = self.owner.get_component(Rigidbody)
         rb.add_force((self.forward_dir), self.owner)

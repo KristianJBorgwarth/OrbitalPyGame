@@ -1,5 +1,4 @@
 ﻿import pygame
-
 from Scripts.DesignPatterns.ComponentPattern import Component
 
 
@@ -73,12 +72,35 @@ class Large_Asteroid_CollisionHandler(CollisionHandler):
         if super().on_collision_exit(other_go):
             return
 
+class Enemy_CollisionHandler(CollisionHandler):
+
+    def on_collision_enter(self, other_go):
+        if super().on_collision_enter(other_go):
+            return
+
+    def on_collision_exit(self, other_go):
+        if super().on_collision_exit(other_go):
+            return
+        
+class Enemy_Projectile_CollisionHandler(CollisionHandler):
+
+    def on_collision_enter(self, other_go):
+        if super().on_collision_enter(other_go):
+            return
+
+    def on_collision_exit(self, other_go):
+        if super().on_collision_exit(other_go):
+            return
+
 
 # Define the collision handler map as a global variable
 collision_handler_map = {
     "Player": Player_CollisionHandler,
+    "Enemy_Base": Enemy_CollisionHandler,
+    "Enemy_Boss": Enemy_CollisionHandler,
     "Asteroid_Small": Small_Asteroid_CollisionHandler,
     "Asteroid_Large": Large_Asteroid_CollisionHandler,
     "Player_Projectile": Player_Projectile_CollisionHandler,
+    "Enemy_Projectile": Enemy_Projectile_CollisionHandler,
     # Add more game objects and collision handler classes as needed
 }

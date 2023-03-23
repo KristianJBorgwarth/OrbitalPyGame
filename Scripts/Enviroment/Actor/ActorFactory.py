@@ -3,7 +3,7 @@ import random
 from typing import Any
 
 import globals
-from Scripts.DesignPatterns.BehaviourPattern import BasePatrolBehaviour, BaseAttackBehaviour, behaviour_mapping
+from Scripts.DesignPatterns.BehaviourPattern import DefaultPatrolBehaviour, DefaultAttackBehaviour, behaviour_mapping
 from Scripts.DesignPatterns.FactoryPattern import AbstractFactory
 from Scripts.Core.GameObjectCreator import GameObjectFactory, GameObjectBuilder
 from Scripts.Core.GameObject import GameObject, Layers
@@ -67,12 +67,12 @@ class EnemyFactory(AbstractFactory):
         if enum is EnemyType.DEFAULT:
             img_path = os.path.join(globals.project_path, "Content", "Enemy", "Enemy_Base.png")
             tag = "Enemy_Base"
-            behaviour_tags = ["Base_Patrol", "Base_Attack"]
+            behaviour_tags = ["Base_Attack", "Base_Patrol"]
             
         else:
-            img_path = os.path.join(globals.project_path, "Content", "Enemy", "Enemy_Boss.png")
+            img_path = os.path.join(globals.project_path, "Content", "Enemy", "Enemy_Base.png")
             tag = "Enemy_Boss"
-            behaviour_tags = []
+            behaviour_tags = ["Boss_Attack", "Base_Patrol"]
 
         enemy_go = GameObjectFactory.build_base(x=0, y=0, image_path=img_path, world=game_world,
                                                 layer=Layers.FOREGROUND, tag=tag)
@@ -88,6 +88,10 @@ class EnemyFactory(AbstractFactory):
         for tag in behaviour_tags:
             behaviour_class = behaviour_mapping.get(tag)
             enemy_comp.add_behaviour(behaviour_class(enemy_comp))
-        
+
+
+        GameObjectBuilder.add_collision_handler(enemy_go)
+        enemy_go.add_collision_rule(enemy_go.tag)
+        enemy_go.add_collision_rule("Enemy_Projectile")
         return enemy_go
         

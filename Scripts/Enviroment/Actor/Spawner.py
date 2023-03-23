@@ -13,6 +13,7 @@ class Spawner():
         self.count = 1
         self.astroidCount = 0
         self.initialize_astroid(AstroidType.LARGE)
+        # self.spawn_enemy(EnemyType.BOSS)
         self.spawn_enemy(EnemyType.DEFAULT)
 
     def initialize_astroid(self, type):
