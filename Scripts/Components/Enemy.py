@@ -8,6 +8,7 @@ class Enemy(Component):
     def __init__(self, owner_go):
         super().__init__(owner_go)
         self.behaviours = []
+        self.health = 3
 
     def update(self):
         super().update()
@@ -29,3 +30,8 @@ class Enemy(Component):
     def remove_behaviour(self, behaviour: Behaviour):
         if behaviour in self.behaviours:
             self.behaviours.remove(behaviour)
+
+    def on_take_damage(self):
+        self.health -= 1
+        if self.health <= 0:
+            self.owner.world.destroy_go(self.owner)

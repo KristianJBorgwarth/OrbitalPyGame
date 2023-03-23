@@ -63,8 +63,11 @@ class PlayGameState(Scripts.GameStates.SuperGameStates.GameState):
         super().draw(screen)
         globals.fontManager.render_font(f"Score:{globals.score}", (50, 100), screen, "white")
         globals.fontManager.render_font(f"Level:{globals.level}", (
-            globals.screen_width - globals.fontManager.get_text_width(f"Level:{globals.score}") - 25, 50), screen, "white")
+            globals.screen_width - globals.fontManager.get_text_width(f"Level:{globals.score}") - 25, 50), screen,
+                                        "white")
         globals.fontManager.render_font(f"High Score:{globals.high_score}", (50, 50), screen, "white")
+        globals.fontManager.render_font(f"Health:{globals.player_health}", (
+            50, globals.screen_height - globals.fontManager.get_text_height(f"Level:{globals.score}") - 25), screen, "red")
 
     def state_transition(self):
         if globals.player_health <= 0:

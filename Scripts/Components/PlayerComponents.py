@@ -89,13 +89,12 @@ class Player(Component):
         go_projectile.add_collision_rule("Player_Projectile")
 
         GameObjectBuilder.add_rigidbody(go=go_projectile,
-                                        acceleration=(750, 750),
-                                        friction=(200, 200),
-                                        max_speed=(1000, 1000)
+                                        acceleration=(4000, 4000),
+                                        friction=(0, 0),
+                                        max_speed=(2000, 2000)
                                         )
-
-        projectile = GameObjectBuilder.add_base_projectile(go=go_projectile, damage=10, direction=self.forward_dir,
-                                                           rotation=self.owner.transform.rotation)
+    
+        projectile = GameObjectBuilder.add_base_projectile(go=go_projectile, damage=10, direction=self.forward_dir, rotation=self.owner.transform.rotation)
         self.owner.world.instantiate_go(go_projectile)
 
         projectile.move(self.forward_dir)

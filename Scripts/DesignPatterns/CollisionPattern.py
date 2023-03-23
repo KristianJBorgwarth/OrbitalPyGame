@@ -104,13 +104,14 @@ class Large_Asteroid_CollisionHandler(CollisionHandler):
             from Scripts.Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
             globals.soundManager.play_sound("hit")
             globals.score += 10
+            self.owner.world.destroy_go(other_go)
+            self.owner.world.destroy_go(self.owner)
             for i in range(3):
                 self.owner.world.instantiate_go(AstroidFactory().
                                                 CreateProduct(AstroidType.SplitAstroid,
                                                                self.owner.world,
                                                               (self.owner.transform.position.x,
                                                                self.owner.transform.position.y)))
-            self.owner.world.destroy_go(self.owner)
         # Large asteroid colliding with large asteroid
         # no points
         if other_go.tag == "Asteroid_Large":
@@ -137,11 +138,16 @@ class Enemy_CollisionHandler(CollisionHandler):
     def on_collision_enter(self, other_go):
         if super().on_collision_enter(other_go):
             return
+        if other_go.tag == "Player_Projectile":
+            from Scripts.Components.Enemy import Enemy
+            enemy = self.owner.get_component(Enemy)
+            enemy.on_take_damage()
 
     def on_collision_exit(self, other_go):
         if super().on_collision_exit(other_go):
             return
-        
+
+
 class Enemy_Projectile_CollisionHandler(CollisionHandler):
 
     def on_collision_enter(self, other_go):
