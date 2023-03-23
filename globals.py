@@ -22,7 +22,7 @@ go_size_scale = 0.85
 
 #UI font elements
 high_score = 0
-score = 999999999
+score = 0
 level = 1
 astroidCount = 0
 player_health = 100
