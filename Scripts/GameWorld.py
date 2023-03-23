@@ -148,4 +148,4 @@ class GameWorld:
         self.game_over_game_state = GameOverState(self, self.stateMachine)
         self.highscore_game_state = HighScoreMenuState(self, self.stateMachine)
         self.controls_game_state = ControlMenuState(self, self.stateMachine)
-        self.stateMachine.start_statemachine(self.menu_game_state)
+        self.stateMachine.start_statemachine(self.game_over_game_state)

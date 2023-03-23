@@ -1,6 +1,7 @@
 ﻿import pygame.image
 from overrides import overrides, override
 
+import globals
 from DesignPatterns.ComponentPattern import Component
 
 
@@ -79,3 +80,46 @@ class UIDecor(UIComponent):
 
     def draw(self, screen):
         super().draw(screen)
+
+
+class TextBox(UIComponent):
+    def __init__(self, game_object, image):
+        super().__init__(game_object, image)
+        self.active = False
+        self.text = ""
+
+    def update(self):
+        self.on_select()
+        self.on_type()
+
+    def draw(self, screen):
+        super().draw(screen)
+        globals.fontManager.render_font(f"{self.text}", (50, 50), screen, "black")
+
+    def on_select(self):
+        if self.rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0] and not self.active:
+            pygame.time.delay(200)  # Add a delay to prevent multiple activations
+            print("selected")
+            self.active = True
+            pygame.key.set_repeat(300, 50)  # Add key repeat for continuous input
+            pygame.key.start_text_input()
+        elif not self.rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0] and self.active:
+            self.on_deselect()
+
+    def on_deselect(self):
+        self.active = False
+        pygame.key.stop_text_input()
+
+    def on_type(self):
+        if not self.active:
+            return
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    self.text = self.text[:-1]
+                elif event.key == pygame.K_RETURN:
+                    self.on_deselect()
+                else:
+                    self.text += event.unicode
+                    print(self.text)

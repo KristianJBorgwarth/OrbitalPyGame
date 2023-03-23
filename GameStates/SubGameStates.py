@@ -1,6 +1,7 @@
 ﻿import pygame.font
 import GameStates.SuperGameStates
-from UI.UIFactory import ButtonFactory, UIButtonProduct, BackGroundFactory, UIBackground, UIDecorProduct, UIDecorFactory
+from UI.UIFactory import ButtonFactory, UIButtonProduct, BackGroundFactory, UIBackground, UIDecorProduct, \
+    UIDecorFactory, UITextBoxFactory, UITextBoxProduct
 from Enviroment.Actor.ActorFactory import AstroidFactory, AstroidType
 from Enviroment.Actor.Spawner import Spawner
 import globals
@@ -82,6 +83,7 @@ class GameOverState(GameStates.SuperGameStates.GameState):
         self.game_world.instantiate_go(ButtonFactory().CreateProduct(UIButtonProduct.BackButton, self.game_world))
         self.game_world.instantiate_go(UIDecorFactory().CreateProduct(UIDecorProduct.GameOverText, self.game_world))
         self.game_world.instantiate_go(UIDecorFactory().CreateProduct(UIDecorProduct.HighScoreText, self.game_world))
+        self.game_world.instantiate_go(UITextBoxFactory().CreateProduct(UITextBoxProduct.HighscoreName, self.game_world))
 
     def execute(self):
         super().execute()
@@ -133,6 +135,7 @@ class ControlMenuState(GameStates.SuperGameStates.GameState):
     def enter(self):
         self.game_world.instantiate_go(BackGroundFactory().CreateProduct(UIBackground.MenuBackGround, self.game_world))
         self.game_world.instantiate_go(ButtonFactory().CreateProduct(UIButtonProduct.BackButton, self.game_world))
+        self.game_world.instantiate_go(UIDecorFactory().CreateProduct(UIDecorProduct.ControlsText, self.game_world))
 
     def execute(self):
         super().execute()
