@@ -36,7 +36,7 @@ class BasePatrolBehaviour(Behaviour):
         self.transform.position.y = 0 + self.image.get_height()
 
     def patrol(self):
-
+        pass
 
 
 class BaseAttackBehaviour(Behaviour):
